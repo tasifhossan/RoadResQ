@@ -21,7 +21,7 @@ export default function Home() {
               Connecting stranded drivers with nearby verified mechanics in real-time. Transparent tracking, spare parts logging, and seamless digital invoices.
             </p>
             <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link href="/customer/new-request" className="w-full sm:w-auto">
+              <Link href="/customer/requests/new" className="w-full sm:w-auto">
                 <Button size="lg" className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-semibold rounded-xl shadow-md px-8">
                   Request Assistance
                 </Button>

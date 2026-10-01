@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 
 const customerNavItems = [
   { label: "Dashboard", href: "/customer", icon: LayoutDashboard },
-  { label: "New request", href: "/customer/new-request", icon: PlusCircle },
+  { label: "New request", href: "/customer/requests/new", icon: PlusCircle },
   { label: "My requests", href: "/customer/requests", icon: ListOrdered },
   { label: "Vehicles", href: "/customer/vehicles", icon: Car },
   { label: "Payments", href: "/customer/payments", icon: CreditCard },

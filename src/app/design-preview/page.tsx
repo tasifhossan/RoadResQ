@@ -278,7 +278,7 @@ export default function DesignPreviewPage() {
               </CardHeader>
               <CardContent className="space-y-2 text-sm">
                 <div className="p-2 rounded-lg bg-muted">/customer (Dashboard)</div>
-                <div className="p-2 rounded-lg bg-muted">/customer/new-request</div>
+                <div className="p-2 rounded-lg bg-muted">/customer/requests/new</div>
                 <div className="p-2 rounded-lg bg-muted">/customer/requests</div>
                 <div className="p-2 rounded-lg bg-muted">/customer/vehicles</div>
                 <div className="p-2 rounded-lg bg-muted">/customer/payments</div>

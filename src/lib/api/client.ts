@@ -16,7 +16,7 @@ export async function apiFetch<T>(
 
   const queryString = buildQuery(query);
   const normalizedPath = path.startsWith("/") ? path.slice(1) : path;
-  const url = `/api/proxy/${normalizedPath}${queryString}`;
+  const url = `/api/bff/${normalizedPath}${queryString}`;
 
   const headers: Record<string, string> = {
     ...customHeaders,
