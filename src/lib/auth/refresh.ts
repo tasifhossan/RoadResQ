@@ -41,7 +41,11 @@ export async function refreshSession(refreshToken: string): Promise<AuthTokens> 
         body: { refreshToken },
       });
 
-      await setAuthCookies(tokens);
+      try {
+        await setAuthCookies(tokens);
+      } catch {
+        // Ignore cookie store error if called within proxy/middleware context
+      }
 
       settledMap.set(refreshToken, {
         result: tokens,
