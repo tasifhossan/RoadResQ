@@ -5,10 +5,12 @@ const envSchema = z.object({
     .string()
     .url("BACKEND_URL must be a valid URL")
     .default("https://road-res-q-backend.vercel.app/api/v1"),
+  DEMO_PASSWORD: z.string().optional(),
 });
 
 const _env = envSchema.safeParse({
   BACKEND_URL: process.env.BACKEND_URL,
+  DEMO_PASSWORD: process.env.DEMO_PASSWORD,
 });
 
 if (!_env.success) {
