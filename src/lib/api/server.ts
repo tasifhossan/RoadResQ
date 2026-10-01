@@ -47,24 +47,33 @@ export async function serverFetch<T>(
     cache: "no-store",
   });
 
+  if (response.status === 204) {
+    return undefined as T;
+  }
+
   let responseData: ApiResponse<T> | undefined;
 
   try {
     responseData = (await response.json()) as ApiResponse<T>;
   } catch {
-    // If response body is not JSON (e.g., HTML error or 502/504 gateway response)
+    // Non-JSON response body (e.g. Vercel 500 HTML error page, 502 Bad Gateway)
   }
 
   if (!response.ok) {
     const status = response.status;
-    const message = responseData?.message || response.statusText || `Request failed with status ${status}`;
+    const fallbackMessage =
+      status === 429
+        ? "Too many requests. Please try again later."
+        : response.statusText || `Request failed with status ${status}`;
+
+    const message = responseData?.message || fallbackMessage;
     const errors = responseData?.errors as FormattedError[] | undefined;
 
     throw new ApiError(status, message, errors);
   }
 
   if (!responseData) {
-    throw new ApiError(response.status, "Empty or non-JSON response received from backend");
+    return undefined as T;
   }
 
   return responseData.data as T;
