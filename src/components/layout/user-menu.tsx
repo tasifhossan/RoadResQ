@@ -1,5 +1,7 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+import { useQueryClient } from "@tanstack/react-query";
 import { useSession } from "@/components/providers/session-provider";
 import {
   DropdownMenu,
@@ -19,11 +21,14 @@ export interface UserMenuProps {
   defaultRole?: Role;
 }
 
-export function UserMenu({ defaultName = "Demo User", defaultRole = "CUSTOMER" }: UserMenuProps) {
+export function UserMenu({ defaultName = "User", defaultRole = "CUSTOMER" }: UserMenuProps) {
+  const router = useRouter();
+  const queryClient = useQueryClient();
   const { user } = useSession();
 
   const name = user?.name || defaultName;
   const role = user?.role || defaultRole;
+  const email = user?.email || "No email";
   const initials = name
     .split(" ")
     .map((n) => n[0])
@@ -31,8 +36,15 @@ export function UserMenu({ defaultName = "Demo User", defaultRole = "CUSTOMER" }
     .substring(0, 2)
     .toUpperCase();
 
-  const handleLogout = () => {
-    // Logout action placeholder (will be wired in auth phase)
+  const handleLogout = async () => {
+    try {
+      await fetch("/api/auth/logout", { method: "POST" });
+    } catch {
+      // Best-effort logout attempt
+    }
+    queryClient.clear();
+    router.replace("/login");
+    router.refresh();
   };
 
   return (
@@ -52,7 +64,7 @@ export function UserMenu({ defaultName = "Demo User", defaultRole = "CUSTOMER" }
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
             <p className="text-sm font-semibold leading-none">{name}</p>
-            <p className="text-xs leading-none text-muted-foreground">{user?.email || "user@roadresq.com"}</p>
+            <p className="text-xs leading-none text-muted-foreground truncate">{email}</p>
             <div className="pt-1">
               <StatusBadge status={role} />
             </div>

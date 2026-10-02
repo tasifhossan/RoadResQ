@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { PublicNavActions } from "@/components/layout/public-nav-actions";
 
 const navItems = [
   { label: "Home", href: "/" },
@@ -31,18 +31,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
             ))}
           </nav>
 
-          <div className="flex items-center gap-3">
-            <Link href="/login">
-              <Button variant="ghost" size="sm" className="font-medium rounded-xl">
-                Login
-              </Button>
-            </Link>
-            <Link href="/register">
-              <Button size="sm" className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium rounded-xl">
-                Register
-              </Button>
-            </Link>
-          </div>
+          <PublicNavActions />
         </div>
       </header>
 
