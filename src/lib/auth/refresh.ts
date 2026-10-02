@@ -64,3 +64,17 @@ export async function refreshSession(refreshToken: string): Promise<AuthTokens> 
   inFlightMap.set(refreshToken, refreshPromise);
   return refreshPromise;
 }
+
+/**
+ * Invalidate cached settled or in-flight refresh entries on logout.
+ */
+export function invalidateRefreshCache(refreshToken?: string): void {
+  if (refreshToken) {
+    settledMap.delete(refreshToken);
+    inFlightMap.delete(refreshToken);
+  } else {
+    settledMap.clear();
+    inFlightMap.clear();
+  }
+}
+
