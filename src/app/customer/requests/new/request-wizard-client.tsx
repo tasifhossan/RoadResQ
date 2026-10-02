@@ -1,8 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
-import { useQuery } from "@tanstack/react-query";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
@@ -16,15 +18,18 @@ import {
   ChevronRight,
   Loader2,
   Navigation,
-  Info,
   ShieldAlert,
   ArrowRight,
+  Upload,
+  X,
+  Image as ImageIcon,
 } from "lucide-react";
 
 import { queryKeys } from "@/lib/api/keys";
 import { Paginated, REQUEST_PRIORITIES, RequestPriority } from "@/lib/api/types";
 import { Vehicle } from "@/lib/types/vehicles";
 import { getMyVehiclesApi } from "@/lib/api/endpoints/vehicles";
+import { createServiceRequestApi } from "@/lib/api/endpoints/service-requests";
 import {
   step1VehicleSchema,
   step2LocationSchema,
@@ -34,6 +39,8 @@ import {
   Step3ProblemSchema,
 } from "@/lib/validations/service-requests";
 import { useRequestWizardStore } from "@/stores/use-request-wizard-store";
+import { compressImage, uploadImageWithProgress } from "@/lib/utils/image";
+import { toastApiError } from "@/lib/errors";
 
 import { PageHeader } from "@/components/shared/page-header";
 import { FormField } from "@/components/shared/form-field";
@@ -49,14 +56,29 @@ interface RequestWizardClientProps {
   initialVehicles: Paginated<Vehicle> | null;
 }
 
+interface PhotoItem {
+  id: string;
+  file: File;
+  previewUrl: string;
+  progress: number;
+  status: "idle" | "compressing" | "uploading" | "success" | "error";
+  errorMessage?: string;
+}
+
 const STEPS = [
   { id: 1, title: "Vehicle", description: "Select vehicle" },
   { id: 2, title: "Location", description: "GPS & coordinates" },
   { id: 3, title: "Problem", description: "Issue description" },
-  { id: 4, title: "Summary", description: "Review request" },
+  { id: 4, title: "Summary", description: "Photos & submit" },
 ];
 
+const MAX_PHOTOS = 5;
+const ALLOWED_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
+
 export function RequestWizardClient({ initialVehicles }: RequestWizardClientProps) {
+  const router = useRouter();
+  const queryClient = useQueryClient();
+
   // Client hydration check for Zustand sessionStorage store
   const [isHydrated, setIsHydrated] = useState(false);
   useEffect(() => {
@@ -70,6 +92,7 @@ export function RequestWizardClient({ initialVehicles }: RequestWizardClientProp
     nextStep,
     prevStep,
     updateDraft,
+    clearDraft,
   } = useRequestWizardStore();
 
   // Prefetched vehicles query
@@ -84,6 +107,12 @@ export function RequestWizardClient({ initialVehicles }: RequestWizardClientProp
   // Geolocation state
   const [geoLoading, setGeoLoading] = useState(false);
   const [geoError, setGeoError] = useState<string | null>(null);
+
+  // Photos state
+  const [photos, setPhotos] = useState<PhotoItem[]>([]);
+  const [isCompressing, setIsCompressing] = useState(false);
+  const [isSubmittingRequest, setIsSubmittingRequest] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   // Forms for each step
   const form1 = useForm<Step1VehicleSchema>({
@@ -117,6 +146,79 @@ export function RequestWizardClient({ initialVehicles }: RequestWizardClientProp
       if (draft.priority) form3.setValue("priority", draft.priority);
     }
   }, [isHydrated, draft, form1, form2, form3]);
+
+  // Clean up blob URLs when component unmounts
+  useEffect(() => {
+    return () => {
+      photos.forEach((photo) => {
+        if (photo.previewUrl.startsWith("blob:")) {
+          URL.revokeObjectURL(photo.previewUrl);
+        }
+      });
+    };
+  }, [photos]);
+
+  // Handle Photo File Selection & Compression
+  const handlePhotoSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFiles = e.target.files;
+    if (!selectedFiles || selectedFiles.length === 0) return;
+
+    const availableSlots = MAX_PHOTOS - photos.length;
+    if (availableSlots <= 0) {
+      toast.error(`Maximum ${MAX_PHOTOS} photos allowed.`);
+      return;
+    }
+
+    const filesArray = Array.from(selectedFiles).slice(0, availableSlots);
+    const validFiles: File[] = [];
+
+    for (const file of filesArray) {
+      if (!ALLOWED_TYPES.includes(file.type.toLowerCase())) {
+        toast.error(`"${file.name}" is not an allowed format. Only JPG, PNG, and WEBP allowed.`);
+        continue;
+      }
+      validFiles.push(file);
+    }
+
+    if (validFiles.length === 0) return;
+
+    setIsCompressing(true);
+    const newPhotoItems: PhotoItem[] = [];
+
+    for (const file of validFiles) {
+      try {
+        const compressedFile = await compressImage(file, 1.0);
+        const previewUrl = URL.createObjectURL(compressedFile);
+        newPhotoItems.push({
+          id: Math.random().toString(36).substring(2, 9),
+          file: compressedFile,
+          previewUrl,
+          progress: 0,
+          status: "idle",
+        });
+      } catch {
+        toast.error(`Failed to compress ${file.name}`);
+      }
+    }
+
+    setPhotos((prev) => [...prev, ...newPhotoItems]);
+    setIsCompressing(false);
+
+    // Reset input
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
+  const handleRemovePhoto = (id: string) => {
+    setPhotos((prev) => {
+      const target = prev.find((p) => p.id === id);
+      if (target && target.previewUrl.startsWith("blob:")) {
+        URL.revokeObjectURL(target.previewUrl);
+      }
+      return prev.filter((p) => p.id !== id);
+    });
+  };
 
   // Geolocation handler
   const handleGetLocation = () => {
@@ -172,6 +274,88 @@ export function RequestWizardClient({ initialVehicles }: RequestWizardClientProp
     nextStep();
   };
 
+  // Final Submit Handler (Double-submit guarded & progress tracked)
+  const handleSubmitRequest = async () => {
+    if (isSubmittingRequest) return;
+
+    if (!draft.description || draft.lat === undefined || draft.lng === undefined) {
+      toast.error("Missing required details. Please complete all previous steps.");
+      return;
+    }
+
+    setIsSubmittingRequest(true);
+
+    let createdRequestId: string | null = null;
+
+    try {
+      // 1. Create Service Request
+      const res = await createServiceRequestApi({
+        description: draft.description,
+        lat: draft.lat,
+        lng: draft.lng,
+        vehicleId: draft.vehicleId || undefined,
+        priority: draft.priority || "NORMAL",
+      });
+
+      createdRequestId = res.serviceRequest.id;
+
+      // Invalidate service requests queries
+      queryClient.invalidateQueries({ queryKey: queryKeys.serviceRequests.all() });
+
+      // Clear draft store now that service request is created
+      clearDraft();
+    } catch (err) {
+      setIsSubmittingRequest(false);
+      toastApiError(err, "Failed to create service request");
+      return;
+    }
+
+    // 2. Upload photos if attached
+    let failedPhotoCount = 0;
+
+    if (photos.length > 0 && createdRequestId) {
+      for (let i = 0; i < photos.length; i++) {
+        const photo = photos[i];
+
+        setPhotos((prev) =>
+          prev.map((p) => (p.id === photo.id ? { ...p, status: "uploading", progress: 0 } : p))
+        );
+
+        try {
+          await uploadImageWithProgress(createdRequestId, photo.file, (percent) => {
+            setPhotos((prev) =>
+              prev.map((p) => (p.id === photo.id ? { ...p, progress: percent } : p))
+            );
+          });
+
+          setPhotos((prev) =>
+            prev.map((p) => (p.id === photo.id ? { ...p, status: "success", progress: 100 } : p))
+          );
+        } catch (uploadErr) {
+          failedPhotoCount++;
+          const errMsg = uploadErr instanceof Error ? uploadErr.message : "Upload failed";
+          setPhotos((prev) =>
+            prev.map((p) =>
+              p.id === photo.id ? { ...p, status: "error", errorMessage: errMsg } : p
+            )
+          );
+        }
+      }
+    }
+
+    setIsSubmittingRequest(false);
+
+    if (failedPhotoCount > 0) {
+      toast.warning(
+        `Service request created! ${failedPhotoCount} photo(s) failed to upload. You can retry from the request page.`
+      );
+      router.push(`/customer/requests/${createdRequestId}?uploadFailed=true`);
+    } else {
+      toast.success("Service request submitted successfully!");
+      router.push(`/customer/requests/${createdRequestId}`);
+    }
+  };
+
   if (!isHydrated) {
     return (
       <div className="space-y-6">
@@ -206,7 +390,7 @@ export function RequestWizardClient({ initialVehicles }: RequestWizardClientProp
                 key={step.id}
                 className="flex flex-col items-center text-center space-y-2 cursor-pointer transition-opacity hover:opacity-90"
                 onClick={() => {
-                  if (step.id < currentStep) setStep(step.id);
+                  if (step.id < currentStep && !isSubmittingRequest) setStep(step.id);
                 }}
               >
                 <div
@@ -595,14 +779,14 @@ export function RequestWizardClient({ initialVehicles }: RequestWizardClientProp
               Back
             </Button>
             <Button type="submit" form="step3-form" className="rounded-xl gap-2">
-              Review Summary
+              Review & Attach Photos
               <ChevronRight className="h-4 w-4" />
             </Button>
           </CardFooter>
         </Card>
       )}
 
-      {/* STEP 4: SUMMARY PLACEHOLDER */}
+      {/* STEP 4: REVIEW & PHOTO ATTACHMENTS & SUBMIT */}
       {currentStep === 4 && (
         <Card className="rounded-2xl border-border shadow-sm overflow-hidden">
           <CardHeader className="bg-muted/30 border-b border-border">
@@ -611,25 +795,14 @@ export function RequestWizardClient({ initialVehicles }: RequestWizardClientProp
                 <CheckCircle2 className="h-5 w-5" />
               </div>
               <div>
-                <CardTitle className="text-xl">Step 4: Request Summary</CardTitle>
+                <CardTitle className="text-xl">Step 4: Review & Submit</CardTitle>
                 <CardDescription>
-                  Review your request details before submission.
+                  Attach optional damage photos and submit your roadside assistance request.
                 </CardDescription>
               </div>
             </div>
           </CardHeader>
           <CardContent className="space-y-6 pt-6">
-            {/* Step 4 Placeholder Banner */}
-            <div className="rounded-2xl border border-blue-500/20 bg-blue-500/10 p-4 flex items-start gap-3">
-              <Info className="h-5 w-5 text-blue-500 shrink-0 mt-0.5" />
-              <div className="text-xs sm:text-sm text-blue-700 dark:text-blue-300">
-                <p className="font-semibold">Step 4 Placeholder</p>
-                <p className="mt-0.5">
-                  Your request draft is saved in session storage. Final submission to dispatch mechanics will be implemented in the next step.
-                </p>
-              </div>
-            </div>
-
             {/* Summary Details Grid */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {/* Vehicle Summary Card */}
@@ -700,16 +873,132 @@ export function RequestWizardClient({ initialVehicles }: RequestWizardClientProp
                 {draft.description || "No description provided."}
               </p>
             </div>
+
+            {/* Damage Photos Section */}
+            <div className="rounded-2xl border border-border p-5 space-y-4 bg-card">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h4 className="font-semibold text-foreground flex items-center gap-2">
+                    <ImageIcon className="h-4 w-4 text-primary" />
+                    Damage Photos (Optional)
+                  </h4>
+                  <p className="text-xs text-muted-foreground mt-0.5">
+                    Attach up to {MAX_PHOTOS} photos of vehicle damage or location (JPG, PNG, WEBP).
+                  </p>
+                </div>
+                <Badge variant="outline" className="font-mono text-xs">
+                  {photos.length} / {MAX_PHOTOS}
+                </Badge>
+              </div>
+
+              {/* Hidden file input */}
+              <input
+                type="file"
+                ref={fileInputRef}
+                onChange={handlePhotoSelect}
+                multiple
+                accept="image/jpeg,image/png,image/webp"
+                className="hidden"
+                disabled={photos.length >= MAX_PHOTOS || isSubmittingRequest || isCompressing}
+              />
+
+              {/* Photos List / Grid */}
+              <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
+                {photos.map((photo) => (
+                  <div
+                    key={photo.id}
+                    className="relative group rounded-xl overflow-hidden border border-border bg-muted/40 aspect-square flex flex-col items-center justify-center"
+                  >
+                    <Image
+                      src={photo.previewUrl}
+                      alt="Damage photo preview"
+                      unoptimized
+                      fill
+                      className="object-cover"
+                    />
+
+                    {/* Progress overlay during upload */}
+                    {photo.status === "uploading" && (
+                      <div className="absolute inset-0 bg-background/80 flex flex-col items-center justify-center p-2 text-center gap-1 z-10">
+                        <Loader2 className="h-5 w-5 animate-spin text-primary" />
+                        <span className="text-[10px] font-mono font-semibold text-foreground">
+                          {photo.progress}%
+                        </span>
+                      </div>
+                    )}
+
+                    {/* Error overlay */}
+                    {photo.status === "error" && (
+                      <div className="absolute inset-0 bg-destructive/80 flex flex-col items-center justify-center p-2 text-center text-destructive-foreground gap-1 z-10">
+                        <AlertCircle className="h-5 w-5" />
+                        <span className="text-[10px] font-semibold leading-tight">Failed</span>
+                      </div>
+                    )}
+
+                    {/* Remove button */}
+                    {!isSubmittingRequest && (
+                      <button
+                        type="button"
+                        onClick={() => handleRemovePhoto(photo.id)}
+                        className="absolute top-1 right-1 h-6 w-6 rounded-full bg-background/90 text-foreground flex items-center justify-center shadow-md hover:bg-destructive hover:text-destructive-foreground transition-colors z-20"
+                        title="Remove photo"
+                      >
+                        <X className="h-3.5 w-3.5" />
+                      </button>
+                    )}
+                  </div>
+                ))}
+
+                {/* Upload Button Tile */}
+                {photos.length < MAX_PHOTOS && (
+                  <button
+                    type="button"
+                    onClick={() => fileInputRef.current?.click()}
+                    disabled={isCompressing || isSubmittingRequest}
+                    className="border-2 border-dashed border-border hover:border-primary/50 hover:bg-primary/5 rounded-xl aspect-square flex flex-col items-center justify-center p-2 gap-1.5 transition-all text-muted-foreground hover:text-primary disabled:opacity-50"
+                  >
+                    {isCompressing ? (
+                      <Loader2 className="h-5 w-5 animate-spin text-primary" />
+                    ) : (
+                      <Upload className="h-5 w-5" />
+                    )}
+                    <span className="text-xs font-medium text-center">
+                      {isCompressing ? "Compressing..." : "Add Photo"}
+                    </span>
+                  </button>
+                )}
+              </div>
+            </div>
           </CardContent>
 
           <CardFooter className="flex justify-between border-t border-border pt-4 bg-muted/20">
-            <Button type="button" variant="outline" onClick={prevStep} className="rounded-xl gap-1">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={prevStep}
+              disabled={isSubmittingRequest}
+              className="rounded-xl gap-1"
+            >
               <ChevronLeft className="h-4 w-4" />
-              Back to Edit Problem
+              Back
             </Button>
-            <Button disabled className="rounded-xl gap-2 font-medium opacity-70">
-              Submit Request (Next Prompt)
-              <ArrowRight className="h-4 w-4" />
+            <Button
+              type="button"
+              onClick={handleSubmitRequest}
+              disabled={isSubmittingRequest || isCompressing}
+              className="rounded-xl gap-2 font-medium shadow-sm"
+            >
+              {isSubmittingRequest ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  Submitting Request...
+                </>
+              ) : (
+                <>
+                  Submit Request
+                  <ArrowRight className="h-4 w-4" />
+                </>
+              )}
             </Button>
           </CardFooter>
         </Card>
