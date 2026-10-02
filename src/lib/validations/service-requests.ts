@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { REQUEST_PRIORITIES } from "@/lib/api/types";
+import { REQUEST_PRIORITIES, REQUEST_STATUSES } from "@/lib/api/types";
 
 export const createServiceRequestSchema = z
   .object({
@@ -18,6 +18,18 @@ export const createServiceRequestSchema = z
   .strict();
 
 export type CreateServiceRequestSchema = z.infer<typeof createServiceRequestSchema>;
+
+export const serviceRequestListQuerySchema = z
+  .object({
+    page: z.coerce.number().int().min(1).optional().default(1),
+    limit: z.coerce.number().int().min(1).max(50).optional().default(10),
+    status: z.enum(REQUEST_STATUSES).optional(),
+    sortBy: z.enum(["createdAt", "updatedAt"]).optional().default("createdAt"),
+    sortOrder: z.enum(["asc", "desc"]).optional().default("desc"),
+  })
+  .strict();
+
+export type ServiceRequestListQuerySchema = z.infer<typeof serviceRequestListQuerySchema>;
 
 // Per-step schemas for wizard step validation
 export const step1VehicleSchema = z.object({

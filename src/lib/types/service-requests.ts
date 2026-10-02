@@ -12,6 +12,21 @@ export interface CreateServiceRequestInput {
   priority?: RequestPriority;
 }
 
+export interface ServiceRequestListQueryInput extends Record<string, unknown> {
+  page?: number;
+  limit?: number;
+  status?: RequestStatus;
+  sortBy?: "createdAt" | "updatedAt";
+  sortOrder?: "asc" | "desc";
+}
+
+export interface ServiceRequestMechanic {
+  id: string;
+  name: string;
+  email: string;
+  phone: string | null;
+}
+
 export interface ServiceRequest {
   id: string;
   customerId: string;
@@ -27,4 +42,5 @@ export interface ServiceRequest {
   createdAt: string;
   updatedAt: string;
   vehicle?: Vehicle | null;
+  mechanic?: ServiceRequestMechanic | null;
 }

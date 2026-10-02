@@ -1,5 +1,10 @@
 import { apiFetch } from "@/lib/api/client";
-import { CreateServiceRequestInput, ServiceRequest } from "@/lib/types/service-requests";
+import { Paginated } from "@/lib/api/types";
+import {
+  CreateServiceRequestInput,
+  ServiceRequest,
+  ServiceRequestListQueryInput,
+} from "@/lib/types/service-requests";
 
 export interface ServiceRequestImage {
   id: string;
@@ -16,6 +21,12 @@ export async function createServiceRequestApi(
     method: "POST",
     body: data,
   });
+}
+
+export async function getMyServiceRequestsApi(
+  query?: ServiceRequestListQueryInput
+): Promise<Paginated<ServiceRequest>> {
+  return apiFetch<Paginated<ServiceRequest>>("service-requests/my", { query });
 }
 
 export async function getServiceRequestByIdApi(
