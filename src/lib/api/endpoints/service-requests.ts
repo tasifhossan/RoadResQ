@@ -4,6 +4,8 @@ import {
   CreateServiceRequestInput,
   ServiceRequest,
   ServiceRequestListQueryInput,
+  ServiceRequestReview,
+  ServiceRequestMechanicDetail,
 } from "@/lib/types/service-requests";
 
 export interface ServiceRequestImage {
@@ -39,4 +41,37 @@ export async function getServiceRequestImagesApi(
   id: string
 ): Promise<{ images: ServiceRequestImage[] }> {
   return apiFetch<{ images: ServiceRequestImage[] }>(`service-requests/${id}/images`);
+}
+
+export async function assignMechanicApi(
+  id: string,
+  mechanicId: string
+): Promise<{ serviceRequest: ServiceRequest }> {
+  return apiFetch<{ serviceRequest: ServiceRequest }>(`service-requests/${id}/assign`, {
+    method: "POST",
+    body: { mechanicId },
+  });
+}
+
+export async function createReviewApi(
+  id: string,
+  data: { rating: number; comment?: string }
+): Promise<{ review: ServiceRequestReview }> {
+  return apiFetch<{ review: ServiceRequestReview }>(`service-requests/${id}/review`, {
+    method: "POST",
+    body: data,
+  });
+}
+
+export async function getNearbyMechanicsApi(
+  lat: number,
+  lng: number,
+  radiusKm: number = 10
+): Promise<{ mechanics: ServiceRequestMechanicDetail[] }> {
+  return apiFetch<{ mechanics: ServiceRequestMechanicDetail[] }>(
+    "service-requests/nearby-mechanics",
+    {
+      query: { lat, lng, radiusKm },
+    }
+  );
 }

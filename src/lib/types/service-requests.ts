@@ -1,5 +1,6 @@
 import { REQUEST_PRIORITIES, REQUEST_STATUSES } from "@/lib/api/types";
 import { Vehicle } from "@/lib/types/vehicles";
+import { ServiceRequestImage } from "@/lib/api/endpoints/service-requests";
 
 export type RequestPriority = (typeof REQUEST_PRIORITIES)[number];
 export type RequestStatus = (typeof REQUEST_STATUSES)[number];
@@ -20,11 +21,69 @@ export interface ServiceRequestListQueryInput extends Record<string, unknown> {
   sortOrder?: "asc" | "desc";
 }
 
-export interface ServiceRequestMechanic {
+export interface StatusHistoryItem {
+  id: string;
+  fromStatus: RequestStatus | null;
+  toStatus: RequestStatus | null;
+  timestamp: string;
+  actorRole: string | null;
+}
+
+export interface ServiceRequestPartUsed {
+  id: string;
+  serviceRequestId: string;
+  sparePartId: string;
+  quantity: number;
+  priceAtUse: number;
+  sparePart?: {
+    id: string;
+    name: string;
+    description?: string | null;
+    price: number;
+  } | null;
+}
+
+export interface ServiceRequestInvoice {
+  id: string;
+  serviceRequestId: string;
+  customerId: string;
+  laborCost: number;
+  partsCost: number;
+  totalCost: number;
+  status: "PENDING" | "PAID" | "FAILED" | "REFUNDED";
+  createdAt: string;
+  updatedAt: string;
+  payment?: {
+    id: string;
+    amount: number;
+    status: "PENDING" | "COMPLETED" | "FAILED" | "REFUNDED";
+    createdAt: string;
+  } | null;
+}
+
+export interface ServiceRequestReview {
+  id: string;
+  serviceRequestId: string;
+  customerId: string;
+  mechanicId: string;
+  rating: number;
+  comment?: string | null;
+  createdAt: string;
+}
+
+export interface MechanicPublicProfile {
+  rating: number;
+  availability: string;
+  currentLat?: number | null;
+  currentLng?: number | null;
+}
+
+export interface ServiceRequestMechanicDetail {
   id: string;
   name: string;
-  email: string;
-  phone: string | null;
+  email?: string;
+  phone?: string | null;
+  mechanicProfile?: MechanicPublicProfile | null;
 }
 
 export interface ServiceRequest {
@@ -42,5 +101,10 @@ export interface ServiceRequest {
   createdAt: string;
   updatedAt: string;
   vehicle?: Vehicle | null;
-  mechanic?: ServiceRequestMechanic | null;
+  mechanic?: ServiceRequestMechanicDetail | null;
+  images?: ServiceRequestImage[];
+  partsUsed?: ServiceRequestPartUsed[];
+  invoice?: ServiceRequestInvoice | null;
+  review?: ServiceRequestReview | null;
+  statusHistory?: StatusHistoryItem[];
 }
