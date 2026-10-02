@@ -21,6 +21,23 @@ export interface ServiceRequestListQueryInput extends Record<string, unknown> {
   sortOrder?: "asc" | "desc";
 }
 
+export interface NearbyMechanicsQueryInput extends Record<string, unknown> {
+  lat: number;
+  lng: number;
+  radiusKm?: number;
+}
+
+export interface NearbyMechanicItem {
+  id: string;
+  name: string;
+  skills?: string[];
+  rating: number;
+  distance: number;
+  distanceKm?: number;
+  availability?: string;
+  totalJobs?: number;
+}
+
 export interface StatusHistoryItem {
   id: string;
   fromStatus: RequestStatus | null;
@@ -76,6 +93,7 @@ export interface MechanicPublicProfile {
   availability: string;
   currentLat?: number | null;
   currentLng?: number | null;
+  totalJobs?: number;
 }
 
 export interface ServiceRequestMechanicDetail {

@@ -25,10 +25,13 @@ import {
   CreditCard,
   MessageSquare,
   Package,
+  Search,
+  CheckCircle2,
+  Navigation,
 } from "lucide-react";
 
 import { queryKeys } from "@/lib/api/keys";
-import { ServiceRequest } from "@/lib/types/service-requests";
+import { ServiceRequest, NearbyMechanicItem } from "@/lib/types/service-requests";
 import {
   getServiceRequestByIdApi,
   getServiceRequestImagesApi,
@@ -47,6 +50,13 @@ import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   Dialog,
   DialogContent,
@@ -70,6 +80,14 @@ interface PhotoRetryItem {
   errorMessage?: string;
 }
 
+const RADIUS_OPTIONS = [
+  { label: "5 km radius", value: "5" },
+  { label: "10 km radius", value: "10" },
+  { label: "15 km radius", value: "15" },
+  { label: "25 km radius", value: "25" },
+  { label: "50 km radius", value: "50" },
+];
+
 export function RequestDetailClient({
   initialRequest,
   requestId,
@@ -83,9 +101,9 @@ export function RequestDetailClient({
   const [reviewRating, setReviewRating] = useState(5);
   const [reviewComment, setReviewComment] = useState("");
 
-  // State for Assign Mechanic Dialog
-  const [assignDialogOpen, setAssignDialogOpen] = useState(false);
-  const [selectedMechanicId, setSelectedMechanicId] = useState<string | null>(null);
+  // State for "Find a Mechanic" Panel
+  const [radiusKm, setRadiusKm] = useState(10);
+  const [selectedMechanicForAssign, setSelectedMechanicForAssign] = useState<NearbyMechanicItem | null>(null);
   const [confirmAssignOpen, setConfirmAssignOpen] = useState(false);
 
   // Detail Query with Live Status Polling
@@ -109,6 +127,22 @@ export function RequestDetailClient({
 
   const request = requestData ?? initialRequest;
   const isNonTerminal = request.status !== "COMPLETED" && request.status !== "CANCELLED";
+  const canSearchAndAssign =
+    (request.status === "PENDING" || request.status === "SEARCHING") &&
+    !request.mechanicId;
+
+  // Nearby Mechanics Query for "Find a Mechanic" panel
+  const {
+    data: nearbyData,
+    isLoading: isLoadingNearby,
+    refetch: refetchNearby,
+  } = useQuery({
+    queryKey: ["service-requests", "nearby", { lat: request.lat, lng: request.lng, radiusKm }],
+    queryFn: () => getNearbyMechanicsApi(request.lat, request.lng, radiusKm),
+    enabled: canSearchAndAssign,
+  });
+
+  const nearbyMechanics = nearbyData?.mechanics ?? [];
 
   // Images Query
   const { data: imagesData, refetch: refetchImages } = useQuery({
@@ -118,13 +152,6 @@ export function RequestDetailClient({
       return res.images;
     },
     initialData: request.images ?? undefined,
-  });
-
-  // Nearby Mechanics Query (for Assign Mechanic Dialog)
-  const { data: nearbyData, isLoading: isLoadingNearby } = useQuery({
-    queryKey: ["service-requests", "nearby", { lat: request.lat, lng: request.lng }],
-    queryFn: () => getNearbyMechanicsApi(request.lat, request.lng, 25),
-    enabled: assignDialogOpen,
   });
 
   // Review Mutation
@@ -141,17 +168,27 @@ export function RequestDetailClient({
     },
   });
 
-  // Assign Mechanic Mutation
+  // Assign Mechanic Mutation with Transaction Error Handling & List Refetch
   const assignMutation = useMutation({
     mutationFn: (mechanicId: string) => assignMechanicApi(requestId, mechanicId),
     onSuccess: () => {
-      toast.success("Mechanic assigned successfully!");
+      toast.success(
+        selectedMechanicForAssign
+          ? `Mechanic ${selectedMechanicForAssign.name} assigned successfully!`
+          : "Mechanic assigned successfully!"
+      );
       setConfirmAssignOpen(false);
-      setAssignDialogOpen(false);
+      setSelectedMechanicForAssign(null);
+      refetchRequest();
       queryClient.invalidateQueries({ queryKey: queryKeys.serviceRequests.detail(requestId) });
+      queryClient.invalidateQueries({ queryKey: queryKeys.serviceRequests.all() });
     },
     onError: (err) => {
-      toastApiError(err, "Failed to assign mechanic");
+      // Clear toast for conflict/busy errors and refetch the list immediately
+      toastApiError(err, "Could not assign mechanic. Please try another mechanic.");
+      setConfirmAssignOpen(false);
+      setSelectedMechanicForAssign(null);
+      refetchNearby();
     },
   });
 
@@ -262,7 +299,6 @@ export function RequestDetailClient({
   const mechanic = request.mechanic;
 
   const isPending = request.status === "PENDING";
-  const isSearching = request.status === "SEARCHING";
   const isCompleted = request.status === "COMPLETED";
 
   const hasUnpaidInvoice = invoice && invoice.status !== "PAID";
@@ -321,16 +357,6 @@ export function RequestDetailClient({
 
         {/* Action Header Buttons */}
         <div className="flex items-center gap-2 flex-wrap">
-          {(isPending || isSearching) && !mechanic && (
-            <Button
-              onClick={() => setAssignDialogOpen(true)}
-              className="rounded-xl gap-2 font-medium shadow-sm"
-            >
-              <User className="h-4 w-4" />
-              Assign Mechanic
-            </Button>
-          )}
-
           {isCompleted && !review && (
             <Button
               onClick={() => setReviewDialogOpen(true)}
@@ -352,6 +378,127 @@ export function RequestDetailClient({
           )}
         </div>
       </div>
+
+      {/* FIND A MECHANIC PANEL (Shown when request can search & assign mechanics) */}
+      {canSearchAndAssign && (
+        <Card className="rounded-2xl border-primary/30 bg-primary/5 shadow-sm overflow-hidden">
+          <CardHeader className="pb-3 border-b border-primary/10">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div className="flex items-center gap-2.5">
+                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-primary-foreground">
+                  <Search className="h-4 w-4" />
+                </div>
+                <div>
+                  <CardTitle className="text-lg font-bold text-foreground">
+                    Find a Nearby Mechanic
+                  </CardTitle>
+                  <CardDescription className="text-xs">
+                    Search and assign available mechanics near Lat: {request.lat}, Lng: {request.lng}
+                  </CardDescription>
+                </div>
+              </div>
+
+              {/* Radius Selector */}
+              <div className="flex items-center gap-2 w-full sm:w-auto">
+                <Label className="text-xs font-semibold text-muted-foreground whitespace-nowrap">
+                  Search Radius:
+                </Label>
+                <Select
+                  value={radiusKm.toString()}
+                  onValueChange={(val) => setRadiusKm(Number(val))}
+                >
+                  <SelectTrigger className="w-[140px] rounded-xl bg-card border-border shadow-sm text-xs">
+                    <SelectValue placeholder="Select radius" />
+                  </SelectTrigger>
+                  <SelectContent className="rounded-xl">
+                    {RADIUS_OPTIONS.map((opt) => (
+                      <SelectItem key={opt.value} value={opt.value}>
+                        {opt.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+          </CardHeader>
+
+          <CardContent className="pt-4 space-y-4">
+            {isLoadingNearby ? (
+              <div className="space-y-3">
+                <Skeleton className="h-16 w-full rounded-2xl" />
+                <Skeleton className="h-16 w-full rounded-2xl" />
+              </div>
+            ) : nearbyMechanics.length === 0 ? (
+              <div className="text-center py-6 px-4 rounded-2xl border border-dashed border-border bg-card/60 space-y-2">
+                <Navigation className="h-8 w-8 text-muted-foreground mx-auto" />
+                <h4 className="font-semibold text-foreground text-sm">No mechanics found within {radiusKm}km</h4>
+                <p className="text-xs text-muted-foreground max-w-sm mx-auto">
+                  Try expanding the search radius using the selector above to find available mechanics.
+                </p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 gap-3">
+                {nearbyMechanics.map((m) => {
+                  const distanceKm = m.distanceKm ?? m.distance;
+                  return (
+                    <div
+                      key={m.id}
+                      className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 rounded-2xl border border-border bg-card shadow-sm hover:border-primary/40 transition-all gap-4"
+                    >
+                      <div className="flex items-start gap-3">
+                        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary font-bold">
+                          <User className="h-5 w-5" />
+                        </div>
+                        <div className="space-y-1">
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <h4 className="font-bold text-foreground text-base">{m.name}</h4>
+                            <StatusBadge status={m.availability || "AVAILABLE"} />
+                          </div>
+
+                          <div className="flex items-center gap-3 text-xs text-muted-foreground flex-wrap">
+                            <span className="flex items-center gap-1 font-semibold text-amber-500">
+                              <Star className="h-3.5 w-3.5 fill-amber-500 text-amber-500" />
+                              {m.rating.toFixed(1)} Rating
+                            </span>
+                            <span>•</span>
+                            <span className="font-mono font-medium text-foreground">
+                              {distanceKm.toFixed(1)} km away
+                            </span>
+                            <span>•</span>
+                            <span>{m.totalJobs ?? 0} jobs completed</span>
+                          </div>
+
+                          {m.skills && m.skills.length > 0 && (
+                            <div className="flex items-center gap-1 pt-1 flex-wrap">
+                              {m.skills.slice(0, 3).map((skill, idx) => (
+                                <Badge key={idx} variant="outline" className="text-[10px] px-2 py-0.5 rounded-md bg-muted/40">
+                                  {skill}
+                                </Badge>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+
+                      <Button
+                        type="button"
+                        onClick={() => {
+                          setSelectedMechanicForAssign(m);
+                          setConfirmAssignOpen(true);
+                        }}
+                        className="rounded-xl gap-1.5 font-medium shrink-0 w-full sm:w-auto"
+                      >
+                        <User className="h-4 w-4" />
+                        Assign Mechanic
+                      </Button>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      )}
 
       {/* Status Transition History Timeline */}
       {statusHistory.length > 0 && (
@@ -460,19 +607,9 @@ export function RequestDetailClient({
                 )}
               </div>
             ) : (
-              <div className="space-y-2">
+              <div className="space-y-1">
                 <p className="text-sm text-muted-foreground italic">No mechanic assigned yet</p>
-                {(isPending || isSearching) && (
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={() => setAssignDialogOpen(true)}
-                    className="rounded-xl gap-1 text-xs"
-                  >
-                    <User className="h-3.5 w-3.5" />
-                    Assign Mechanic
-                  </Button>
-                )}
+                <p className="text-xs text-primary font-medium">Use the search panel above to select a mechanic.</p>
               </div>
             )}
           </CardContent>
@@ -830,94 +967,17 @@ export function RequestDetailClient({
         </DialogContent>
       </Dialog>
 
-      {/* Assign Mechanic Dialog */}
-      <Dialog open={assignDialogOpen} onOpenChange={setAssignDialogOpen}>
-        <DialogContent className="sm:max-w-lg rounded-2xl p-6">
-          <DialogHeader>
-            <DialogTitle className="text-lg font-bold">Assign Nearby Mechanic</DialogTitle>
-            <DialogDescription className="text-sm text-muted-foreground pt-1">
-              Select a mechanic near your coordinates to accept this request.
-            </DialogDescription>
-          </DialogHeader>
-
-          <div className="space-y-3 py-2">
-            {isLoadingNearby ? (
-              <div className="space-y-2">
-                <Skeleton className="h-14 w-full rounded-xl" />
-                <Skeleton className="h-14 w-full rounded-xl" />
-              </div>
-            ) : !nearbyData?.mechanics || nearbyData.mechanics.length === 0 ? (
-              <p className="text-sm text-muted-foreground italic text-center py-4">
-                No nearby mechanics currently available within 25km.
-              </p>
-            ) : (
-              <div className="space-y-2 max-h-60 overflow-y-auto pr-1">
-                {nearbyData.mechanics.map((m) => (
-                  <div
-                    key={m.id}
-                    onClick={() => setSelectedMechanicId(m.id)}
-                    className={`flex items-center justify-between p-3.5 rounded-xl border transition-all cursor-pointer ${
-                      selectedMechanicId === m.id
-                        ? "border-primary bg-primary/5 shadow-sm"
-                        : "border-border hover:bg-muted/40"
-                    }`}
-                  >
-                    <div className="flex items-center gap-3">
-                      <input
-                        type="radio"
-                        name="mechanicSelect"
-                        checked={selectedMechanicId === m.id}
-                        onChange={() => setSelectedMechanicId(m.id)}
-                        className="h-4 w-4 text-primary"
-                      />
-                      <div>
-                        <p className="font-bold text-foreground text-sm">{m.name}</p>
-                        {m.mechanicProfile && (
-                          <p className="text-xs text-amber-500 font-semibold flex items-center gap-1 mt-0.5">
-                            <Star className="h-3 w-3 fill-amber-500" />
-                            {m.mechanicProfile.rating.toFixed(1)} Rating
-                          </p>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-
-          <DialogFooter className="flex flex-col-reverse sm:flex-row sm:justify-end gap-2 pt-4">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => setAssignDialogOpen(false)}
-              className="rounded-xl"
-            >
-              Cancel
-            </Button>
-            <Button
-              type="button"
-              disabled={!selectedMechanicId}
-              onClick={() => setConfirmAssignOpen(true)}
-              className="rounded-xl gap-2"
-            >
-              Assign Selected Mechanic
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-
       {/* Confirm Assign Mechanic Dialog */}
       <ConfirmDialog
         open={confirmAssignOpen}
         onOpenChange={setConfirmAssignOpen}
         title="Confirm Mechanic Assignment"
-        description="Are you sure you want to assign this mechanic to your service request?"
+        description={`Are you sure you want to assign mechanic "${selectedMechanicForAssign?.name || ""}" to your service request?`}
         confirmText="Confirm Assignment"
         cancelText="Cancel"
         loading={assignMutation.isPending}
         onConfirm={() => {
-          if (selectedMechanicId) assignMutation.mutate(selectedMechanicId);
+          if (selectedMechanicForAssign) assignMutation.mutate(selectedMechanicForAssign.id);
         }}
       />
     </div>

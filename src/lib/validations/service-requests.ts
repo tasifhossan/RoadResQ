@@ -19,6 +19,16 @@ export const createServiceRequestSchema = z
 
 export type CreateServiceRequestSchema = z.infer<typeof createServiceRequestSchema>;
 
+export const nearbyMechanicsQuerySchema = z
+  .object({
+    lat: z.coerce.number(),
+    lng: z.coerce.number(),
+    radiusKm: z.coerce.number().optional().default(10),
+  })
+  .strict();
+
+export type NearbyMechanicsQuerySchema = z.infer<typeof nearbyMechanicsQuerySchema>;
+
 export const assignMechanicSchema = z
   .object({
     mechanicId: z.string().min(1, "Mechanic ID is required"),

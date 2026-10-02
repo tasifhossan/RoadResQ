@@ -5,7 +5,7 @@ import {
   ServiceRequest,
   ServiceRequestListQueryInput,
   ServiceRequestReview,
-  ServiceRequestMechanicDetail,
+  NearbyMechanicItem,
 } from "@/lib/types/service-requests";
 
 export interface ServiceRequestImage {
@@ -67,8 +67,8 @@ export async function getNearbyMechanicsApi(
   lat: number,
   lng: number,
   radiusKm: number = 10
-): Promise<{ mechanics: ServiceRequestMechanicDetail[] }> {
-  return apiFetch<{ mechanics: ServiceRequestMechanicDetail[] }>(
+): Promise<{ mechanics: NearbyMechanicItem[] }> {
+  return apiFetch<{ mechanics: NearbyMechanicItem[] }>(
     "service-requests/nearby-mechanics",
     {
       query: { lat, lng, radiusKm },
