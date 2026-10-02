@@ -33,6 +33,8 @@ yarn-error.log*
 # env files
 .env*.local
 .env
+AGENTS.md
+CLAUDE.md
 !.env.example
 
 # vercel
@@ -42,7 +44,5 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# ai agent generated files
-AGENTS.md
-CLAUDE.md
+
 
