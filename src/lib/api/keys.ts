@@ -12,6 +12,7 @@ export const queryKeys = {
   },
   vehicles: {
     all: () => ["vehicles"] as const,
+    list: (filters?: Record<string, unknown>) => ["vehicles", "list", filters] as const,
     detail: (id: string) => ["vehicles", id] as const,
   },
   serviceRequests: {
