@@ -26,3 +26,36 @@ export interface Payment {
     serviceRequestId: string;
   } | null;
 }
+
+export interface GetMyPaymentsQueryInput extends Record<string, unknown> {
+  page?: number;
+  limit?: number;
+  status?: PaymentStatus;
+}
+
+export interface MyPaymentInvoice {
+  id: string;
+  laborCost: number;
+  partsCost: number;
+  total: number;
+}
+
+export interface MyPaymentServiceRequest {
+  id: string;
+  status: string;
+  vehicle: {
+    make: string;
+    model: string;
+    plateNumber: string;
+  } | null;
+}
+
+export interface MyPaymentItem {
+  id: string;
+  amount: number;
+  status: PaymentStatus;
+  paidAt: string | null;
+  createdAt: string;
+  invoice: MyPaymentInvoice;
+  serviceRequest: MyPaymentServiceRequest | null;
+}
