@@ -26,6 +26,7 @@ import {
   Package,
   Search,
   Navigation,
+  CheckCircle2,
 } from "lucide-react";
 
 import { queryKeys } from "@/lib/api/keys";
@@ -38,6 +39,7 @@ import {
   getNearbyMechanicsApi,
   cancelServiceRequestApi,
 } from "@/lib/api/endpoints/service-requests";
+import { initiatePaymentApi } from "@/lib/api/endpoints/payments";
 import { cancelServiceRequestSchema } from "@/lib/validations/service-requests";
 import { compressImage, uploadImageWithProgress } from "@/lib/utils/image";
 import { toastApiError } from "@/lib/errors";
@@ -215,6 +217,21 @@ export function RequestDetailClient({
     },
   });
 
+  // Initiate Payment Mutation
+  const initiatePaymentMutation = useMutation({
+    mutationFn: (invoiceId: string) => initiatePaymentApi(invoiceId),
+    onSuccess: (res) => {
+      if (res?.paymentUrl) {
+        window.location.assign(res.paymentUrl);
+      } else {
+        toast.error("Failed to retrieve payment gateway URL");
+      }
+    },
+    onError: (err) => {
+      toastApiError(err, "Failed to initiate payment");
+    },
+  });
+
   // Retry photos state & handlers
   const [retryPhotos, setRetryPhotos] = useState<PhotoRetryItem[]>([]);
   const [isCompressing, setIsCompressing] = useState(false);
@@ -323,12 +340,14 @@ export function RequestDetailClient({
 
   const isPending = request.status === "PENDING";
   const isCompleted = request.status === "COMPLETED";
+  const isCancelled = request.status === "CANCELLED";
   const isCancellable =
     request.status === "PENDING" ||
     request.status === "SEARCHING" ||
     request.status === "ASSIGNED";
 
-  const hasUnpaidInvoice = invoice && invoice.status !== "PAID";
+  const isPaid = invoice?.status === "PAID";
+  const canPayInvoice = !!(invoice && !isPaid && !isCancelled);
 
   return (
     <div className="space-y-6 max-w-4xl mx-auto">
@@ -405,14 +424,21 @@ export function RequestDetailClient({
             </Button>
           )}
 
-          {/* Unpaid Invoice Pay Now Placeholder Button */}
-          {hasUnpaidInvoice && (
-            <Link href={`/customer/payments?invoiceId=${invoice.id}`}>
-              <Button className="rounded-xl gap-2 font-semibold bg-emerald-600 hover:bg-emerald-700 text-white shadow-md">
+          {/* Pay Now Button */}
+          {canPayInvoice && (
+            <Button
+              type="button"
+              onClick={() => initiatePaymentMutation.mutate(invoice.id)}
+              disabled={initiatePaymentMutation.isPending}
+              className="rounded-xl gap-2 font-semibold bg-emerald-600 hover:bg-emerald-700 text-white shadow-md"
+            >
+              {initiatePaymentMutation.isPending ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
                 <CreditCard className="h-4 w-4" />
-                Pay Now (${invoice.totalCost.toFixed(2)})
-              </Button>
-            </Link>
+              )}
+              Pay Now (${invoice.totalCost.toFixed(2)})
+            </Button>
           )}
         </div>
       </div>
@@ -880,19 +906,40 @@ export function RequestDetailClient({
             </div>
           </CardContent>
 
-          {/* Pay Now Link Button */}
-          {hasUnpaidInvoice && (
+          {/* Invoice Paid State */}
+          {isPaid && (
+            <CardFooter className="bg-emerald-500/10 border-t border-emerald-500/20 p-4 flex items-center justify-between gap-3">
+              <div className="flex items-center gap-2 text-emerald-800 dark:text-emerald-300 text-sm font-medium">
+                <CheckCircle2 className="h-4 w-4 text-emerald-600 shrink-0" />
+                <span>Invoice is fully paid. Thank you!</span>
+              </div>
+            </CardFooter>
+          )}
+
+          {/* Pay Now Footer Button */}
+          {canPayInvoice && (
             <CardFooter className="bg-emerald-500/10 border-t border-emerald-500/20 p-4 flex flex-col sm:flex-row items-center justify-between gap-3">
               <div className="flex items-center gap-2 text-emerald-800 dark:text-emerald-300 text-sm font-medium">
                 <AlertCircle className="h-4 w-4 text-emerald-600 shrink-0" />
-                <span>Invoice is pending payment.</span>
+                <span>
+                  {invoice.payment?.status === "FAILED"
+                    ? "Previous payment failed. Click to try again."
+                    : "Invoice is pending payment."}
+                </span>
               </div>
-              <Link href={`/customer/payments?invoiceId=${invoice.id}`} className="w-full sm:w-auto">
-                <Button className="rounded-xl gap-2 font-semibold bg-emerald-600 hover:bg-emerald-700 text-white shadow-md w-full">
+              <Button
+                type="button"
+                onClick={() => initiatePaymentMutation.mutate(invoice.id)}
+                disabled={initiatePaymentMutation.isPending}
+                className="rounded-xl gap-2 font-semibold bg-emerald-600 hover:bg-emerald-700 text-white shadow-md w-full sm:w-auto"
+              >
+                {initiatePaymentMutation.isPending ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
                   <CreditCard className="h-4 w-4" />
-                  Pay Now (${invoice.totalCost.toFixed(2)})
-                </Button>
-              </Link>
+                )}
+                Pay Now (${invoice.totalCost.toFixed(2)})
+              </Button>
             </CardFooter>
           )}
         </Card>
