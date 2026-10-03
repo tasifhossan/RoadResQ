@@ -21,6 +21,7 @@ export interface ConfirmDialogProps {
   variant?: "default" | "destructive";
   loading?: boolean;
   onConfirm: () => void;
+  children?: React.ReactNode;
 }
 
 export function ConfirmDialog({
@@ -33,6 +34,7 @@ export function ConfirmDialog({
   variant = "default",
   loading = false,
   onConfirm,
+  children,
 }: ConfirmDialogProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -43,6 +45,8 @@ export function ConfirmDialog({
             {description}
           </DialogDescription>
         </DialogHeader>
+
+        {children && <div className="py-2">{children}</div>}
 
         <DialogFooter className="flex flex-col-reverse sm:flex-row sm:justify-end gap-2 pt-4">
           <Button

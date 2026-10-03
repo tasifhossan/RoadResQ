@@ -126,3 +126,7 @@ export interface ServiceRequest {
   review?: ServiceRequestReview | null;
   statusHistory?: StatusHistoryItem[];
 }
+
+export interface CancelServiceRequestInput {
+  reason?: string;
+}

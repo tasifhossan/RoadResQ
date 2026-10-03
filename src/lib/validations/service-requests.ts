@@ -85,3 +85,11 @@ export const step3ProblemSchema = z.object({
   priority: z.enum(REQUEST_PRIORITIES),
 });
 export type Step3ProblemSchema = z.infer<typeof step3ProblemSchema>;
+
+export const cancelServiceRequestSchema = z
+  .object({
+    reason: z.string().max(200, "Reason must not exceed 200 characters").optional(),
+  })
+  .strict();
+
+export type CancelServiceRequestSchema = z.infer<typeof cancelServiceRequestSchema>;

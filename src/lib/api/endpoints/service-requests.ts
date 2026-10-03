@@ -75,3 +75,13 @@ export async function getNearbyMechanicsApi(
     }
   );
 }
+
+export async function cancelServiceRequestApi(
+  id: string,
+  reason?: string
+): Promise<{ serviceRequest: ServiceRequest }> {
+  return apiFetch<{ serviceRequest: ServiceRequest }>(`service-requests/${id}/cancel`, {
+    method: "PATCH",
+    body: reason ? { reason } : {},
+  });
+}

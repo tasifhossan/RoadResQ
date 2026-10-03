@@ -15,7 +15,6 @@ import {
   Loader2,
   ArrowLeft,
   ImageIcon,
-  ShieldAlert,
   X,
   RefreshCw,
   Clock,
@@ -26,7 +25,6 @@ import {
   MessageSquare,
   Package,
   Search,
-  CheckCircle2,
   Navigation,
 } from "lucide-react";
 
@@ -38,7 +36,9 @@ import {
   createReviewApi,
   assignMechanicApi,
   getNearbyMechanicsApi,
+  cancelServiceRequestApi,
 } from "@/lib/api/endpoints/service-requests";
+import { cancelServiceRequestSchema } from "@/lib/validations/service-requests";
 import { compressImage, uploadImageWithProgress } from "@/lib/utils/image";
 import { toastApiError } from "@/lib/errors";
 
@@ -192,6 +192,29 @@ export function RequestDetailClient({
     },
   });
 
+  // State for Cancel Request Dialog
+  const [cancelDialogOpen, setCancelDialogOpen] = useState(false);
+  const [cancelReason, setCancelReason] = useState("");
+
+  // Cancel Request Mutation
+  const cancelMutation = useMutation({
+    mutationFn: (reason?: string) => cancelServiceRequestApi(requestId, reason),
+    onSuccess: () => {
+      toast.success("Service request cancelled successfully.");
+      setCancelDialogOpen(false);
+      setCancelReason("");
+      refetchRequest();
+      queryClient.invalidateQueries({ queryKey: queryKeys.serviceRequests.detail(requestId) });
+      queryClient.invalidateQueries({ queryKey: queryKeys.serviceRequests.all() });
+    },
+    onError: (err) => {
+      toastApiError(err, "Failed to cancel service request.");
+      setCancelDialogOpen(false);
+      setCancelReason("");
+      refetchRequest();
+    },
+  });
+
   // Retry photos state & handlers
   const [retryPhotos, setRetryPhotos] = useState<PhotoRetryItem[]>([]);
   const [isCompressing, setIsCompressing] = useState(false);
@@ -300,6 +323,10 @@ export function RequestDetailClient({
 
   const isPending = request.status === "PENDING";
   const isCompleted = request.status === "COMPLETED";
+  const isCancellable =
+    request.status === "PENDING" ||
+    request.status === "SEARCHING" ||
+    request.status === "ASSIGNED";
 
   const hasUnpaidInvoice = invoice && invoice.status !== "PAID";
 
@@ -357,6 +384,17 @@ export function RequestDetailClient({
 
         {/* Action Header Buttons */}
         <div className="flex items-center gap-2 flex-wrap">
+          {isCancellable && (
+            <Button
+              variant="outline"
+              onClick={() => setCancelDialogOpen(true)}
+              className="rounded-xl gap-2 font-medium text-destructive hover:bg-destructive/10 hover:text-destructive border-destructive/30"
+            >
+              <X className="h-4 w-4" />
+              Cancel Request
+            </Button>
+          )}
+
           {isCompleted && !review && (
             <Button
               onClick={() => setReviewDialogOpen(true)}
@@ -980,6 +1018,49 @@ export function RequestDetailClient({
           if (selectedMechanicForAssign) assignMutation.mutate(selectedMechanicForAssign.id);
         }}
       />
+
+      {/* Confirm Cancel Service Request Dialog */}
+      <ConfirmDialog
+        open={cancelDialogOpen}
+        onOpenChange={(open) => {
+          setCancelDialogOpen(open);
+          if (!open) setCancelReason("");
+        }}
+        title="Cancel Service Request"
+        description="Are you sure you want to cancel this service request? This action cannot be undone."
+        confirmText="Cancel Request"
+        cancelText="Keep Request"
+        variant="destructive"
+        loading={cancelMutation.isPending}
+        onConfirm={() => {
+          const res = cancelServiceRequestSchema.safeParse(cancelReason ? { reason: cancelReason } : {});
+          if (!res.success) {
+            toast.error(res.error.issues[0]?.message || "Invalid cancellation reason");
+            return;
+          }
+          cancelMutation.mutate(res.data.reason);
+        }}
+      >
+        <div className="space-y-2 pt-2">
+          <Label htmlFor="cancel-reason" className="text-xs font-semibold text-foreground">
+            Cancellation Reason (Optional)
+          </Label>
+          <Textarea
+            id="cancel-reason"
+            rows={3}
+            placeholder="e.g. Found alternative assistance..."
+            value={cancelReason}
+            onChange={(e) => setCancelReason(e.target.value)}
+            maxLength={200}
+            className="rounded-xl bg-card border-border shadow-sm resize-none text-xs"
+          />
+          <div className="flex justify-end">
+            <span className="text-[10px] text-muted-foreground font-mono">
+              {cancelReason.length} / 200
+            </span>
+          </div>
+        </div>
+      </ConfirmDialog>
     </div>
   );
 }
