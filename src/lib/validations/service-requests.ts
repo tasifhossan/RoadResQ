@@ -93,3 +93,13 @@ export const cancelServiceRequestSchema = z
   .strict();
 
 export type CancelServiceRequestSchema = z.infer<typeof cancelServiceRequestSchema>;
+
+export const updateStatusSchema = z
+  .object({
+    status: z.enum(["ARRIVED", "IN_PROGRESS", "COMPLETED", "CANCELLED"]),
+    laborCost: z.number().min(0, "Labor cost cannot be negative").optional().default(0),
+  })
+  .strict();
+
+export type UpdateStatusSchema = z.infer<typeof updateStatusSchema>;
+

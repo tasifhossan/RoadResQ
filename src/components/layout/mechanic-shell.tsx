@@ -3,11 +3,12 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { UserMenu } from "@/components/layout/user-menu";
-import { LayoutDashboard, Package, DollarSign, User } from "lucide-react";
+import { LayoutDashboard, Wrench, Package, DollarSign, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const mechanicNavItems = [
   { label: "Dashboard", href: "/mechanic", icon: LayoutDashboard },
+  { label: "Jobs", href: "/mechanic/requests", icon: Wrench },
   { label: "Inventory", href: "/mechanic/inventory", icon: Package },
   { label: "Earnings", href: "/mechanic/earnings", icon: DollarSign },
   { label: "Profile", href: "/mechanic/profile", icon: User },

@@ -72,8 +72,11 @@ export interface ServiceRequestInvoice {
   updatedAt: string;
   payment?: {
     id: string;
+    gateway?: string;
+    transactionId?: string | null;
     amount: number;
     status: "PENDING" | "COMPLETED" | "FAILED" | "REFUNDED";
+    paidAt?: string | null;
     createdAt: string;
   } | null;
 }
