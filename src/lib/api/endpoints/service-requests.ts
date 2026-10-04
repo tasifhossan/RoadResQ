@@ -85,3 +85,29 @@ export async function cancelServiceRequestApi(
     body: reason ? { reason } : {},
   });
 }
+
+export async function getAssignedServiceRequestsApi(
+  query?: ServiceRequestListQueryInput
+): Promise<Paginated<ServiceRequest>> {
+  return apiFetch<Paginated<ServiceRequest>>("service-requests/assigned", { query });
+}
+
+export async function acceptAssignmentApi(
+  id: string
+): Promise<{ serviceRequest: ServiceRequest }> {
+  return apiFetch<{ serviceRequest: ServiceRequest }>(`service-requests/${id}/accept`, {
+    method: "POST",
+  });
+}
+
+export async function updateServiceRequestStatusApi(
+  id: string,
+  status: string,
+  laborCost?: number
+): Promise<{ serviceRequest: ServiceRequest }> {
+  return apiFetch<{ serviceRequest: ServiceRequest }>(`service-requests/${id}/status`, {
+    method: "PATCH",
+    body: { status, ...(laborCost !== undefined ? { laborCost } : {}) },
+  });
+}
+

@@ -21,3 +21,14 @@ export async function getServiceRequestByIdServer(
     token,
   });
 }
+
+export async function getAssignedServiceRequestsServer(
+  token: string,
+  query?: ServiceRequestListQueryInput
+): Promise<Paginated<ServiceRequest>> {
+  return serverFetch<Paginated<ServiceRequest>>("service-requests/assigned", {
+    token,
+    query,
+  });
+}
+

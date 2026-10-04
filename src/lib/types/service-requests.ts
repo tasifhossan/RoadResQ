@@ -104,6 +104,13 @@ export interface ServiceRequestMechanicDetail {
   mechanicProfile?: MechanicPublicProfile | null;
 }
 
+export interface ServiceRequestCustomerDetail {
+  id: string;
+  name: string;
+  email?: string;
+  phone?: string | null;
+}
+
 export interface ServiceRequest {
   id: string;
   customerId: string;
@@ -118,6 +125,7 @@ export interface ServiceRequest {
   totalCost: number;
   createdAt: string;
   updatedAt: string;
+  customer?: ServiceRequestCustomerDetail | null;
   vehicle?: Vehicle | null;
   mechanic?: ServiceRequestMechanicDetail | null;
   images?: ServiceRequestImage[];
