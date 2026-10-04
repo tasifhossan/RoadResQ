@@ -22,6 +22,8 @@ import {
   ShieldCheck,
   CreditCard,
   Phone,
+  Plus,
+  Loader2,
 } from "lucide-react";
 
 import { queryKeys } from "@/lib/api/keys";
@@ -31,7 +33,9 @@ import {
   acceptAssignmentApi,
   updateServiceRequestStatusApi,
   cancelServiceRequestApi,
+  addPartsUsedApi,
 } from "@/lib/api/endpoints/service-requests";
+import { getMechanicInventoryApi } from "@/lib/api/endpoints/mechanics";
 import { updateStatusSchema, cancelServiceRequestSchema } from "@/lib/validations/service-requests";
 import { toastApiError } from "@/lib/errors";
 
@@ -42,6 +46,13 @@ import { buttonVariants, Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 
 interface MechanicRequestDetailClientProps {
@@ -74,6 +85,10 @@ export function MechanicRequestDetailClient({
   const [cancelReasonInput, setCancelReasonInput] = useState<string>("");
   const [cancelReasonError, setCancelReasonError] = useState<string | null>(null);
 
+  // Form state for logging spare parts used
+  const [selectedSparePartId, setSelectedSparePartId] = useState<string>("");
+  const [selectedQuantity, setSelectedQuantity] = useState<string>("1");
+
   // TanStack Query with 5s polling for non-terminal statuses
   const {
     data: requestData,
@@ -94,6 +109,19 @@ export function MechanicRequestDetailClient({
   });
 
   const request = requestData || initialRequest;
+  const currentStatus = request.status;
+
+  // Query mechanic's OWN inventory (enabled only when status is IN_PROGRESS)
+  const { data: inventoryData, isLoading: isInventoryLoading } = useQuery({
+    queryKey: queryKeys.mechanics.inventory(),
+    queryFn: () => getMechanicInventoryApi({ page: 1, limit: 50 }),
+    enabled: currentStatus === "IN_PROGRESS",
+  });
+
+  const inventoryItems = inventoryData?.items || [];
+  const selectedInventoryItem = inventoryItems.find(
+    (item) => item.sparePartId === selectedSparePartId
+  );
 
   // Accept Assignment Mutation
   const acceptMutation = useMutation({
@@ -144,10 +172,28 @@ export function MechanicRequestDetailClient({
     },
   });
 
+  // Log Parts Used Mutation
+  const addPartsMutation = useMutation({
+    mutationFn: ({ sparePartId, quantity }: { sparePartId: string; quantity: number }) =>
+      addPartsUsedApi(requestId, [{ sparePartId, quantity }]),
+    onSuccess: () => {
+      toast.success("Spare part logged successfully");
+      setSelectedSparePartId("");
+      setSelectedQuantity("1");
+      queryClient.invalidateQueries({ queryKey: queryKeys.serviceRequests.detail(requestId) });
+      queryClient.invalidateQueries({ queryKey: queryKeys.mechanics.inventory() });
+    },
+    onError: (err) => {
+      toastApiError(err, "Failed to log spare part");
+      refetch();
+    },
+  });
+
   const isPending =
     acceptMutation.isPending ||
     updateStatusMutation.isPending ||
-    cancelMutation.isPending;
+    cancelMutation.isPending ||
+    addPartsMutation.isPending;
 
   const handleConfirmAction = () => {
     if (!activeAction) return;
@@ -191,6 +237,23 @@ export function MechanicRequestDetailClient({
     }
   };
 
+  const handleAddPartSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!selectedSparePartId) {
+      toast.error("Please select a spare part from your inventory.");
+      return;
+    }
+
+    const qty = parseInt(selectedQuantity, 10);
+    if (isNaN(qty) || qty < 1) {
+      toast.error("Quantity must be an integer of at least 1.");
+      return;
+    }
+
+    addPartsMutation.mutate({ sparePartId: selectedSparePartId, quantity: qty });
+  };
+
   if (isError) {
     return (
       <div className="py-8 max-w-4xl mx-auto">
@@ -205,9 +268,14 @@ export function MechanicRequestDetailClient({
     );
   }
 
-  const currentStatus = request.status;
   const isCancelled = currentStatus === "CANCELLED";
   const isCompleted = currentStatus === "COMPLETED";
+
+  // Calculate Parts Subtotal
+  const partsSubtotal = (request.partsUsed || []).reduce(
+    (sum, item) => sum + item.quantity * Number(item.priceAtUse),
+    0
+  );
 
   // Timeline active step determination
   const currentStepIndex = STATUS_PIPELINE.indexOf(currentStatus as RequestStatus);
@@ -557,34 +625,139 @@ export function MechanicRequestDetailClient({
         </CardContent>
       </Card>
 
-      {/* Spare Parts Used */}
-      <Card className="rounded-2xl border shadow-sm">
-        <CardHeader className="bg-muted/30 border-b py-3.5">
+      {/* Parts Used Section & Log Form */}
+      <Card className="rounded-2xl border shadow-sm bg-card overflow-hidden">
+        <CardHeader className="bg-muted/30 border-b py-3.5 flex flex-row items-center justify-between">
           <CardTitle className="text-sm font-bold flex items-center gap-2">
             <Package className="h-4 w-4 text-primary" />
             Spare Parts Used
           </CardTitle>
+          <span className="text-xs font-semibold text-muted-foreground">
+            Parts Subtotal: ${partsSubtotal.toFixed(2)}
+          </span>
         </CardHeader>
-        <CardContent className="p-6">
-          {request.partsUsed && request.partsUsed.length > 0 ? (
-            <div className="divide-y border rounded-xl overflow-hidden">
-              {request.partsUsed.map((part) => (
-                <div key={part.id} className="p-3.5 flex items-center justify-between text-xs">
-                  <div>
-                    <p className="font-bold text-foreground">
-                      {part.sparePart?.name || `Part #${part.sparePartId.slice(-6)}`}
-                    </p>
-                    <p className="text-muted-foreground">Qty: {part.quantity}</p>
-                  </div>
-                  <p className="font-semibold text-foreground">
-                    ${(part.priceAtUse * part.quantity).toFixed(2)}
-                  </p>
+        <CardContent className="p-6 space-y-6">
+          {/* Add Part Form (Only displayed when status is IN_PROGRESS) */}
+          {currentStatus === "IN_PROGRESS" ? (
+            <form onSubmit={handleAddPartSubmit} className="p-4 rounded-xl bg-muted/20 border space-y-4">
+              <div className="flex items-center gap-2">
+                <Plus className="h-4 w-4 text-primary" />
+                <h4 className="text-xs font-bold uppercase tracking-wider text-foreground">
+                  Log Spare Part from Your Inventory
+                </h4>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 items-end">
+                <div className="sm:col-span-6 space-y-1.5">
+                  <Label htmlFor="inventorySelect" className="text-xs font-medium text-muted-foreground">
+                    Select Part from My Inventory
+                  </Label>
+                  <Select
+                    value={selectedSparePartId}
+                    onValueChange={(val) => setSelectedSparePartId(val || "")}
+                    disabled={isInventoryLoading || addPartsMutation.isPending}
+                  >
+                    <SelectTrigger id="inventorySelect" className="rounded-xl h-9 text-xs bg-card">
+                      <SelectValue placeholder={isInventoryLoading ? "Loading inventory..." : "Choose spare part..."} />
+                    </SelectTrigger>
+                    <SelectContent className="rounded-xl">
+                      {inventoryItems.map((item) => (
+                        <SelectItem key={item.sparePartId} value={item.sparePartId} className="text-xs">
+                          {item.sparePart.name} - ${Number(item.price).toFixed(2)} ({item.stock} in stock)
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
-              ))}
+
+                <div className="sm:col-span-3 space-y-1.5">
+                  <Label htmlFor="partQty" className="text-xs font-medium text-muted-foreground">
+                    Quantity
+                  </Label>
+                  <Input
+                    id="partQty"
+                    type="number"
+                    min="1"
+                    max={selectedInventoryItem?.stock || 50}
+                    value={selectedQuantity}
+                    onChange={(e) => setSelectedQuantity(e.target.value)}
+                    disabled={addPartsMutation.isPending}
+                    className="rounded-xl h-9 text-xs bg-card"
+                  />
+                </div>
+
+                <div className="sm:col-span-3">
+                  <Button
+                    type="submit"
+                    variant="default"
+                    size="sm"
+                    disabled={!selectedSparePartId || addPartsMutation.isPending}
+                    className="rounded-xl text-xs gap-1.5 font-bold w-full h-9"
+                  >
+                    {addPartsMutation.isPending ? (
+                      <>
+                        <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                        Logging...
+                      </>
+                    ) : (
+                      <>
+                        <Plus className="h-3.5 w-3.5" />
+                        Log Part Used
+                      </>
+                    )}
+                  </Button>
+                </div>
+              </div>
+
+              {selectedInventoryItem && (
+                <div className="flex items-center justify-between text-xs text-muted-foreground pt-1 border-t border-border/40">
+                  <span>Price at use: <strong className="text-foreground">${Number(selectedInventoryItem.price).toFixed(2)}</strong></span>
+                  <span>Available stock: <strong className={cn(selectedInventoryItem.stock > 0 ? "text-emerald-600 dark:text-emerald-400" : "text-destructive")}>{selectedInventoryItem.stock} items</strong></span>
+                </div>
+              )}
+            </form>
+          ) : (
+            <p className="text-xs text-muted-foreground italic">
+              Spare parts can only be logged when the repair status is <strong>IN_PROGRESS</strong>.
+            </p>
+          )}
+
+          {/* Logged Parts List */}
+          {request.partsUsed && request.partsUsed.length > 0 ? (
+            <div className="divide-y border rounded-xl overflow-hidden bg-card">
+              <div className="bg-muted/40 p-3 flex justify-between text-xs font-bold text-muted-foreground uppercase tracking-wider">
+                <span>Spare Part Name</span>
+                <span>Qty x Unit Price</span>
+                <span>Line Total</span>
+              </div>
+              {request.partsUsed.map((part) => {
+                const unitPrice = Number(part.priceAtUse);
+                const lineTotal = part.quantity * unitPrice;
+                return (
+                  <div key={part.id} className="p-3.5 flex items-center justify-between text-xs">
+                    <div>
+                      <p className="font-bold text-foreground">
+                        {part.sparePart?.name || `Part #${part.sparePartId.slice(-6)}`}
+                      </p>
+                    </div>
+                    <div className="text-muted-foreground">
+                      {part.quantity} × ${unitPrice.toFixed(2)}
+                    </div>
+                    <p className="font-bold text-foreground">
+                      ${lineTotal.toFixed(2)}
+                    </p>
+                  </div>
+                );
+              })}
+
+              <div className="p-4 bg-muted/20 flex justify-between items-center text-xs font-bold">
+                <span>Parts Subtotal</span>
+                <span className="text-sm font-extrabold text-primary">${partsSubtotal.toFixed(2)}</span>
+              </div>
             </div>
           ) : (
             <p className="text-xs text-muted-foreground italic">
-              No spare parts logged for this job.
+              No spare parts logged for this job yet.
             </p>
           )}
         </CardContent>

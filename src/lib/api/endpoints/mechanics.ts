@@ -1,7 +1,10 @@
 import { apiFetch } from "@/lib/api/client";
+import { Paginated } from "@/lib/api/types";
 import { UserProfile } from "@/lib/auth/session";
 import {
   EarningsSummary,
+  GetInventoryQueryInput,
+  MechanicInventoryItem,
   UpdateAvailabilityInput,
   UpdateLocationInput,
 } from "@/lib/types/mechanics";
@@ -32,4 +35,10 @@ export async function updateLocationApi(
 
 export async function getEarningsSummaryApi(): Promise<EarningsSummary> {
   return apiFetch<EarningsSummary>("mechanics/me/earnings");
+}
+
+export async function getMechanicInventoryApi(
+  query?: GetInventoryQueryInput
+): Promise<Paginated<MechanicInventoryItem>> {
+  return apiFetch<Paginated<MechanicInventoryItem>>("mechanics/me/inventory", { query });
 }

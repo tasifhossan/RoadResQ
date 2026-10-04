@@ -37,3 +37,29 @@ export interface EarningsSummary {
   monthly: MonthlyEarnings[];
   recent: RecentPaidInvoice[];
 }
+
+export interface MechanicInventoryItem {
+  id: string;
+  mechanicProfileId: string;
+  sparePartId: string;
+  price: number | string;
+  stock: number;
+  createdAt: string;
+  updatedAt: string;
+  sparePart: {
+    id: string;
+    name: string;
+    isGlobal: boolean;
+    createdByMechanicId?: string | null;
+    createdAt: string;
+    updatedAt: string;
+    deletedAt?: string | null;
+  };
+}
+
+export interface GetInventoryQueryInput extends Record<string, unknown> {
+  page?: number;
+  limit?: number;
+  search?: string;
+  lowStock?: boolean;
+}

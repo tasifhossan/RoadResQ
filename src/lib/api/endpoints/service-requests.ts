@@ -111,3 +111,14 @@ export async function updateServiceRequestStatusApi(
   });
 }
 
+export async function addPartsUsedApi(
+  id: string,
+  parts: Array<{ sparePartId: string; quantity: number }>
+): Promise<{ serviceRequest: ServiceRequest }> {
+  return apiFetch<{ serviceRequest: ServiceRequest }>(`service-requests/${id}/parts`, {
+    method: "POST",
+    body: { parts },
+  });
+}
+
+
