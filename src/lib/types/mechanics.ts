@@ -63,3 +63,21 @@ export interface GetInventoryQueryInput extends Record<string, unknown> {
   search?: string;
   lowStock?: boolean;
 }
+
+export interface AddInventoryItemInput {
+  sparePartId?: string;
+  name?: string;
+  price: number;
+  stock: number;
+}
+
+export interface UpdateInventoryItemInput {
+  name?: string;
+  price?: number;
+  stock?: number;
+}
+
+export interface RestockInventoryItemInput {
+  quantity: number;
+}
+
