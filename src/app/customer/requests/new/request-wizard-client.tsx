@@ -259,6 +259,18 @@ export function RequestWizardClient({ initialVehicles }: RequestWizardClientProp
     );
   };
 
+  // Demo Location Shortcut (Dhaka: 23.8103, 90.4125)
+  const handleUseDemoLocation = () => {
+    const lat = 23.8103;
+    const lng = 90.4125;
+    form2.setValue("lat", lat, { shouldValidate: true });
+    form2.setValue("lng", lng, { shouldValidate: true });
+    updateDraft({ lat, lng });
+    setGeoError(null);
+    toast.success("Demo location set to Dhaka (23.8103, 90.4125)");
+  };
+
+
   // Step Navigation Handlers
   const handleStep1Submit = (values: Step1VehicleSchema) => {
     updateDraft({ vehicleId: values.vehicleId });
@@ -592,20 +604,34 @@ export function RequestWizardClient({ initialVehicles }: RequestWizardClientProp
                   <p className="text-xs text-muted-foreground mt-1">
                     Click to capture your current latitude and longitude automatically.
                   </p>
+                  <p className="text-xs text-muted-foreground font-medium mt-0.5">
+                    Demo mechanics are located in Dhaka.
+                  </p>
                 </div>
-                <Button
-                  type="button"
-                  onClick={handleGetLocation}
-                  disabled={geoLoading}
-                  className="rounded-xl gap-2 shrink-0 font-medium"
-                >
-                  {geoLoading ? (
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                  ) : (
+                <div className="flex flex-wrap items-center gap-2 shrink-0">
+                  <Button
+                    type="button"
+                    onClick={handleGetLocation}
+                    disabled={geoLoading}
+                    className="rounded-xl gap-2 font-medium"
+                  >
+                    {geoLoading ? (
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    ) : (
+                      <MapPin className="h-4 w-4" />
+                    )}
+                    {geoLoading ? "Acquiring Position..." : "Use Current Location"}
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={handleUseDemoLocation}
+                    className="rounded-xl gap-2 font-medium border-primary/30 text-primary hover:bg-primary/10"
+                  >
                     <MapPin className="h-4 w-4" />
-                  )}
-                  {geoLoading ? "Acquiring Position..." : "Use Current Location"}
-                </Button>
+                    Use demo location (Dhaka)
+                  </Button>
+                </div>
               </div>
 
               {geoError && (
