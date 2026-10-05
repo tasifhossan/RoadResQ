@@ -25,6 +25,27 @@ export interface DashboardStats {
   }>;
 }
 
+export interface AdminUserItem {
+  id: string;
+  name: string;
+  email: string;
+  role: Role;
+  phone: string | null;
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: string | null;
+  mechanicProfile?: {
+    id: string;
+    userId: string;
+    skills: string[];
+    currentLat: number | null;
+    currentLng: number | null;
+    availability: string;
+    rating: number;
+    totalJobs: number;
+  } | null;
+}
+
 export interface GetUsersQueryInput extends Record<string, unknown> {
   page?: number;
   limit?: number;

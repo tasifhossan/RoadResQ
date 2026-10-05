@@ -52,11 +52,16 @@ export function FilterSelect({
     router.push(targetUrl);
   };
 
+  const selectedLabel =
+    currentValue === "all"
+      ? allLabel
+      : options.find((o) => o.value === currentValue)?.label || currentValue;
+
   return (
     <div className={cn("w-full max-w-[200px]", className)}>
       <Select value={currentValue} onValueChange={handleChange}>
         <SelectTrigger className="rounded-xl bg-card border-border shadow-sm">
-          <SelectValue placeholder={placeholder} />
+          <SelectValue placeholder={placeholder}>{selectedLabel}</SelectValue>
         </SelectTrigger>
         <SelectContent className="rounded-xl">
           <SelectItem value="all">{allLabel}</SelectItem>

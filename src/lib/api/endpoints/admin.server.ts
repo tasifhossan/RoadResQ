@@ -1,9 +1,20 @@
 import "server-only";
 import { serverFetch } from "@/lib/api/server";
-import { DashboardStats } from "@/lib/types/admin";
+import { Paginated } from "@/lib/api/types";
+import { AdminUserItem, DashboardStats, GetUsersQueryInput } from "@/lib/types/admin";
 
 export async function getDashboardStatsServer(token: string): Promise<DashboardStats> {
   return serverFetch<DashboardStats>("admin/dashboard-stats", {
     token,
+  });
+}
+
+export async function getAllUsersServer(
+  token: string,
+  query?: GetUsersQueryInput
+): Promise<Paginated<AdminUserItem>> {
+  return serverFetch<Paginated<AdminUserItem>>("admin/users", {
+    token,
+    query,
   });
 }
