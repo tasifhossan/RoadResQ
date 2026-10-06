@@ -13,3 +13,11 @@ export interface GetSparePartsQueryInput extends Record<string, unknown> {
   limit?: number;
   search?: string;
 }
+
+export interface CreateSparePartInput {
+  name: string;
+}
+
+export interface UpdateSparePartInput {
+  name: string;
+}
