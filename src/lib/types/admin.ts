@@ -46,6 +46,22 @@ export interface AdminUserItem {
   } | null;
 }
 
+export interface AuditLogItem {
+  id: string;
+  actorId: string | null;
+  actor?: {
+    id: string;
+    name: string;
+    email: string;
+    role: Role;
+  } | null;
+  action: string;
+  entityType: string;
+  entityId: string | null;
+  metadata: Record<string, unknown> | null;
+  createdAt: string;
+}
+
 export interface GetUsersQueryInput extends Record<string, unknown> {
   page?: number;
   limit?: number;

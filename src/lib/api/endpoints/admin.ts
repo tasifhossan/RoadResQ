@@ -2,7 +2,9 @@ import { apiFetch } from "@/lib/api/client";
 import { Paginated } from "@/lib/api/types";
 import {
   AdminUserItem,
+  AuditLogItem,
   DashboardStats,
+  GetAuditLogsQueryInput,
   GetUsersQueryInput,
   UpdateUserRoleInput,
 } from "@/lib/types/admin";
@@ -37,4 +39,10 @@ export async function reactivateUserApi(userId: string): Promise<{ user: AdminUs
   return apiFetch<{ user: AdminUserItem }>(`admin/users/${userId}/reactivate`, {
     method: "PATCH",
   });
+}
+
+export async function getAuditLogsApi(
+  query?: GetAuditLogsQueryInput
+): Promise<Paginated<AuditLogItem>> {
+  return apiFetch<Paginated<AuditLogItem>>("admin/audit-logs", { query });
 }
