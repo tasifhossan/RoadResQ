@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/providers";
-import { getCurrentUser } from "@/lib/auth/session";
 import { siteConfig } from "@/lib/site-config";
 
 const inter = Inter({
@@ -47,17 +46,15 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const user = await getCurrentUser();
-
   return (
     <html lang="en" className={`${inter.variable} h-full antialiased`} suppressHydrationWarning>
       <body className="min-h-full flex flex-col font-sans bg-background text-foreground selection:bg-primary/10 selection:text-primary" suppressHydrationWarning>
-        <Providers initialUser={user}>{children}</Providers>
+        <Providers initialUser={null}>{children}</Providers>
       </body>
     </html>
   );

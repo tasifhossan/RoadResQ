@@ -1,7 +1,14 @@
-import { requireRole } from "@/lib/auth/session";
+import { getCurrentUser, requireRole } from "@/lib/auth/session";
 import { AdminShell } from "@/components/layout/admin-shell";
+import { SessionProvider } from "@/components/providers/session-provider";
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   await requireRole("ADMIN");
-  return <AdminShell>{children}</AdminShell>;
+  const user = await getCurrentUser();
+
+  return (
+    <SessionProvider initialUser={user}>
+      <AdminShell>{children}</AdminShell>
+    </SessionProvider>
+  );
 }

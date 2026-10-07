@@ -8,11 +8,12 @@ import { Button } from "@/components/ui/button";
 import { UserMenu } from "@/components/layout/user-menu";
 import { ROLE_HOME_MAP } from "@/lib/auth/constants";
 import { LogOut } from "lucide-react";
+import { queryKeys } from "@/lib/api/keys";
 
 export function PublicNavActions() {
   const router = useRouter();
   const queryClient = useQueryClient();
-  const { user, isAuthenticated } = useSession();
+  const { user, isAuthenticated, isLoading } = useSession();
 
   const handleLogout = async () => {
     try {
@@ -20,16 +21,27 @@ export function PublicNavActions() {
     } catch {
       // Best-effort logout
     }
+    queryClient.invalidateQueries({ queryKey: queryKeys.auth.me() });
     queryClient.clear();
     router.replace("/login");
     router.refresh();
   };
 
+  // Fixed-size placeholder while client session is loading to avoid layout shift
+  if (isLoading) {
+    return (
+      <div
+        className="w-[140px] h-9 bg-muted/60 animate-pulse rounded-xl shrink-0"
+        aria-hidden="true"
+      />
+    );
+  }
+
   if (isAuthenticated && user) {
     const dashboardHref = ROLE_HOME_MAP[user.role] || "/";
 
     return (
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-3 shrink-0">
         <Link href={dashboardHref}>
           <Button variant="ghost" size="sm" className="font-medium rounded-xl">
             Dashboard
@@ -50,7 +62,7 @@ export function PublicNavActions() {
   }
 
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex items-center gap-3 shrink-0">
       <Link href="/login">
         <Button variant="ghost" size="sm" className="font-medium rounded-xl">
           Login

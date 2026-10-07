@@ -7,7 +7,17 @@ import { ROLE_HOME_MAP } from "@/lib/auth/constants";
 import { ArrowRight, LayoutDashboard, UserPlus, LogIn } from "lucide-react";
 
 export function HeroCtas() {
-  const { user, isAuthenticated } = useSession();
+  const { user, isAuthenticated, isLoading } = useSession();
+
+  // Fixed-size placeholder while client session loads to prevent layout shift
+  if (isLoading) {
+    return (
+      <div
+        className="w-full sm:w-[340px] h-12 bg-muted/60 animate-pulse rounded-xl"
+        aria-hidden="true"
+      />
+    );
+  }
 
   if (isAuthenticated && user) {
     const dashboardHref = ROLE_HOME_MAP[user.role] || "/";
