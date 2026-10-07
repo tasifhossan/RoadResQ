@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -17,6 +18,12 @@ import {
   Clock,
   CheckCircle2,
 } from "lucide-react";
+
+export const metadata: Metadata = {
+  title: "On-Demand Roadside Emergency Assistance Platform",
+  description:
+    "Connect stranded drivers with nearby verified mechanics in real-time. Live status updates, frozen spare parts pricing, itemized invoices, and SSLCommerz test payments.",
+};
 
 export default function Home() {
   return (

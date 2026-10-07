@@ -24,6 +24,8 @@ Configure environment variables in `.env.local` (validated via `src/lib/env.ts` 
 |---|---|---|
 | `BACKEND_URL` | Base URL for the RoadResQ REST API (server-only) | `https://road-res-q-backend.vercel.app/api/v1` |
 | `DEMO_PASSWORD` | Server-only password for demo logins (optional) | `DemoPassword123!` |
+| `NEXT_PUBLIC_SITE_URL` | Base canonical site URL for metadata & sitemap | `http://localhost:3000` |
+| `NEXT_PUBLIC_CONTACT_EMAIL` | Optional developer contact email for mailto link | `developer@example.com` |
 
 ## Available Scripts
 

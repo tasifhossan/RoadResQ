@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/providers";
 import { getCurrentUser } from "@/lib/auth/session";
+import { siteConfig } from "@/lib/site-config";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -11,13 +12,39 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteConfig.url),
   title: {
-    default: "RoadResQ - Roadside Assistance Platform",
+    default: siteConfig.title,
     template: "%s | RoadResQ",
   },
-  description:
-    "On-demand roadside assistance connecting motorists with verified mechanics for instant vehicle rescue, emergency repairs, and towing services.",
-  keywords: ["roadside assistance", "mechanic", "emergency repair", "towing", "RoadResQ"],
+  description: siteConfig.description,
+  keywords: [
+    "roadside assistance",
+    "mechanic dispatch",
+    "emergency repair",
+    "towing service",
+    "spare parts invoice",
+    "SSLCommerz test payment",
+    "RoadResQ",
+  ],
+  authors: [{ name: "Tasif Hossan", url: siteConfig.links.githubProfile }],
+  creator: "Tasif Hossan",
+  openGraph: {
+    title: siteConfig.title,
+    description: siteConfig.description,
+    url: siteConfig.url,
+    siteName: siteConfig.name,
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteConfig.title,
+    description: siteConfig.description,
+  },
+  icons: {
+    icon: "/icon.svg",
+  },
 };
 
 export default async function RootLayout({
