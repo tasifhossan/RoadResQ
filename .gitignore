@@ -33,8 +33,6 @@ yarn-error.log*
 # env files
 .env*.local
 .env
-AGENTS.md
-CLAUDE.md
 !.env.example
 
 # vercel

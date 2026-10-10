@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
@@ -26,7 +26,7 @@ import {
 } from "lucide-react";
 
 import { queryKeys } from "@/lib/api/keys";
-import { Paginated, REQUEST_PRIORITIES, RequestPriority } from "@/lib/api/types";
+import { Paginated, REQUEST_PRIORITIES } from "@/lib/api/types";
 import { Vehicle } from "@/lib/types/vehicles";
 import { getMyVehiclesApi } from "@/lib/api/endpoints/vehicles";
 import { createServiceRequestApi } from "@/lib/api/endpoints/service-requests";

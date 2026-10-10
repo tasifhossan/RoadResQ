@@ -129,7 +129,6 @@ export function RequestDetailClient({
   });
 
   const request = requestData ?? initialRequest;
-  const isNonTerminal = request.status !== "COMPLETED" && request.status !== "CANCELLED";
   const canSearchAndAssign =
     (request.status === "PENDING" || request.status === "SEARCHING") &&
     !request.mechanicId;

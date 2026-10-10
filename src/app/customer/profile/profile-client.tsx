@@ -27,7 +27,7 @@ interface ProfileClientProps {
   initialError: string | null;
 }
 
-export function ProfileClient({ initialUser, initialError }: ProfileClientProps) {
+export function ProfileClient({ initialUser }: ProfileClientProps) {
   const router = useRouter();
   const queryClient = useQueryClient();
 
@@ -35,8 +35,6 @@ export function ProfileClient({ initialUser, initialError }: ProfileClientProps)
   const {
     data: userData,
     isLoading,
-    isError,
-    error,
   } = useQuery({
     queryKey: queryKeys.auth.me(),
     queryFn: async () => {
@@ -53,7 +51,7 @@ export function ProfileClient({ initialUser, initialError }: ProfileClientProps)
     control,
     handleSubmit,
     setError,
-    formState: { isSubmitting, isDirty },
+    formState: { isSubmitting },
   } = useForm<UpdateUserSchema>({
     resolver: zodResolver(updateUserSchema),
     values: {

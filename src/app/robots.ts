@@ -21,7 +21,6 @@ export default function robots(): MetadataRoute.Robots {
           "/admin/",
           "/api/",
           "/payment/",
-          "/design-preview/",
         ],
       },
     ],

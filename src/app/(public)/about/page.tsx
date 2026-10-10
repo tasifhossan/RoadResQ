@@ -9,10 +9,8 @@ import {
   HeartHandshake,
   Clock,
   Award,
-  Users,
   MapPin,
   CheckCircle2,
-  PhoneCall,
   Sparkles,
 } from "lucide-react";
 
