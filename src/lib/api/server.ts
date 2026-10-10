@@ -66,7 +66,10 @@ export async function serverFetch<T>(
         ? "Too many requests. Please try again later."
         : response.statusText || `Request failed with status ${status}`;
 
-    const message = responseData?.message || fallbackMessage;
+    let message = responseData?.message || fallbackMessage;
+    if (message.includes("Can't reach database server") || message.includes("prisma.")) {
+      message = "Database server is temporarily unreachable. Please try again in a few seconds.";
+    }
     const errors = responseData?.errors as FormattedError[] | undefined;
 
     throw new ApiError(status, message, errors);
