@@ -30,6 +30,7 @@ import {
 } from "lucide-react";
 
 import { queryKeys } from "@/lib/api/keys";
+import { formatMoney } from "@/lib/format";
 import { ServiceRequest, NearbyMechanicItem } from "@/lib/types/service-requests";
 import {
   getServiceRequestByIdApi,
@@ -426,7 +427,7 @@ export function RequestDetailClient({
               ) : (
                 <CreditCard className="h-4 w-4" />
               )}
-              Pay Now (${invoice.totalCost.toFixed(2)})
+              Pay Now ({formatMoney(invoice.totalCost)})
             </Button>
           )}
         </div>
@@ -850,9 +851,9 @@ export function RequestDetailClient({
                         {part.sparePart?.name || "Spare Part"}
                       </td>
                       <td className="p-3 text-center font-mono">{part.quantity}</td>
-                      <td className="p-3 text-right font-mono">${part.priceAtUse.toFixed(2)}</td>
+                      <td className="p-3 text-right font-mono">{formatMoney(part.priceAtUse)}</td>
                       <td className="p-3 text-right font-mono font-semibold">
-                        ${(part.quantity * part.priceAtUse).toFixed(2)}
+                        {formatMoney(part.quantity * part.priceAtUse)}
                       </td>
                     </tr>
                   ))}
@@ -881,17 +882,17 @@ export function RequestDetailClient({
           <CardContent className="pt-4 space-y-3">
             <div className="flex items-center justify-between text-sm py-1 border-b border-border/50">
               <span className="text-muted-foreground">Labor Cost</span>
-              <span className="font-mono font-medium">${invoice.laborCost.toFixed(2)}</span>
+              <span className="font-mono font-medium">{formatMoney(invoice.laborCost)}</span>
             </div>
 
             <div className="flex items-center justify-between text-sm py-1 border-b border-border/50">
               <span className="text-muted-foreground">Parts Cost</span>
-              <span className="font-mono font-medium">${invoice.partsCost.toFixed(2)}</span>
+              <span className="font-mono font-medium">{formatMoney(invoice.partsCost)}</span>
             </div>
 
             <div className="flex items-center justify-between text-base font-bold pt-2">
               <span>Total Amount</span>
-              <span className="font-mono text-primary text-lg">${invoice.totalCost.toFixed(2)}</span>
+              <span className="font-mono text-primary text-lg">{formatMoney(invoice.totalCost)}</span>
             </div>
           </CardContent>
 
@@ -927,7 +928,7 @@ export function RequestDetailClient({
                 ) : (
                   <CreditCard className="h-4 w-4" />
                 )}
-                Pay Now (${invoice.totalCost.toFixed(2)})
+                Pay Now ({formatMoney(invoice.totalCost)})
               </Button>
             </CardFooter>
           )}

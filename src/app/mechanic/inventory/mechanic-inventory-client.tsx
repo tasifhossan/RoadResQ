@@ -55,6 +55,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { queryKeys } from "@/lib/api/keys";
 import { Paginated } from "@/lib/api/types";
 import { toastApiError } from "@/lib/errors";
+import { formatMoney } from "@/lib/format";
 import { GetInventoryQueryInput, MechanicInventoryItem } from "@/lib/types/mechanics";
 import { SparePart } from "@/lib/types/spare-parts";
 import { LOW_STOCK_THRESHOLD } from "@/lib/validations/mechanic-inventory";
@@ -426,7 +427,7 @@ export function MechanicInventoryClient({
                             )}
                           </TableCell>
                           <TableCell className="font-medium text-foreground">
-                            ${Number(item.price).toFixed(2)}
+                            {formatMoney(item.price)}
                           </TableCell>
                           <TableCell className="font-medium">{item.stock} units</TableCell>
                           <TableCell>
@@ -518,7 +519,7 @@ export function MechanicInventoryClient({
                         <div className="flex items-center justify-between text-xs text-muted-foreground">
                           <span>Unit Price:</span>
                           <span className="font-semibold text-foreground text-sm">
-                            ${Number(item.price).toFixed(2)}
+                            {formatMoney(item.price)}
                           </span>
                         </div>
                         <div className="flex items-center justify-between text-xs text-muted-foreground">
@@ -673,7 +674,7 @@ export function MechanicInventoryClient({
             <div className="grid grid-cols-2 gap-3 pt-2">
               <div className="space-y-1.5">
                 <Label htmlFor="add-price" className="text-xs font-semibold">
-                  Unit Price ($)
+                  Unit Price (BDT)
                 </Label>
                 <Input
                   id="add-price"
@@ -781,7 +782,7 @@ export function MechanicInventoryClient({
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-1.5">
                   <Label htmlFor="edit-price" className="text-xs font-semibold">
-                    Unit Price ($)
+                    Unit Price (BDT)
                   </Label>
                   <Input
                     id="edit-price"

@@ -27,6 +27,7 @@ import {
 } from "lucide-react";
 
 import { queryKeys } from "@/lib/api/keys";
+import { formatMoney } from "@/lib/format";
 import { RequestStatus, ServiceRequest } from "@/lib/types/service-requests";
 import {
   getServiceRequestByIdApi,
@@ -633,7 +634,7 @@ export function MechanicRequestDetailClient({
             Spare Parts Used
           </CardTitle>
           <span className="text-xs font-semibold text-muted-foreground">
-            Parts Subtotal: ${partsSubtotal.toFixed(2)}
+            Parts Subtotal: {formatMoney(partsSubtotal)}
           </span>
         </CardHeader>
         <CardContent className="p-6 space-y-6">
@@ -663,7 +664,7 @@ export function MechanicRequestDetailClient({
                     <SelectContent className="rounded-xl">
                       {inventoryItems.map((item) => (
                         <SelectItem key={item.sparePartId} value={item.sparePartId} className="text-xs">
-                          {item.sparePart.name} - ${Number(item.price).toFixed(2)} ({item.stock} in stock)
+                          {item.sparePart.name} - {formatMoney(item.price)} ({item.stock} in stock)
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -711,7 +712,7 @@ export function MechanicRequestDetailClient({
 
               {selectedInventoryItem && (
                 <div className="flex items-center justify-between text-xs text-muted-foreground pt-1 border-t border-border/40">
-                  <span>Price at use: <strong className="text-foreground">${Number(selectedInventoryItem.price).toFixed(2)}</strong></span>
+                  <span>Price at use: <strong className="text-foreground">{formatMoney(selectedInventoryItem.price)}</strong></span>
                   <span>Available stock: <strong className={cn(selectedInventoryItem.stock > 0 ? "text-emerald-600 dark:text-emerald-400" : "text-destructive")}>{selectedInventoryItem.stock} items</strong></span>
                 </div>
               )}
@@ -741,10 +742,10 @@ export function MechanicRequestDetailClient({
                       </p>
                     </div>
                     <div className="text-muted-foreground">
-                      {part.quantity} × ${unitPrice.toFixed(2)}
+                      {part.quantity} × {formatMoney(unitPrice)}
                     </div>
                     <p className="font-bold text-foreground">
-                      ${lineTotal.toFixed(2)}
+                      {formatMoney(lineTotal)}
                     </p>
                   </div>
                 );
@@ -752,7 +753,7 @@ export function MechanicRequestDetailClient({
 
               <div className="p-4 bg-muted/20 flex justify-between items-center text-xs font-bold">
                 <span>Parts Subtotal</span>
-                <span className="text-sm font-extrabold text-primary">${partsSubtotal.toFixed(2)}</span>
+                <span className="text-sm font-extrabold text-primary">{formatMoney(partsSubtotal)}</span>
               </div>
             </div>
           ) : (
@@ -778,19 +779,19 @@ export function MechanicRequestDetailClient({
               <div>
                 <span className="text-muted-foreground block font-medium">Labor Cost</span>
                 <span className="text-sm font-bold text-foreground">
-                  ${Number(request.invoice.laborCost).toFixed(2)}
+                  {formatMoney(request.invoice.laborCost)}
                 </span>
               </div>
               <div>
                 <span className="text-muted-foreground block font-medium">Parts Cost</span>
                 <span className="text-sm font-bold text-foreground">
-                  ${Number(request.invoice.partsCost).toFixed(2)}
+                  {formatMoney(request.invoice.partsCost)}
                 </span>
               </div>
               <div>
                 <span className="text-muted-foreground block font-medium">Grand Total Amount</span>
                 <span className="text-base font-extrabold text-emerald-600 dark:text-emerald-400">
-                  ${Number(request.invoice.totalCost ?? request.invoice.laborCost).toFixed(2)}
+                  {formatMoney(request.invoice.totalCost ?? request.invoice.laborCost)}
                 </span>
               </div>
             </div>
@@ -802,7 +803,7 @@ export function MechanicRequestDetailClient({
                   Payment {request.invoice.payment.status} via {request.invoice.payment.gateway}
                 </p>
                 <p className="text-muted-foreground">
-                  Amount: ${Number(request.invoice.payment.amount).toFixed(2)}
+                  Amount: {formatMoney(request.invoice.payment.amount)}
                 </p>
               </div>
             )}
@@ -853,7 +854,7 @@ export function MechanicRequestDetailClient({
       >
         <div className="space-y-2 pt-2">
           <Label htmlFor="laborCostModal" className="text-xs font-semibold">
-            Labor Cost ($) <span className="text-destructive">*</span>
+            Labor Cost (BDT) <span className="text-destructive">*</span>
           </Label>
           <Input
             id="laborCostModal"
