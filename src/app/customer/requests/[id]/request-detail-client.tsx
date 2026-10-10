@@ -144,7 +144,7 @@ export function RequestDetailClient({
     enabled: canSearchAndAssign,
   });
 
-  const nearbyMechanics = nearbyData?.mechanics ?? [];
+  const nearbyMechanics: NearbyMechanicItem[] = nearbyData?.mechanics ?? [];
 
   // Images Query
   const { data: imagesData, refetch: refetchImages } = useQuery({
@@ -502,8 +502,8 @@ export function RequestDetailClient({
               </div>
             ) : (
               <div className="grid grid-cols-1 gap-3">
-                {nearbyMechanics.map((m) => {
-                  const distanceKm = m.distanceKm ?? m.distance;
+                {nearbyMechanics.map((m: NearbyMechanicItem) => {
+                  const distanceKm = m.distanceKm ?? m.distance ?? 0;
                   return (
                     <div
                       key={m.id}
@@ -522,7 +522,7 @@ export function RequestDetailClient({
                           <div className="flex items-center gap-3 text-xs text-muted-foreground flex-wrap">
                             <span className="flex items-center gap-1 font-semibold text-amber-500">
                               <Star className="h-3.5 w-3.5 fill-amber-500 text-amber-500" />
-                              {m.rating.toFixed(1)} Rating
+                              {(m.rating ?? 5.0).toFixed(1)} Rating
                             </span>
                             <span>•</span>
                             <span className="font-mono font-medium text-foreground">
@@ -534,7 +534,7 @@ export function RequestDetailClient({
 
                           {m.skills && m.skills.length > 0 && (
                             <div className="flex items-center gap-1 pt-1 flex-wrap">
-                              {m.skills.slice(0, 3).map((skill, idx) => (
+                              {m.skills.slice(0, 3).map((skill: string, idx: number) => (
                                 <Badge key={idx} variant="outline" className="text-[10px] px-2 py-0.5 rounded-md bg-muted/40">
                                   {skill}
                                 </Badge>

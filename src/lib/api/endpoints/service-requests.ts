@@ -68,12 +68,14 @@ export async function getNearbyMechanicsApi(
   lng: number,
   radiusKm: number = 10
 ): Promise<{ mechanics: NearbyMechanicItem[] }> {
-  return apiFetch<{ mechanics: NearbyMechanicItem[] }>(
+  const res = await apiFetch<{ items?: NearbyMechanicItem[]; mechanics?: NearbyMechanicItem[] }>(
     "service-requests/nearby-mechanics",
     {
       query: { lat, lng, radiusKm },
     }
   );
+  const items = res?.items ?? res?.mechanics ?? [];
+  return { mechanics: items };
 }
 
 export async function cancelServiceRequestApi(
