@@ -938,9 +938,10 @@ export function RequestWizardClient({ initialVehicles }: RequestWizardClientProp
                   >
                     <Image
                       src={photo.previewUrl}
-                      alt="Damage photo preview"
+                      alt={`Damage photo preview for ${photo.file.name}`}
                       unoptimized
                       fill
+                      sizes="(max-width: 640px) 50vw, 20vw"
                       className="object-cover"
                     />
 

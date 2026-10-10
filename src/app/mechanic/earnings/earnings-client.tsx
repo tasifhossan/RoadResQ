@@ -1,22 +1,12 @@
 "use client";
 
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { useQuery } from "@tanstack/react-query";
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  Legend,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
 import {
   CheckCircle2,
   Clock,
   Coins,
-  DollarSign,
   ExternalLink,
   Receipt,
   Star,
@@ -25,7 +15,6 @@ import {
 } from "lucide-react";
 import { PageHeader } from "@/components/shared/page-header";
 import { ErrorState } from "@/components/shared/error-state";
-import { EmptyState } from "@/components/shared/empty-state";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -34,6 +23,15 @@ import { queryKeys } from "@/lib/api/keys";
 import { formatDate, formatMoney } from "@/lib/format";
 import { EarningsSummary } from "@/lib/types/mechanics";
 import { getEarningsSummaryApi } from "@/lib/api/endpoints/mechanics";
+
+// Code-split Recharts component with fixed-height skeleton fallback to prevent layout shift
+const MechanicEarningsChart = dynamic(
+  () => import("@/components/mechanic/mechanic-earnings-chart").then((m) => m.MechanicEarningsChart),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="h-[380px] w-full rounded-2xl" />,
+  }
+);
 
 interface EarningsClientProps {
   initialData: EarningsSummary | null;
@@ -50,20 +48,6 @@ export function EarningsClient({ initialData, initialError }: EarningsClientProp
   const totals = data?.totals;
   const monthly = data?.monthly ?? [];
   const recent = data?.recent ?? [];
-
-  const chartData = monthly.map((m) => {
-    const labor = parseFloat(m.laborTotal) || 0;
-    const parts = parseFloat(m.partsTotal) || 0;
-    return {
-      month: m.month,
-      labor,
-      parts,
-      total: labor + parts,
-      jobs: m.jobs,
-    };
-  });
-
-  const isChartAllZero = chartData.every((m) => m.labor === 0 && m.parts === 0);
 
   return (
     <div className="space-y-6 pb-12">
@@ -206,149 +190,74 @@ export function EarningsClient({ initialData, initialError }: EarningsClientProp
             </Card>
           </div>
 
-          {/* Recharts Stacked Bar Chart */}
+          {/* Code-Split Dynamic Stacked Bar Chart */}
+          <MechanicEarningsChart monthly={monthly} />
+
+          {/* Recent Completed Invoices / Jobs Table */}
           <Card className="rounded-2xl border-border bg-card p-6 shadow-sm space-y-4">
-            <div>
-              <CardTitle className="text-lg font-bold">6-Month Earnings Breakdown</CardTitle>
-              <CardDescription className="text-xs text-muted-foreground">
-                Stacked monthly totals comparing labor revenue and spare parts revenue.
-              </CardDescription>
+            <div className="flex items-center justify-between">
+              <div>
+                <CardTitle className="text-lg font-bold flex items-center gap-2">
+                  <Receipt className="h-5 w-5 text-primary" />
+                  Recent Invoiced Jobs
+                </CardTitle>
+                <CardDescription className="text-xs text-muted-foreground">
+                  Completed requests with labor & parts breakdown.
+                </CardDescription>
+              </div>
+
+              <Link href="/mechanic/requests">
+                <Button variant="ghost" size="sm" className="rounded-xl gap-1.5 text-xs">
+                  View All Jobs
+                  <ExternalLink className="h-3.5 w-3.5" />
+                </Button>
+              </Link>
             </div>
 
-            {isChartAllZero ? (
-              <EmptyState
-                icon={<DollarSign className="h-6 w-6" />}
-                title="No earnings history yet"
-                description="Zero earnings recorded over the last 6 months. Complete service requests to see your revenue breakdown."
-              />
+            {recent.length === 0 ? (
+              <div className="py-8 text-center text-xs text-muted-foreground">
+                No recent invoiced jobs found.
+              </div>
             ) : (
-              <div
-                tabIndex={0}
-                role="region"
-                aria-label="Stacked Bar Chart showing 6-month earnings breakdown for labor and parts"
-                className="h-80 w-full pt-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-xl"
-              >
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={chartData} margin={{ top: 10, right: 10, left: 10, bottom: 20 }}>
-                    <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
-                    <XAxis
-                      dataKey="month"
-                      tickLine={false}
-                      className="text-xs text-muted-foreground"
-                    />
-                    <YAxis
-                      tickLine={false}
-                      axisLine={false}
-                      className="text-xs text-muted-foreground"
-                      tickFormatter={(val: number) => `$${val}`}
-                    />
-                    <Tooltip
-                      formatter={(val) => [
-                        formatMoney(typeof val === "number" || typeof val === "string" ? val : 0),
-                        "Revenue",
-                      ]}
-                      labelFormatter={(lbl) => `Month: ${String(lbl ?? "")}`}
-                      contentStyle={{
-                        backgroundColor: "var(--background)",
-                        borderColor: "var(--border)",
-                        borderRadius: "0.75rem",
-                        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
-                      }}
-                    />
-                    <Legend
-                      verticalAlign="top"
-                      height={36}
-                      formatter={(value: string) =>
-                        value === "labor" ? "Labor Revenue" : "Parts Revenue"
-                      }
-                    />
-                    <Bar
-                      dataKey="labor"
-                      stackId="a"
-                      fill="var(--color-primary, #2563eb)"
-                      name="labor"
-                      radius={[0, 0, 4, 4]}
-                    />
-                    <Bar
-                      dataKey="parts"
-                      stackId="a"
-                      fill="#10b981"
-                      name="parts"
-                      radius={[4, 4, 0, 0]}
-                    />
-                  </BarChart>
-                </ResponsiveContainer>
+              <div className="overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead className="text-xs">Invoice ID</TableHead>
+                      <TableHead className="text-xs">Service Request ID</TableHead>
+                      <TableHead className="text-xs">Total Amount</TableHead>
+                      <TableHead className="text-xs">Paid Date</TableHead>
+                      <TableHead className="text-xs text-right">Action</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {recent.map((item) => (
+                      <TableRow key={item.invoiceId}>
+                        <TableCell className="font-mono text-xs font-semibold text-foreground">
+                          {item.invoiceId.slice(-8)}
+                        </TableCell>
+                        <TableCell className="font-mono text-xs text-muted-foreground">
+                          {item.serviceRequestId.slice(-8)}
+                        </TableCell>
+                        <TableCell className="text-xs font-bold text-foreground">
+                          {formatMoney(item.total)}
+                        </TableCell>
+                        <TableCell className="text-xs text-muted-foreground whitespace-nowrap">
+                          {formatDate(item.paidAt)}
+                        </TableCell>
+                        <TableCell className="text-right">
+                          <Link href={`/mechanic/requests/${item.serviceRequestId}`}>
+                            <Button variant="ghost" size="sm" className="h-8 rounded-lg text-xs">
+                              Details
+                            </Button>
+                          </Link>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
               </div>
             )}
-          </Card>
-
-          {/* Recent Paid Invoices Table */}
-          <Card className="rounded-2xl border-border bg-card overflow-hidden shadow-sm">
-            <CardHeader className="p-6 pb-4">
-              <CardTitle className="text-lg font-bold flex items-center gap-2">
-                <Receipt className="h-5 w-5 text-primary" />
-                Recent Paid Invoices
-              </CardTitle>
-              <CardDescription className="text-xs text-muted-foreground">
-                Showing your last 10 paid job invoices with direct links to job details.
-              </CardDescription>
-            </CardHeader>
-
-            <CardContent className="p-0">
-              {recent.length === 0 ? (
-                <div className="p-8">
-                  <EmptyState
-                    icon={<Receipt className="h-6 w-6" />}
-                    title="No paid invoices found"
-                    description="You don't have any paid invoices recorded yet."
-                  />
-                </div>
-              ) : (
-                <div className="overflow-x-auto">
-                  <Table>
-                    <TableHeader>
-                      <TableRow className="bg-muted/40 hover:bg-muted/40">
-                        <TableHead className="font-semibold">Invoice ID</TableHead>
-                        <TableHead className="font-semibold">Job / Request</TableHead>
-                        <TableHead className="font-semibold">Paid Date</TableHead>
-                        <TableHead className="font-semibold text-right">Amount Paid</TableHead>
-                        <TableHead className="font-semibold text-right">View Job</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {recent.map((inv) => (
-                        <TableRow key={inv.invoiceId} className="hover:bg-muted/30 transition-colors">
-                          <TableCell className="font-mono text-xs text-muted-foreground">
-                            {inv.invoiceId.slice(0, 8)}...
-                          </TableCell>
-                          <TableCell className="font-medium text-foreground">
-                            <span className="font-mono text-xs">{inv.serviceRequestId.slice(0, 8)}...</span>
-                          </TableCell>
-                          <TableCell className="text-xs text-muted-foreground">
-                            {formatDate(inv.paidAt)}
-                          </TableCell>
-                          <TableCell className="text-right font-semibold text-foreground">
-                            {formatMoney(inv.total)}
-                          </TableCell>
-                          <TableCell className="text-right">
-                            <Link href={`/mechanic/requests/${inv.serviceRequestId}`}>
-                              <Button
-                                variant="ghost"
-                                size="sm"
-                                className="rounded-xl h-8 text-xs gap-1 text-primary hover:text-primary hover:bg-primary/10"
-                              >
-                                View Job
-                                <ExternalLink className="h-3.5 w-3.5" />
-                              </Button>
-                            </Link>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </div>
-              )}
-            </CardContent>
           </Card>
         </>
       )}

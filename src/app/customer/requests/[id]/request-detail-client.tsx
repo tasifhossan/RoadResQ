@@ -716,8 +716,9 @@ export function RequestDetailClient({
                 >
                   <Image
                     src={img.url}
-                    alt="Damage photo"
+                    alt={`Vehicle damage photo ${img.id}`}
                     fill
+                    sizes="(max-width: 640px) 50vw, 20vw"
                     className="object-cover"
                   />
                 </a>
@@ -782,9 +783,10 @@ export function RequestDetailClient({
                     >
                       <Image
                         src={photo.previewUrl}
-                        alt="Retry preview"
+                        alt={`Preview for ${photo.file.name}`}
                         unoptimized
                         fill
+                        sizes="(max-width: 640px) 50vw, 20vw"
                         className="object-cover"
                       />
 
