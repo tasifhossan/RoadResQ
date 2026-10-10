@@ -77,8 +77,9 @@ export function UserMenu({ defaultName = "User", defaultRole = "CUSTOMER" }: Use
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem
+          variant="destructive"
           onClick={handleLogout}
-          className="rounded-lg cursor-pointer text-destructive focus:text-destructive focus:bg-destructive/10"
+          className="rounded-lg cursor-pointer font-medium"
         >
           <LogOut className="mr-2 h-4 w-4" />
           <span>Log out</span>
