@@ -151,7 +151,7 @@ export function RequestDetailClient({
     queryKey: ["service-requests", requestId, "images"],
     queryFn: async () => {
       const res = await getServiceRequestImagesApi(requestId);
-      return res.images;
+      return res?.images ?? [];
     },
     initialData: request.images ?? undefined,
   });
