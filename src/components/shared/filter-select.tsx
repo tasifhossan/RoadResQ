@@ -28,6 +28,7 @@ export interface FilterSelectProps {
 
 export function FilterSelect({
   paramName,
+  label,
   placeholder = "Select filter...",
   options,
   allLabel = "All",
@@ -47,7 +48,13 @@ export function FilterSelect({
       : !defaultValue && !options.some((o) => o.label.toLowerCase() === allLabel.toLowerCase());
 
   const fallbackValue = shouldShowAll ? "all" : (defaultValue || options[0]?.value || "all");
-  const currentValue = searchParams.get(paramName) || fallbackValue;
+  const rawValue = searchParams.get(paramName);
+
+  const isValidValue =
+    rawValue !== null &&
+    ((shouldShowAll && rawValue === "all") || options.some((o) => o.value === rawValue));
+
+  const currentValue = isValidValue && rawValue !== null ? rawValue : fallbackValue;
 
   const handleChange = (val: string | null) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -72,10 +79,15 @@ export function FilterSelect({
       ? allLabel
       : selectedOption?.label || currentValue;
 
+  const accessibleLabel = label || placeholder || allLabel;
+
   return (
     <div className={cn("w-full max-w-[200px]", className)}>
       <Select value={currentValue} onValueChange={handleChange}>
-        <SelectTrigger className="rounded-xl bg-card border-border shadow-sm">
+        <SelectTrigger
+          aria-label={accessibleLabel}
+          className="rounded-xl bg-card border-border shadow-sm"
+        >
           <SelectValue placeholder={placeholder}>{selectedLabel}</SelectValue>
         </SelectTrigger>
         <SelectContent className="rounded-xl">
