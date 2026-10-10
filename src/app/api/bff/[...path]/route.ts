@@ -47,9 +47,13 @@ async function handleBffRequest(request: NextRequest, { params }: RouteParams) {
   // 2. CSRF check for non-GET methods
   if (request.method !== "GET") {
     const origin = request.headers.get("origin");
-    const host = request.headers.get("host") || request.headers.get("x-forwarded-host");
+    const rawForwardedHost = request.headers.get("x-forwarded-host");
+    const firstForwardedHost = rawForwardedHost
+      ? rawForwardedHost.split(",")[0].trim()
+      : null;
+    const targetHost = firstForwardedHost || request.headers.get("host");
 
-    if (!origin || !host) {
+    if (!origin || !targetHost) {
       return NextResponse.json(
         { success: false, message: "Cross-origin requests forbidden" },
         { status: 403 }
@@ -58,7 +62,7 @@ async function handleBffRequest(request: NextRequest, { params }: RouteParams) {
 
     try {
       const originHost = new URL(origin).host;
-      if (originHost.toLowerCase() !== host.toLowerCase()) {
+      if (originHost.toLowerCase() !== targetHost.toLowerCase()) {
         return NextResponse.json(
           { success: false, message: "Cross-origin requests forbidden" },
           { status: 403 }
