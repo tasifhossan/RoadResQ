@@ -359,17 +359,6 @@ export function RequestDetailClient({
             Back to My Requests
           </Button>
         </Link>
-
-        {isNonTerminal ? (
-          <Badge variant="outline" className="font-mono text-xs px-2.5 py-1 rounded-full border-blue-500/30 bg-blue-500/10 text-blue-600 dark:text-blue-400 gap-1.5 animate-pulse">
-            <span className="h-2 w-2 rounded-full bg-blue-500 animate-ping" />
-            Live Polling (5s)
-          </Badge>
-        ) : (
-          <Badge variant="outline" className="font-mono text-xs px-2.5 py-1 rounded-full bg-muted text-muted-foreground">
-            Status Finalized
-          </Badge>
-        )}
       </div>
 
       {/* Upload Failed Warning Banner */}
