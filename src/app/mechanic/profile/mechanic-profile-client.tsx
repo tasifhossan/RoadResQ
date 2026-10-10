@@ -224,8 +224,9 @@ export function MechanicProfileClient({
                       <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
                       <Input
                         id="user-email"
-                        value={user.email}
+                        value={user?.email ?? ""}
                         disabled
+                        readOnly
                         className="pl-9 rounded-xl bg-muted/40 text-muted-foreground"
                       />
                     </div>
