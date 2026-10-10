@@ -27,7 +27,6 @@ import { DataTable, Column } from "@/components/shared/data-table";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 
 interface CustomerRequestsClientProps {
   initialData: Paginated<ServiceRequest> | null;
@@ -150,10 +149,12 @@ export function CustomerRequestsClient({
       header: "",
       className: "text-right",
       cell: (item) => (
-        <Button variant="ghost" size="sm" className="rounded-xl gap-1 text-xs">
-          View
-          <ArrowRight className="h-3.5 w-3.5" />
-        </Button>
+        <Link href={`/customer/requests/${item.id}`}>
+          <Button variant="ghost" size="sm" className="rounded-xl gap-1 text-xs">
+            View
+            <ArrowRight className="h-3.5 w-3.5" />
+          </Button>
+        </Link>
       ),
     },
   ];
