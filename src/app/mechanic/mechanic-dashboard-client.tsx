@@ -112,14 +112,15 @@ export function MechanicDashboardClient({
         queryKeys.auth.me()
       );
 
-      if (previousUserData) {
+      const baseUser = previousUserData?.user || currentUser || initialUser;
+
+      if (baseUser) {
         queryClient.setQueryData<{ user: UserProfile }>(queryKeys.auth.me(), {
-          ...previousUserData,
           user: {
-            ...previousUserData.user,
-            mechanicProfile: previousUserData.user.mechanicProfile
+            ...baseUser,
+            mechanicProfile: baseUser.mechanicProfile
               ? {
-                  ...previousUserData.user.mechanicProfile,
+                  ...baseUser.mechanicProfile,
                   availability: newAvailability,
                 }
               : null,
@@ -135,11 +136,27 @@ export function MechanicDashboardClient({
       }
       toastApiError(err, "Failed to update availability");
     },
-    onSuccess: () => {
+    onSuccess: (res) => {
       toast.success("Availability updated successfully");
+      if (res?.mechanicProfile) {
+        queryClient.setQueryData<{ user: UserProfile }>(queryKeys.auth.me(), (old) => {
+          const baseUser = old?.user || currentUser || initialUser;
+          if (!baseUser) return old;
+          return {
+            user: {
+              ...baseUser,
+              mechanicProfile: {
+                ...(baseUser.mechanicProfile || {}),
+                ...res.mechanicProfile,
+              } as NonNullable<UserProfile["mechanicProfile"]>,
+            },
+          };
+        });
+      }
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.auth.me() });
+      queryClient.refetchQueries({ queryKey: queryKeys.auth.me() });
       queryClient.invalidateQueries({ queryKey: queryKeys.serviceRequests.assigned() });
     },
   });
