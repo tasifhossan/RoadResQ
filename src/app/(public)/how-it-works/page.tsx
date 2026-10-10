@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { StatusBadge } from "@/components/shared/status-badge";
-import { REQUEST_STATUSES } from "@/lib/api/types";
 import {
   UserPlus,
   MapPin,
@@ -16,7 +15,6 @@ import {
   FileText,
   CreditCard,
   Star,
-  ShieldAlert,
 } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -139,41 +137,7 @@ export default function HowItWorksPage() {
           </p>
         </div>
 
-        {/* Real Status Flow Diagram */}
-        <div className="mb-16 p-6 sm:p-8 rounded-3xl border border-border/80 bg-card shadow-sm space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-border/60">
-            <div>
-              <h2 className="text-xl font-bold text-foreground flex items-center gap-2">
-                <Clock className="h-5 w-5 text-primary" />
-                Service Request Status Lifecycle
-              </h2>
-              <p className="text-xs sm:text-sm text-muted-foreground mt-0.5">
-                Exact backend RequestStatus values and lifecycle transitions.
-              </p>
-            </div>
-            <Badge variant="outline" className="w-fit text-xs font-mono bg-muted">
-              Backend Enum: RequestStatus
-            </Badge>
-          </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
-            {REQUEST_STATUSES.map((status, index) => (
-              <div key={status} className="flex flex-col items-center p-3 rounded-xl border border-border/50 bg-background text-center space-y-1.5">
-                <span className="text-[10px] font-mono text-muted-foreground font-semibold">STATE {index + 1}</span>
-                <StatusBadge status={status} />
-              </div>
-            ))}
-          </div>
-
-          {/* Cancellation Rules Note */}
-          <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-start gap-3 text-xs sm:text-sm text-amber-900 dark:text-amber-300">
-            <ShieldAlert className="h-5 w-5 shrink-0 text-amber-600 dark:text-amber-400 mt-0.5" />
-            <div>
-              <span className="font-semibold text-amber-900 dark:text-amber-200">Cancellation Rules & Restrictions: </span>
-              A service request can be cancelled by the customer while in <span className="font-mono font-medium">PENDING</span>, <span className="font-mono font-medium">SEARCHING</span>, <span className="font-mono font-medium">ASSIGNED</span>, <span className="font-mono font-medium">EN_ROUTE</span>, or <span className="font-mono font-medium">ARRIVED</span> status. Once status advances to <span className="font-mono font-medium">IN_PROGRESS</span> or <span className="font-mono font-medium">COMPLETED</span>, cancellation is locked to protect repair work in progress.
-            </div>
-          </div>
-        </div>
 
         {/* Numbered Steps */}
         <div className="space-y-8 mb-16">
