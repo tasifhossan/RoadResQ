@@ -119,7 +119,7 @@ export default function AboutPage() {
               </div>
               <h3 className="text-base font-bold text-foreground">Live Tracking</h3>
               <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
-                Track your mechanic's progress step-by-step from arrival to repair completion in real time.
+                Track your mechanic&apos;s progress step-by-step from arrival to repair completion in real time.
               </p>
             </Card>
           </div>

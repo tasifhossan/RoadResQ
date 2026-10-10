@@ -52,21 +52,10 @@ interface AuditLogsClientProps {
   queryParams: GetAuditLogsQueryInput;
 }
 
-const REAL_ENTITY_TYPES = [
-  { label: "Service Request", value: "ServiceRequest" },
-  { label: "Mechanic Inventory", value: "MechanicInventory" },
-  { label: "User", value: "User" },
-  { label: "System", value: "System" },
-];
-
-const REAL_ACTIONS = [
-  { label: "Status Change", value: "STATUS_CHANGE" },
-  { label: "Restock", value: "RESTOCK" },
-  { label: "Update User Role", value: "UPDATE_USER_ROLE" },
-  { label: "Deactivate User", value: "DEACTIVATE_USER" },
-  { label: "Reactivate User", value: "REACTIVATE_USER" },
-  { label: "Database Seed", value: "DATABASE_SEED" },
-];
+import {
+  AUDIT_ENTITY_TYPE_FILTER_OPTIONS,
+  AUDIT_ACTION_FILTER_OPTIONS,
+} from "@/lib/constants/filter-options";
 
 export function AuditLogsClient({
   initialData,
@@ -221,14 +210,14 @@ export function AuditLogsClient({
               paramName="entityType"
               placeholder="Entity Type"
               allLabel="All Entities"
-              options={REAL_ENTITY_TYPES}
+              options={AUDIT_ENTITY_TYPE_FILTER_OPTIONS}
               className="w-full sm:w-48"
             />
             <FilterSelect
               paramName="action"
               placeholder="Action"
               allLabel="All Actions"
-              options={REAL_ACTIONS}
+              options={AUDIT_ACTION_FILTER_OPTIONS}
               className="w-full sm:w-52"
             />
           </div>

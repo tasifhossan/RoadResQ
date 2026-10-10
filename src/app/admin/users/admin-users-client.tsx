@@ -20,6 +20,12 @@ import { ErrorState } from "@/components/shared/error-state";
 import { EmptyState } from "@/components/shared/empty-state";
 import { SearchInput } from "@/components/shared/search-input";
 import { FilterSelect } from "@/components/shared/filter-select";
+import {
+  ROLE_FILTER_OPTIONS,
+  USER_ACTIVE_FILTER_OPTIONS,
+  USER_SORT_BY_OPTIONS,
+  USER_SORT_ORDER_OPTIONS,
+} from "@/lib/constants/filter-options";
 import { UrlPagination } from "@/components/shared/url-pagination";
 import { StatusBadge } from "@/components/shared/status-badge";
 import { ConfirmDialog } from "@/components/shared/confirm-dialog";
@@ -168,20 +174,13 @@ export function AdminUsersClient({
             paramName="role"
             placeholder="Filter Role"
             allLabel="All Roles"
-            options={[
-              { label: "Customer", value: "CUSTOMER" },
-              { label: "Mechanic", value: "MECHANIC" },
-              { label: "Admin", value: "ADMIN" },
-            ]}
+            options={ROLE_FILTER_OPTIONS}
           />
           <FilterSelect
             paramName="isActive"
             placeholder="Filter Status"
             allLabel="All Statuses"
-            options={[
-              { label: "Active", value: "true" },
-              { label: "Deactivated", value: "false" },
-            ]}
+            options={USER_ACTIVE_FILTER_OPTIONS}
           />
         </div>
 
@@ -191,10 +190,7 @@ export function AdminUsersClient({
             placeholder="Sort By"
             defaultValue="createdAt"
             showAllOption={false}
-            options={[
-              { label: "Date Created", value: "createdAt" },
-              { label: "Name", value: "name" },
-            ]}
+            options={USER_SORT_BY_OPTIONS}
             className="w-36"
           />
           <FilterSelect
@@ -202,10 +198,7 @@ export function AdminUsersClient({
             placeholder="Order"
             defaultValue="desc"
             showAllOption={false}
-            options={[
-              { label: "Descending", value: "desc" },
-              { label: "Ascending", value: "asc" },
-            ]}
+            options={USER_SORT_ORDER_OPTIONS}
             className="w-32"
           />
         </div>

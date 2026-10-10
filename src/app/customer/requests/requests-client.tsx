@@ -13,12 +13,12 @@ import {
 } from "lucide-react";
 
 import { queryKeys } from "@/lib/api/keys";
-import { Paginated, REQUEST_STATUSES } from "@/lib/api/types";
+import { Paginated } from "@/lib/api/types";
 import { ServiceRequest, ServiceRequestListQueryInput } from "@/lib/types/service-requests";
 import { getMyServiceRequestsApi } from "@/lib/api/endpoints/service-requests";
 
 import { PageHeader } from "@/components/shared/page-header";
-import { FilterSelect, FilterOption } from "@/components/shared/filter-select";
+import { FilterSelect } from "@/components/shared/filter-select";
 import { UrlPagination } from "@/components/shared/url-pagination";
 import { EmptyState } from "@/components/shared/empty-state";
 import { ErrorState } from "@/components/shared/error-state";
@@ -34,20 +34,11 @@ interface CustomerRequestsClientProps {
   queryParams: ServiceRequestListQueryInput;
 }
 
-const STATUS_FILTER_OPTIONS: FilterOption[] = REQUEST_STATUSES.map((status) => ({
-  label: status.replace("_", " "),
-  value: status,
-}));
-
-const SORT_BY_OPTIONS: FilterOption[] = [
-  { label: "Created Date", value: "createdAt" },
-  { label: "Updated Date", value: "updatedAt" },
-];
-
-const SORT_ORDER_OPTIONS: FilterOption[] = [
-  { label: "Newest First", value: "desc" },
-  { label: "Oldest First", value: "asc" },
-];
+import {
+  REQUEST_STATUS_FILTER_OPTIONS,
+  REQUEST_SORT_BY_OPTIONS,
+  REQUEST_SORT_ORDER_OPTIONS,
+} from "@/lib/constants/filter-options";
 
 export function CustomerRequestsClient({
   initialData,
@@ -181,7 +172,7 @@ export function CustomerRequestsClient({
             paramName="status"
             placeholder="All Statuses"
             allLabel="All Statuses"
-            options={STATUS_FILTER_OPTIONS}
+            options={REQUEST_STATUS_FILTER_OPTIONS}
             className="w-full sm:w-44"
           />
 
@@ -190,7 +181,7 @@ export function CustomerRequestsClient({
             placeholder="Sort by"
             defaultValue="createdAt"
             showAllOption={false}
-            options={SORT_BY_OPTIONS}
+            options={REQUEST_SORT_BY_OPTIONS}
             className="w-full sm:w-44"
           />
 
@@ -199,7 +190,7 @@ export function CustomerRequestsClient({
             placeholder="Order"
             defaultValue="desc"
             showAllOption={false}
-            options={SORT_ORDER_OPTIONS}
+            options={REQUEST_SORT_ORDER_OPTIONS}
             className="w-full sm:w-40"
           />
         </div>

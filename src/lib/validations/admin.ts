@@ -30,12 +30,14 @@ export const getUsersQuerySchema = z
 
 export type GetUsersQueryInput = z.infer<typeof getUsersQuerySchema>;
 
+import { AUDIT_ACTIONS, AUDIT_ENTITY_TYPES } from "@/lib/constants/filter-options";
+
 export const getAuditLogsQuerySchema = z
   .object({
     page: z.coerce.number().int().min(1).optional().default(1),
     limit: z.coerce.number().int().min(1).max(50).optional().default(10),
-    entityType: z.string().optional(),
-    action: z.string().optional(),
+    entityType: z.enum(AUDIT_ENTITY_TYPES).optional(),
+    action: z.enum(AUDIT_ACTIONS).optional(),
     from: z.string().optional(),
     to: z.string().optional(),
   })

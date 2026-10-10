@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 
 import { queryKeys } from "@/lib/api/keys";
-import { Paginated, REQUEST_STATUSES, RequestStatus } from "@/lib/api/types";
+import { Paginated, RequestStatus } from "@/lib/api/types";
 import { ServiceRequest, ServiceRequestListQueryInput } from "@/lib/types/service-requests";
 import { getAssignedServiceRequestsApi } from "@/lib/api/endpoints/service-requests";
 
@@ -26,6 +26,10 @@ import { ErrorState } from "@/components/shared/error-state";
 import { DataTable, Column } from "@/components/shared/data-table";
 import { UrlPagination } from "@/components/shared/url-pagination";
 import { FilterSelect } from "@/components/shared/filter-select";
+import {
+  REQUEST_STATUS_FILTER_OPTIONS,
+  REQUEST_SORT_BY_OPTIONS,
+} from "@/lib/constants/filter-options";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -201,10 +205,7 @@ export function JobsListClient({
             paramName="status"
             placeholder="All Statuses"
             allLabel="All Statuses"
-            options={REQUEST_STATUSES.map((status) => ({
-              label: status.replace("_", " "),
-              value: status,
-            }))}
+            options={REQUEST_STATUS_FILTER_OPTIONS}
             className="w-[170px]"
           />
         </div>
@@ -216,10 +217,7 @@ export function JobsListClient({
             placeholder="Sort by"
             defaultValue="createdAt"
             showAllOption={false}
-            options={[
-              { label: "Newest First", value: "createdAt" },
-              { label: "Recently Updated", value: "updatedAt" },
-            ]}
+            options={REQUEST_SORT_BY_OPTIONS}
             className="w-[170px]"
           />
         </div>

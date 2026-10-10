@@ -12,12 +12,11 @@ import {
 import { queryKeys } from "@/lib/api/keys";
 import { Paginated } from "@/lib/api/types";
 import { GetMyPaymentsQueryInput, MyPaymentItem } from "@/lib/types/payments";
-import { PAYMENT_STATUSES } from "@/lib/validations/payments";
 import { getMyPaymentsApi } from "@/lib/api/endpoints/payments";
 import { formatMoney, formatDate } from "@/lib/format";
 
 import { PageHeader } from "@/components/shared/page-header";
-import { FilterSelect, FilterOption } from "@/components/shared/filter-select";
+import { FilterSelect } from "@/components/shared/filter-select";
 import { UrlPagination } from "@/components/shared/url-pagination";
 import { EmptyState } from "@/components/shared/empty-state";
 import { ErrorState } from "@/components/shared/error-state";
@@ -33,10 +32,7 @@ interface CustomerPaymentsClientProps {
   queryParams: GetMyPaymentsQueryInput;
 }
 
-const STATUS_FILTER_OPTIONS: FilterOption[] = PAYMENT_STATUSES.map((status) => ({
-  label: status,
-  value: status,
-}));
+import { PAYMENT_STATUS_FILTER_OPTIONS } from "@/lib/constants/filter-options";
 
 export function CustomerPaymentsClient({
   initialData,
@@ -162,7 +158,7 @@ export function CustomerPaymentsClient({
             paramName="status"
             placeholder="All Payment Statuses"
             allLabel="All Payment Statuses"
-            options={STATUS_FILTER_OPTIONS}
+            options={PAYMENT_STATUS_FILTER_OPTIONS}
             className="w-full sm:w-52"
           />
         </div>

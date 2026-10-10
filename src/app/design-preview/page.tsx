@@ -16,6 +16,7 @@ import {
   ConfirmDialog,
   FormField,
 } from "@/components/shared";
+import { REQUEST_STATUS_FILTER_OPTIONS } from "@/lib/constants/filter-options";
 import { UserMenu } from "@/components/layout/user-menu";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -216,11 +217,7 @@ export default function DesignPreviewPage() {
             <FilterSelect
               paramName="status"
               placeholder="Filter by status"
-              options={[
-                { label: "Pending", value: "PENDING" },
-                { label: "In Progress", value: "IN_PROGRESS" },
-                { label: "Completed", value: "COMPLETED" },
-              ]}
+              options={REQUEST_STATUS_FILTER_OPTIONS}
             />
           </div>
 
