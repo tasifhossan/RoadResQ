@@ -188,7 +188,8 @@ export function CustomerRequestsClient({
           <FilterSelect
             paramName="sortBy"
             placeholder="Sort by"
-            allLabel="Sort by Created Date"
+            defaultValue="createdAt"
+            showAllOption={false}
             options={SORT_BY_OPTIONS}
             className="w-full sm:w-44"
           />
@@ -196,7 +197,8 @@ export function CustomerRequestsClient({
           <FilterSelect
             paramName="sortOrder"
             placeholder="Order"
-            allLabel="Newest First"
+            defaultValue="desc"
+            showAllOption={false}
             options={SORT_ORDER_OPTIONS}
             className="w-full sm:w-40"
           />

@@ -189,7 +189,8 @@ export function AdminUsersClient({
           <FilterSelect
             paramName="sortBy"
             placeholder="Sort By"
-            allLabel="Sort By"
+            defaultValue="createdAt"
+            showAllOption={false}
             options={[
               { label: "Date Created", value: "createdAt" },
               { label: "Name", value: "name" },
@@ -199,7 +200,8 @@ export function AdminUsersClient({
           <FilterSelect
             paramName="sortOrder"
             placeholder="Order"
-            allLabel="Order"
+            defaultValue="desc"
+            showAllOption={false}
             options={[
               { label: "Descending", value: "desc" },
               { label: "Ascending", value: "asc" },

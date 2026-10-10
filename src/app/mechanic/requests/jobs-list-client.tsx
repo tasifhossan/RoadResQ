@@ -214,7 +214,8 @@ export function JobsListClient({
           <FilterSelect
             paramName="sortBy"
             placeholder="Sort by"
-            allLabel="Newest First"
+            defaultValue="createdAt"
+            showAllOption={false}
             options={[
               { label: "Newest First", value: "createdAt" },
               { label: "Recently Updated", value: "updatedAt" },

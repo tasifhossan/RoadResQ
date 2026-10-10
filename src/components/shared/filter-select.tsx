@@ -21,6 +21,8 @@ export interface FilterSelectProps {
   placeholder?: string;
   options: FilterOption[];
   allLabel?: string;
+  showAllOption?: boolean;
+  defaultValue?: string;
   className?: string;
 }
 
@@ -29,17 +31,29 @@ export function FilterSelect({
   placeholder = "Select filter...",
   options,
   allLabel = "All",
+  showAllOption,
+  defaultValue,
   className,
 }: FilterSelectProps) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const currentValue = searchParams.get(paramName) || "all";
+  // Deduplicate: Omit 'all' option if showAllOption is false, or if defaultValue is provided,
+  // or if one of the options already has a label matching allLabel.
+  const shouldShowAll =
+    showAllOption !== undefined
+      ? showAllOption
+      : !defaultValue && !options.some((o) => o.label.toLowerCase() === allLabel.toLowerCase());
+
+  const fallbackValue = shouldShowAll ? "all" : (defaultValue || options[0]?.value || "all");
+  const currentValue = searchParams.get(paramName) || fallbackValue;
 
   const handleChange = (val: string | null) => {
     const params = new URLSearchParams(searchParams.toString());
-    if (val && val !== "all") {
+    const resetValue = shouldShowAll ? "all" : (defaultValue || options[0]?.value);
+
+    if (val && val !== resetValue && val !== "all") {
       params.set(paramName, val);
     } else {
       params.delete(paramName);
@@ -52,10 +66,11 @@ export function FilterSelect({
     router.push(targetUrl);
   };
 
+  const selectedOption = options.find((o) => o.value === currentValue);
   const selectedLabel =
-    currentValue === "all"
+    currentValue === "all" && shouldShowAll
       ? allLabel
-      : options.find((o) => o.value === currentValue)?.label || currentValue;
+      : selectedOption?.label || currentValue;
 
   return (
     <div className={cn("w-full max-w-[200px]", className)}>
@@ -64,7 +79,7 @@ export function FilterSelect({
           <SelectValue placeholder={placeholder}>{selectedLabel}</SelectValue>
         </SelectTrigger>
         <SelectContent className="rounded-xl">
-          <SelectItem value="all">{allLabel}</SelectItem>
+          {shouldShowAll && <SelectItem value="all">{allLabel}</SelectItem>}
           {options.map((opt) => (
             <SelectItem key={opt.value} value={opt.value}>
               {opt.label}
