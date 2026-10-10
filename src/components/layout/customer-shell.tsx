@@ -32,7 +32,15 @@ export function CustomerShell({ children }: { children: React.ReactNode }) {
           {customerNavItems.map((item) => {
             const Icon = item.icon;
             const isActive =
-              pathname === item.href || (item.href !== "/customer" && pathname.startsWith(item.href));
+              pathname === item.href ||
+              (item.href !== "/customer" &&
+                pathname.startsWith(item.href + "/") &&
+                !customerNavItems.some(
+                  (other) =>
+                    other.href !== item.href &&
+                    other.href.length > item.href.length &&
+                    (pathname === other.href || pathname.startsWith(other.href + "/"))
+                ));
 
             return (
               <Link
@@ -76,7 +84,15 @@ export function CustomerShell({ children }: { children: React.ReactNode }) {
         {customerNavItems.map((item) => {
           const Icon = item.icon;
           const isActive =
-            pathname === item.href || (item.href !== "/customer" && pathname.startsWith(item.href));
+            pathname === item.href ||
+            (item.href !== "/customer" &&
+              pathname.startsWith(item.href + "/") &&
+              !customerNavItems.some(
+                (other) =>
+                  other.href !== item.href &&
+                  other.href.length > item.href.length &&
+                  (pathname === other.href || pathname.startsWith(other.href + "/"))
+              ));
 
           return (
             <Link
