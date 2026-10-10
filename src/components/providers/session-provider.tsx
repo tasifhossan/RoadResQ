@@ -30,7 +30,7 @@ export interface SessionProviderProps {
 
 export function useSessionQuery(enabled = true) {
   return useQuery<{ user: SessionUser | null }>({
-    queryKey: queryKeys.auth.me(),
+    queryKey: queryKeys.auth.session(),
     queryFn: async () => {
       const res = await fetch("/api/auth/me", { cache: "no-store" });
       if (!res.ok) return { user: null };

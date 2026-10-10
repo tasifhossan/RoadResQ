@@ -5,6 +5,7 @@
 export const queryKeys = {
   auth: {
     me: () => ["auth", "me"] as const,
+    session: () => ["auth", "session"] as const,
   },
   users: {
     all: (filters?: Record<string, unknown>) => ["users", filters] as const,

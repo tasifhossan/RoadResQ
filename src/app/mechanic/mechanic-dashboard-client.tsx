@@ -156,7 +156,6 @@ export function MechanicDashboardClient({
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.auth.me() });
-      queryClient.refetchQueries({ queryKey: queryKeys.auth.me() });
       queryClient.invalidateQueries({ queryKey: queryKeys.serviceRequests.assigned() });
     },
   });
