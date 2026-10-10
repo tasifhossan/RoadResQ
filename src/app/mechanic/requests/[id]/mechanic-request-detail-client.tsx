@@ -791,7 +791,7 @@ export function MechanicRequestDetailClient({
               <div>
                 <span className="text-muted-foreground block font-medium">Grand Total Amount</span>
                 <span className="text-base font-extrabold text-emerald-600 dark:text-emerald-400">
-                  {formatMoney(request.invoice.totalCost ?? request.invoice.laborCost)}
+                  {formatMoney(request.invoice.totalAmount ?? request.invoice.totalCost ?? request.invoice.total ?? request.invoice.laborCost)}
                 </span>
               </div>
             </div>

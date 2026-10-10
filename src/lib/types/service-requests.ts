@@ -66,7 +66,9 @@ export interface ServiceRequestInvoice {
   customerId: string;
   laborCost: number;
   partsCost: number;
-  totalCost: number;
+  totalAmount?: number;
+  totalCost?: number;
+  total?: number;
   status: "PENDING" | "PAID" | "FAILED" | "REFUNDED";
   createdAt: string;
   updatedAt: string;

@@ -427,7 +427,7 @@ export function RequestDetailClient({
               ) : (
                 <CreditCard className="h-4 w-4" />
               )}
-              Pay Now ({formatMoney(invoice.totalCost)})
+              Pay Now ({formatMoney(invoice.totalAmount ?? invoice.totalCost ?? invoice.total)})
             </Button>
           )}
         </div>
@@ -892,7 +892,7 @@ export function RequestDetailClient({
 
             <div className="flex items-center justify-between text-base font-bold pt-2">
               <span>Total Amount</span>
-              <span className="font-mono text-primary text-lg">{formatMoney(invoice.totalCost)}</span>
+              <span className="font-mono text-primary text-lg">{formatMoney(invoice.totalAmount ?? invoice.totalCost ?? invoice.total)}</span>
             </div>
           </CardContent>
 
@@ -928,7 +928,7 @@ export function RequestDetailClient({
                 ) : (
                   <CreditCard className="h-4 w-4" />
                 )}
-                Pay Now ({formatMoney(invoice.totalCost)})
+                Pay Now ({formatMoney(invoice.totalAmount ?? invoice.totalCost ?? invoice.total)})
               </Button>
             </CardFooter>
           )}
