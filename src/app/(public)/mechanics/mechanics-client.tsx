@@ -61,10 +61,9 @@ const AVAILABILITY_OPTIONS = [
 ];
 
 const MIN_JOBS_OPTIONS = [
-  { label: "10+ jobs", value: "10" },
-  { label: "25+ jobs", value: "25" },
-  { label: "50+ jobs", value: "50" },
-  { label: "100+ jobs", value: "100" },
+  { label: "1+ jobs", value: "1" },
+  { label: "3+ jobs", value: "3" },
+  { label: "5+ jobs", value: "5" },
 ];
 
 const SORT_OPTIONS = [
