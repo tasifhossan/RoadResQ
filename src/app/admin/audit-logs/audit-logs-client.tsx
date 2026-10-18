@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
@@ -152,7 +152,7 @@ export function AuditLogsClient({
           <Badge variant="outline" className="text-[10px] py-0 px-1.5 font-normal">
             {String(meta.from)}
           </Badge>
-          <span className="text-muted-foreground">â†’</span>
+          <span className="text-muted-foreground">→</span>
           <Badge variant="outline" className="text-[10px] py-0 px-1.5 font-semibold text-primary border-primary/30">
             {String(meta.to)}
           </Badge>
@@ -446,7 +446,7 @@ export function AuditLogsClient({
 
                     <div className="pt-2 border-t border-border flex items-center justify-between text-xs">
                       <div>{renderSummary(log)}</div>
-                      <span className="text-xs font-semibold text-primary">Details â†’</span>
+                      <span className="text-xs font-semibold text-primary">Details →</span>
                     </div>
                   </Card>
                 ))}

@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -101,7 +101,7 @@ export function CustomerPaymentsClient({
         <div className="text-xs space-y-0.5 font-mono">
           <div className="flex items-center gap-2 text-muted-foreground">
             <span>Labor: {formatMoney(item.invoice.laborCost)}</span>
-            <span>â€¢</span>
+            <span>•</span>
             <span>Parts: {formatMoney(item.invoice.partsCost)}</span>
           </div>
           <div className="font-semibold text-foreground">

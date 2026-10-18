@@ -322,7 +322,7 @@ export function MechanicDashboardClient({
         {/* Rating */}
         <StatCard
           title="Rating"
-          value={`${ratingVal.toFixed(1)} â˜…`}
+          value={`${ratingVal.toFixed(1)} ★`}
           description="Average customer rating"
           icon={<Star className="h-5 w-5 text-orange-500 fill-orange-500" />}
         />

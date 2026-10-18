@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React from "react";
 import Link from "next/link";
@@ -128,9 +128,9 @@ export function AdminDashboardClient({
                 </div>
                 <div className="text-xs text-muted-foreground flex flex-wrap gap-x-2 gap-y-0.5 pt-1">
                   <span>Cust: <strong className="text-foreground font-semibold">{data.users.customers}</strong></span>
-                  <span>â€¢</span>
+                  <span>•</span>
                   <span>Mech: <strong className="text-foreground font-semibold">{data.users.mechanics}</strong></span>
-                  <span>â€¢</span>
+                  <span>•</span>
                   <span>Admin: <strong className="text-foreground font-semibold">{data.users.admins}</strong></span>
                 </div>
               </CardContent>

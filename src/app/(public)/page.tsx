@@ -1,4 +1,4 @@
-﻿import { Metadata } from "next";
+import { Metadata } from "next";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -39,7 +39,7 @@ export default function Home() {
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-accent"></span>
                 </span>
-                Roadside Assistance Demo â€¢ SSLCommerz Gateway Test Mode
+                Roadside Assistance Demo • SSLCommerz Gateway Test Mode
               </div>
 
               <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-foreground leading-[1.15]">
@@ -102,7 +102,7 @@ export default function Home() {
                         <p className="text-sm font-semibold text-foreground truncate">1. Customer Request</p>
                         <span className="text-[11px] text-muted-foreground font-mono">GPS Tagged</span>
                       </div>
-                      <p className="text-xs text-muted-foreground truncate mt-0.5">Vehicle: Sedan â€¢ Battery jump required</p>
+                      <p className="text-xs text-muted-foreground truncate mt-0.5">Vehicle: Sedan • Battery jump required</p>
                     </div>
                   </div>
 
@@ -443,7 +443,7 @@ export default function Home() {
               </div>
               <h3 className="text-lg font-semibold text-foreground">Dynamic Mechanic Ratings</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Customer reviews and 1-to-5 star ratings feed directly into backend calculations, dynamically updating the mechanicâ€™s overall average rating and job history.
+                Customer reviews and 1-to-5 star ratings feed directly into backend calculations, dynamically updating the mechanic’s overall average rating and job history.
               </p>
             </div>
           </div>

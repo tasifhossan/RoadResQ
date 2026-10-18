@@ -1,4 +1,4 @@
-﻿import { Metadata } from "next";
+import { Metadata } from "next";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -75,7 +75,7 @@ const WORKFLOW_STEPS = [
     roleVariant: "MECHANIC" as const,
     icon: Clock,
     description:
-      "As the mechanic travels to the breakdown location and performs repairs, they update job status in real time: EN_ROUTE â†’ ARRIVED â†’ IN_PROGRESS â†’ COMPLETED.",
+      "As the mechanic travels to the breakdown location and performs repairs, they update job status in real time: EN_ROUTE → ARRIVED → IN_PROGRESS → COMPLETED.",
     details: ["Live real-time status updates", "GPS location update pings", "Sequential state transition verification"],
   },
   {
