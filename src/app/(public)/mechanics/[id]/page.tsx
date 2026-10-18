@@ -11,6 +11,7 @@ import {
   MessageSquare,
 } from "lucide-react";
 import { getPublicMechanicByIdServer } from "@/lib/api/public";
+import { ApiError } from "@/lib/api/types";
 import { PublicMechanicDetail } from "@/lib/types/public";
 import { MechanicAvatar } from "@/components/mechanics/mechanic-avatar";
 import { MechanicCard } from "@/components/mechanics/mechanic-card";
@@ -64,8 +65,15 @@ export default async function MechanicDetailPage({ params }: PageProps) {
     if (!mechanic || !mechanic.name) {
       notFound();
     }
-  } catch {
-    notFound();
+  } catch (err: unknown) {
+    if (
+      (err instanceof ApiError && err.status === 404) ||
+      (typeof err === "object" && err !== null && ("status" in err && (err as { status: unknown }).status === 404))
+    ) {
+      notFound();
+    }
+    // Network or server error - throw so ErrorState with retry button is displayed
+    throw err;
   }
 
   const memberSinceFormatted = mechanic.memberSince

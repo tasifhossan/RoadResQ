@@ -63,25 +63,14 @@ export default async function MechanicsPage({ searchParams }: PageProps) {
     : { page: 1, limit: 12, sortBy: "rating", sortOrder: "desc" };
 
   // Fetch initial data on the server with 30s ISR revalidation
-  let initialData: PublicMechanicsResponse;
+  let initialData: PublicMechanicsResponse | undefined;
 
   try {
     initialData = await getPublicMechanicsServer(validatedQuery);
   } catch {
-    // Graceful fallback if backend database is cold or seeding
-    initialData = {
-      items: [],
-      total: 0,
-      page: validatedQuery.page || 1,
-      limit: validatedQuery.limit || 12,
-      totalPages: 1,
-      hasPreviousPage: false,
-      hasNextPage: false,
-      facets: {
-        skills: [],
-        cities: [],
-      },
-    };
+    // If server-side fetch fails, do NOT pass empty or fallback data.
+    // Pass no initialData so the client query runs, and ErrorState is shown if that also fails.
+    initialData = undefined;
   }
 
   return (

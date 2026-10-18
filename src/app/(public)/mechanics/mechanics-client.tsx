@@ -43,7 +43,7 @@ import {
 } from "@/components/ui/sheet";
 
 export interface MechanicsClientProps {
-  initialData: PublicMechanicsResponse;
+  initialData?: PublicMechanicsResponse;
   initialQuery?: GetPublicMechanicsQueryInput;
 }
 
@@ -159,7 +159,7 @@ export function MechanicsClient({ initialData, initialQuery }: MechanicsClientPr
 
   // TanStack Query with placeholderData: keepPreviousData
   const {
-    data = initialData,
+    data,
     isLoading,
     isError,
     error,
@@ -660,7 +660,7 @@ export function MechanicsClient({ initialData, initialQuery }: MechanicsClientPr
             ) : undefined
           }
         />
-      ) : (
+      ) : data?.items ? (
         <div className="space-y-6">
           <MechanicGrid mechanics={data.items} />
 
@@ -678,7 +678,7 @@ export function MechanicsClient({ initialData, initialQuery }: MechanicsClientPr
             </div>
           )}
         </div>
-      )}
+      ) : null}
     </div>
   );
 }
