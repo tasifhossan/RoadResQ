@@ -44,4 +44,10 @@ export const queryKeys = {
     stats: () => ["admin", "dashboard-stats"] as const,
     auditLogs: (filters?: Record<string, unknown>) => ["admin", "audit-logs", filters] as const,
   },
+  public: {
+    mechanics: (filters?: Record<string, unknown>) => ["public", "mechanics", filters] as const,
+    mechanic: (id: string) => ["public", "mechanic", id] as const,
+    stats: () => ["public", "stats"] as const,
+    reviews: (filters?: Record<string, unknown>) => ["public", "reviews", filters] as const,
+  },
 } as const;
