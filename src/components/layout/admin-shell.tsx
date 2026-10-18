@@ -11,7 +11,6 @@ import { cn } from "@/lib/utils";
 const adminNavItems = [
   { label: "Dashboard", href: "/admin", icon: LayoutDashboard },
   { label: "Users", href: "/admin/users", icon: Users },
-  { label: "Mechanics", href: "/mechanics", icon: Users },
   { label: "Spare parts", href: "/admin/spare-parts", icon: Wrench },
   { label: "Audit logs", href: "/admin/audit-logs", icon: FileText },
 ];

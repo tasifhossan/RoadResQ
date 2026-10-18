@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { UserMenu } from "@/components/layout/user-menu";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { LayoutDashboard, PlusCircle, ListOrdered, Car, CreditCard, User, Users } from "lucide-react";
+import { LayoutDashboard, PlusCircle, ListOrdered, Car, CreditCard, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const customerNavItems = [
@@ -13,7 +13,6 @@ const customerNavItems = [
   { label: "My requests", href: "/customer/requests", icon: ListOrdered },
   { label: "Vehicles", href: "/customer/vehicles", icon: Car },
   { label: "Payments", href: "/customer/payments", icon: CreditCard },
-  { label: "Mechanics", href: "/mechanics", icon: Users },
   { label: "Profile", href: "/customer/profile", icon: User },
 ];
 
