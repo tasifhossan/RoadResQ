@@ -324,7 +324,7 @@ export function MechanicDashboardClient({
           title="Rating"
           value={`${ratingVal.toFixed(1)} ★`}
           description="Average customer rating"
-          icon={<Star className="h-5 w-5 text-amber-500 fill-amber-500" />}
+          icon={<Star className="h-5 w-5 text-orange-500 fill-orange-500" />}
         />
 
         {/* Total Jobs */}
@@ -332,7 +332,7 @@ export function MechanicDashboardClient({
           title="Completed Jobs"
           value={totalJobsVal}
           description="Total repairs completed"
-          icon={<CheckCircle2 className="h-5 w-5 text-emerald-500" />}
+          icon={<CheckCircle2 className="h-5 w-5 text-primary" />}
         />
 
         {/* Pending Requests / Invitations */}
@@ -340,7 +340,7 @@ export function MechanicDashboardClient({
           title="Needs Response"
           value={pendingInvitations.length}
           description="Requests awaiting accept"
-          icon={<Inbox className="h-5 w-5 text-indigo-500" />}
+          icon={<Inbox className="h-5 w-5 text-orange-500" />}
         />
 
         {/* Earnings Headline */}
@@ -348,7 +348,7 @@ export function MechanicDashboardClient({
           title="Earnings Headline"
           value={`$${grandTotal}`}
           description={`Pending: $${pendingEarnings}`}
-          icon={<DollarSign className="h-5 w-5 text-emerald-600" />}
+          icon={<DollarSign className="h-5 w-5 text-primary" />}
         />
       </div>
 
@@ -394,7 +394,7 @@ export function MechanicDashboardClient({
                   </span>
                 </div>
               ) : (
-                <p className="text-sm font-medium text-amber-600 dark:text-amber-400">
+                <p className="text-sm font-medium text-orange-600 dark:text-orange-400">
                   Location coordinates not set. Click &quot;Share my location&quot; to update.
                 </p>
               )}

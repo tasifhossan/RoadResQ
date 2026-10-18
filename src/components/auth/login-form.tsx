@@ -253,7 +253,7 @@ export function LoginForm() {
               <Loader2 className="h-3.5 w-3.5 animate-spin" />
             ) : (
               <>
-                <Wrench className="mr-1.5 h-3.5 w-3.5 text-amber-500" />
+                <Wrench className="mr-1.5 h-3.5 w-3.5 text-orange-500" />
                 Mechanic
               </>
             )}
@@ -271,7 +271,7 @@ export function LoginForm() {
               <Loader2 className="h-3.5 w-3.5 animate-spin" />
             ) : (
               <>
-                <ShieldCheck className="mr-1.5 h-3.5 w-3.5 text-emerald-500" />
+                <ShieldCheck className="mr-1.5 h-3.5 w-3.5 text-primary" />
                 Admin
               </>
             )}

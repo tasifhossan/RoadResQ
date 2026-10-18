@@ -363,9 +363,9 @@ export function RequestDetailClient({
 
       {/* Upload Failed Warning Banner */}
       {showUploadFailedBanner && (
-        <div className="rounded-2xl border border-amber-500/30 bg-amber-500/10 p-4 flex items-start gap-3">
-          <AlertCircle className="h-5 w-5 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
-          <div className="text-xs sm:text-sm text-amber-800 dark:text-amber-300 space-y-1">
+        <div className="rounded-2xl border border-orange-500/30 bg-orange-500/10 p-4 flex items-start gap-3">
+          <AlertCircle className="h-5 w-5 text-orange-600 dark:text-orange-400 shrink-0 mt-0.5" />
+          <div className="text-xs sm:text-sm text-orange-800 dark:text-orange-300 space-y-1">
             <p className="font-semibold">Request Created with Missing Photos</p>
             <p>
               Your service request was created, but damage photos failed to upload during submission. You can attach damage photos below.
@@ -419,7 +419,7 @@ export function RequestDetailClient({
               type="button"
               onClick={() => initiatePaymentMutation.mutate(invoice.id)}
               disabled={initiatePaymentMutation.isPending}
-              className="rounded-xl gap-2 font-semibold bg-emerald-600 hover:bg-emerald-700 text-white shadow-md"
+              className="rounded-xl gap-2 font-semibold bg-primary hover:bg-primary/90 text-primary-foreground shadow-md"
             >
               {initiatePaymentMutation.isPending ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
@@ -509,8 +509,8 @@ export function RequestDetailClient({
                           </div>
 
                           <div className="flex items-center gap-3 text-xs text-muted-foreground flex-wrap">
-                            <span className="flex items-center gap-1 font-semibold text-amber-500">
-                              <Star className="h-3.5 w-3.5 fill-amber-500 text-amber-500" />
+                            <span className="flex items-center gap-1 font-semibold text-orange-500">
+                              <Star className="h-3.5 w-3.5 fill-orange-500 text-orange-500" />
                               {(m.rating ?? 5.0).toFixed(1)} Rating
                             </span>
                             <span>•</span>
@@ -650,8 +650,8 @@ export function RequestDetailClient({
                 <p className="font-bold text-foreground text-base">{mechanic.name}</p>
                 {mechanic.mechanicProfile && (
                   <div className="flex items-center gap-2 text-xs text-muted-foreground mt-1">
-                    <span className="flex items-center gap-0.5 font-semibold text-amber-500">
-                      <Star className="h-3.5 w-3.5 fill-amber-500 text-amber-500" />
+                    <span className="flex items-center gap-0.5 font-semibold text-orange-500">
+                      <Star className="h-3.5 w-3.5 fill-orange-500 text-orange-500" />
                       {mechanic.mechanicProfile.rating.toFixed(1)}
                     </span>
                     <span>•</span>
@@ -899,9 +899,9 @@ export function RequestDetailClient({
 
           {/* Invoice Paid State */}
           {isPaid && (
-            <CardFooter className="bg-emerald-500/10 border-t border-emerald-500/20 p-4 flex items-center justify-between gap-3">
-              <div className="flex items-center gap-2 text-emerald-800 dark:text-emerald-300 text-sm font-medium">
-                <CheckCircle2 className="h-4 w-4 text-emerald-600 shrink-0" />
+            <CardFooter className="bg-blue-500/10 border-t border-blue-500/20 p-4 flex items-center justify-between gap-3">
+              <div className="flex items-center gap-2 text-blue-800 dark:text-blue-300 text-sm font-medium">
+                <CheckCircle2 className="h-4 w-4 text-primary shrink-0" />
                 <span>Invoice is fully paid. Thank you!</span>
               </div>
             </CardFooter>
@@ -909,9 +909,9 @@ export function RequestDetailClient({
 
           {/* Pay Now Footer Button */}
           {canPayInvoice && (
-            <CardFooter className="bg-emerald-500/10 border-t border-emerald-500/20 p-4 flex flex-col sm:flex-row items-center justify-between gap-3">
-              <div className="flex items-center gap-2 text-emerald-800 dark:text-emerald-300 text-sm font-medium">
-                <AlertCircle className="h-4 w-4 text-emerald-600 shrink-0" />
+            <CardFooter className="bg-blue-500/10 border-t border-blue-500/20 p-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+              <div className="flex items-center gap-2 text-blue-800 dark:text-blue-300 text-sm font-medium">
+                <AlertCircle className="h-4 w-4 text-primary shrink-0" />
                 <span>
                   {invoice.payment?.status === "FAILED"
                     ? "Previous payment failed. Click to try again."
@@ -922,7 +922,7 @@ export function RequestDetailClient({
                 type="button"
                 onClick={() => initiatePaymentMutation.mutate(invoice.id)}
                 disabled={initiatePaymentMutation.isPending}
-                className="rounded-xl gap-2 font-semibold bg-emerald-600 hover:bg-emerald-700 text-white shadow-md w-full sm:w-auto"
+                className="rounded-xl gap-2 font-semibold bg-primary hover:bg-primary/90 text-primary-foreground shadow-md w-full sm:w-auto"
               >
                 {initiatePaymentMutation.isPending ? (
                   <Loader2 className="h-4 w-4 animate-spin" />
@@ -945,8 +945,8 @@ export function RequestDetailClient({
                 <MessageSquare className="h-5 w-5 text-primary" />
                 <CardTitle className="text-lg">Your Review</CardTitle>
               </div>
-              <div className="flex items-center gap-1 font-bold text-amber-500 text-sm">
-                <Star className="h-4 w-4 fill-amber-500 text-amber-500" />
+              <div className="flex items-center gap-1 font-bold text-orange-500 text-sm">
+                <Star className="h-4 w-4 fill-orange-500 text-orange-500" />
                 <span>{review.rating} / 5</span>
               </div>
             </div>
@@ -996,7 +996,7 @@ export function RequestDetailClient({
                     <Star
                       className={`h-8 w-8 ${
                         star <= reviewRating
-                          ? "fill-amber-400 text-amber-400"
+                          ? "fill-orange-400 text-orange-400"
                           : "text-muted-foreground/40"
                       }`}
                     />

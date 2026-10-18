@@ -296,12 +296,12 @@ export function AdminUsersClient({
 
                           <TableCell>
                             {isDeactivated ? (
-                              <Badge variant="outline" className="bg-rose-500/10 text-rose-700 border-rose-500/30 dark:text-rose-400 gap-1 font-medium text-xs rounded-full">
+                              <Badge variant="outline" className="bg-destructive/10 text-destructive border-destructive/20 gap-1 font-medium text-xs rounded-full">
                                 <XCircle className="h-3 w-3" />
                                 Deactivated
                               </Badge>
                             ) : (
-                              <Badge variant="outline" className="bg-emerald-500/10 text-emerald-700 border-emerald-500/30 dark:text-emerald-400 gap-1 font-medium text-xs rounded-full">
+                              <Badge variant="outline" className="bg-primary/10 text-primary border-primary/20 gap-1 font-medium text-xs rounded-full">
                                 <CheckCircle2 className="h-3 w-3" />
                                 Active
                               </Badge>
@@ -332,7 +332,7 @@ export function AdminUsersClient({
                                 <DropdownMenuItem
                                   onClick={() => setDeactivateUserTarget(user)}
                                   disabled={isSelf && !isDeactivated}
-                                  className={user.deletedAt ? "text-xs font-medium cursor-pointer text-emerald-600 dark:text-emerald-400 gap-2" : "text-xs font-medium cursor-pointer text-destructive gap-2"}
+                                  className={user.deletedAt ? "text-xs font-medium cursor-pointer text-primary gap-2" : "text-xs font-medium cursor-pointer text-destructive gap-2"}
                                 >
                                   {user.deletedAt ? (
                                     <>
@@ -397,7 +397,7 @@ export function AdminUsersClient({
                             <DropdownMenuItem
                               onClick={() => setDeactivateUserTarget(user)}
                               disabled={isSelf && !isDeactivated}
-                              className={user.deletedAt ? "text-xs font-medium cursor-pointer text-emerald-600 gap-2" : "text-xs font-medium cursor-pointer text-destructive gap-2"}
+                              className={user.deletedAt ? "text-xs font-medium cursor-pointer text-primary gap-2" : "text-xs font-medium cursor-pointer text-destructive gap-2"}
                             >
                               {user.deletedAt ? (
                                 <>
@@ -418,11 +418,11 @@ export function AdminUsersClient({
                       <div className="flex flex-wrap items-center gap-2 pt-1">
                         <StatusBadge status={user.role} />
                         {isDeactivated ? (
-                          <Badge variant="outline" className="bg-rose-500/10 text-rose-700 border-rose-500/30 text-xs rounded-full">
+                          <Badge variant="outline" className="bg-destructive/10 text-destructive border-destructive/20 text-xs rounded-full">
                             Deactivated
                           </Badge>
                         ) : (
-                          <Badge variant="outline" className="bg-emerald-500/10 text-emerald-700 border-emerald-500/30 text-xs rounded-full">
+                          <Badge variant="outline" className="bg-primary/10 text-primary border-primary/20 text-xs rounded-full">
                             Active
                           </Badge>
                         )}
@@ -484,7 +484,7 @@ export function AdminUsersClient({
           </div>
 
           {roleUser?.role === "MECHANIC" && selectedRole !== "MECHANIC" && (
-            <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-700 dark:text-amber-400 text-xs flex items-start gap-2">
+            <div className="p-3 rounded-xl bg-orange-500/10 border border-orange-500/20 text-orange-700 dark:text-orange-400 text-xs flex items-start gap-2">
               <AlertTriangle className="h-4 w-4 shrink-0 mt-0.5" />
               <span>
                 <strong>Mechanic Demotion Notice:</strong> Demoting a mechanic currently assigned to active jobs will be rejected by the backend.
@@ -512,7 +512,7 @@ export function AdminUsersClient({
         onConfirm={handleConfirmDeactivation}
       >
         {deactivateUserTarget?.role === "MECHANIC" && !deactivateUserTarget?.deletedAt && (
-          <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-700 dark:text-rose-400 text-xs flex items-start gap-2 mt-2">
+          <div className="p-3 rounded-xl bg-destructive/10 border border-destructive/20 text-destructive text-xs flex items-start gap-2 mt-2">
             <AlertTriangle className="h-4 w-4 shrink-0 mt-0.5" />
             <span>
               Deactivating a mechanic with active roadside jobs will be rejected by the backend until active jobs are finished.

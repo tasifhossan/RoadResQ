@@ -82,7 +82,7 @@ export default function Home() {
                   <div className="flex items-center gap-2">
                     <div className="h-3 w-3 rounded-full bg-destructive/80" />
                     <div className="h-3 w-3 rounded-full bg-accent/80" />
-                    <div className="h-3 w-3 rounded-full bg-emerald-500/80" />
+                    <div className="h-3 w-3 rounded-full bg-primary/80" />
                     <span className="ml-2 text-xs font-mono text-muted-foreground">Live Rescue Workflow</span>
                   </div>
                   <Badge variant="outline" className="text-xs font-mono bg-muted border-border">
@@ -136,13 +136,13 @@ export default function Home() {
 
                   {/* Step 3 Node */}
                   <div className="flex items-start gap-3.5 p-3 rounded-xl bg-muted/40 border border-border/50">
-                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
                       <CreditCard className="h-5 w-5" />
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between">
                         <p className="text-sm font-semibold text-foreground truncate">3. Invoice & Payment</p>
-                        <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-mono font-medium">SSLCommerz</span>
+                        <span className="text-[11px] text-primary font-mono font-medium">SSLCommerz</span>
                       </div>
                       <p className="text-xs text-muted-foreground truncate mt-0.5">Labor + Spare parts (price frozen at use)</p>
                     </div>
@@ -226,14 +226,14 @@ export default function Home() {
 
             {/* Step 4 */}
             <div className="relative flex flex-col rounded-2xl border border-border/80 bg-background p-6 shadow-sm hover:shadow-md transition-shadow">
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold text-lg mb-5">
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary font-bold text-lg mb-5">
                 04
               </div>
               <h3 className="text-lg font-semibold text-foreground mb-2">Invoice & Review</h3>
               <p className="text-sm text-muted-foreground leading-relaxed flex-1">
                 Receive an itemized digital invoice for labor and parts. Complete payment via SSLCommerz test mode and submit a rating.
               </p>
-              <div className="mt-4 pt-3 border-t border-border/40 flex items-center text-xs font-medium text-emerald-600 dark:text-emerald-400">
+              <div className="mt-4 pt-3 border-t border-border/40 flex items-center text-xs font-medium text-primary">
                 <Star className="mr-1.5 h-3.5 w-3.5" />
                 SSLCommerz & Rating
               </div>
@@ -416,7 +416,7 @@ export default function Home() {
 
             {/* Highlight 3 */}
             <div className="p-6 rounded-2xl border border-border/80 bg-background shadow-sm space-y-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
                 <FileText className="h-5 w-5" />
               </div>
               <h3 className="text-lg font-semibold text-foreground">Transparent Invoices</h3>

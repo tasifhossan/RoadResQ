@@ -95,7 +95,7 @@ export function MechanicEarningsChart({ monthly }: MechanicEarningsChartProps) {
                 )}
               />
               <Bar dataKey="labor" stackId="a" fill="#2563eb" radius={[0, 0, 4, 4]} />
-              <Bar dataKey="parts" stackId="a" fill="#10b981" radius={[4, 4, 0, 0]} />
+              <Bar dataKey="parts" stackId="a" fill="#f97316" radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>

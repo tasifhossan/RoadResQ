@@ -459,7 +459,7 @@ export function RequestWizardClient({ initialVehicles }: RequestWizardClientProp
               </div>
             ) : vehicles.length === 0 ? (
               <div className="rounded-2xl border border-dashed border-border bg-muted/30 p-6 text-center space-y-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-amber-500/10 text-amber-500 mx-auto">
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-orange-500/10 text-orange-500 mx-auto">
                   <AlertCircle className="h-6 w-6" />
                 </div>
                 <div>
@@ -642,7 +642,7 @@ export function RequestWizardClient({ initialVehicles }: RequestWizardClientProp
               )}
 
               {draft.lat !== undefined && draft.lng !== undefined && !geoError && (
-                <div className="flex items-center gap-2 text-xs text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 p-3 rounded-xl border border-emerald-500/20 mt-2">
+                <div className="flex items-center gap-2 text-xs text-primary bg-primary/10 p-3 rounded-xl border border-primary/20 mt-2">
                   <CheckCircle2 className="h-4 w-4 shrink-0" />
                   <span className="font-mono font-medium">
                     Location set: Lat {draft.lat}, Lng {draft.lng}
@@ -818,7 +818,7 @@ export function RequestWizardClient({ initialVehicles }: RequestWizardClientProp
         <Card className="rounded-2xl border-border shadow-sm overflow-hidden">
           <CardHeader className="bg-muted/30 border-b border-border">
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
                 <CheckCircle2 className="h-5 w-5" />
               </div>
               <div>
@@ -881,7 +881,7 @@ export function RequestWizardClient({ initialVehicles }: RequestWizardClientProp
                       draft.priority === "EMERGENCY"
                         ? "border-destructive text-destructive bg-destructive/10"
                         : draft.priority === "HIGH"
-                        ? "border-amber-500 text-amber-600 bg-amber-500/10"
+                        ? "border-orange-500 text-orange-600 bg-orange-500/10"
                         : "border-primary text-primary bg-primary/10"
                     }`}
                   >

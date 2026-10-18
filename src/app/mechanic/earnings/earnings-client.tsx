@@ -125,7 +125,7 @@ export function EarningsClient({ initialData, initialError }: EarningsClientProp
                 <CardTitle className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                   Spare Parts Revenue
                 </CardTitle>
-                <div className="h-9 w-9 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
+                <div className="h-9 w-9 rounded-xl bg-orange-500/10 text-orange-600 dark:text-orange-400 flex items-center justify-center">
                   <Coins className="h-5 w-5" />
                 </div>
               </CardHeader>
@@ -143,7 +143,7 @@ export function EarningsClient({ initialData, initialError }: EarningsClientProp
                 <CardTitle className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                   Pending Payouts
                 </CardTitle>
-                <div className="h-9 w-9 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center">
+                <div className="h-9 w-9 rounded-xl bg-slate-500/10 text-slate-700 dark:text-slate-300 flex items-center justify-center">
                   <Clock className="h-5 w-5" />
                 </div>
               </CardHeader>
@@ -161,7 +161,7 @@ export function EarningsClient({ initialData, initialError }: EarningsClientProp
                 <CardTitle className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                   Completed Jobs
                 </CardTitle>
-                <div className="h-9 w-9 rounded-xl bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center">
+                <div className="h-9 w-9 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
                   <CheckCircle2 className="h-5 w-5" />
                 </div>
               </CardHeader>
@@ -177,8 +177,8 @@ export function EarningsClient({ initialData, initialError }: EarningsClientProp
                 <CardTitle className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                   Average Rating
                 </CardTitle>
-                <div className="h-9 w-9 rounded-xl bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 flex items-center justify-center">
-                  <Star className="h-5 w-5 fill-yellow-500 text-yellow-500" />
+                <div className="h-9 w-9 rounded-xl bg-orange-500/10 text-orange-600 dark:text-orange-400 flex items-center justify-center">
+                  <Star className="h-5 w-5 fill-orange-500 text-orange-500" />
                 </div>
               </CardHeader>
               <CardContent className="p-5 pt-0">

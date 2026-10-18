@@ -261,7 +261,7 @@ export function AuditLogsClient({
 
         {/* Invalid Date Range Warning */}
         {isDateRangeInvalid && (
-          <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-700 dark:text-rose-400 text-xs flex items-center gap-2">
+          <div className="p-3 rounded-xl bg-destructive/10 border border-destructive/20 text-destructive text-xs flex items-center gap-2">
             <AlertTriangle className="h-4 w-4 shrink-0" />
             <span>
               <strong>Invalid Date Range:</strong> &apos;From&apos; date cannot be after &apos;To&apos; date. Please adjust filter dates.

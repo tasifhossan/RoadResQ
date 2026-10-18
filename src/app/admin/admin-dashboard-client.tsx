@@ -142,7 +142,7 @@ export function AdminDashboardClient({
                 <CardTitle className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                   Service Requests
                 </CardTitle>
-                <div className="h-9 w-9 rounded-xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
+                <div className="h-9 w-9 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
                   <Activity className="h-5 w-5" />
                 </div>
               </CardHeader>
@@ -162,7 +162,7 @@ export function AdminDashboardClient({
                 <CardTitle className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                   Completed Jobs
                 </CardTitle>
-                <div className="h-9 w-9 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
+                <div className="h-9 w-9 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
                   <CheckCircle2 className="h-5 w-5" />
                 </div>
               </CardHeader>
@@ -182,7 +182,7 @@ export function AdminDashboardClient({
                 <CardTitle className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                   Paid Revenue
                 </CardTitle>
-                <div className="h-9 w-9 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center">
+                <div className="h-9 w-9 rounded-xl bg-orange-500/10 text-orange-600 dark:text-orange-400 flex items-center justify-center">
                   <TrendingUp className="h-5 w-5" />
                 </div>
               </CardHeader>
@@ -237,7 +237,7 @@ export function AdminDashboardClient({
               <Card className="rounded-2xl border-border bg-card shadow-sm hover:border-primary/50 transition-all cursor-pointer group">
                 <CardContent className="p-4 flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="h-10 w-10 rounded-xl bg-purple-500/10 text-purple-600 flex items-center justify-center">
+                    <div className="h-10 w-10 rounded-xl bg-slate-500/10 text-slate-700 dark:text-slate-300 flex items-center justify-center">
                       <Shield className="h-5 w-5" />
                     </div>
                     <div>

@@ -15,7 +15,11 @@ export interface StatCardProps {
   className?: string;
 }
 
+import { TrendingUp, TrendingDown } from "lucide-react";
+
 export function StatCard({ title, value, description, icon, trend, className }: StatCardProps) {
+  const isPositive = trend?.positive ?? (trend ? trend.value >= 0 : true);
+
   return (
     <Card className={cn("rounded-xl border shadow-sm bg-card hover:shadow-md transition-shadow", className)}>
       <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
@@ -28,10 +32,15 @@ export function StatCard({ title, value, description, icon, trend, className }: 
           <p className="text-xs flex items-center gap-1">
             <span
               className={cn(
-                "font-semibold",
-                trend.positive ?? trend.value >= 0 ? "text-emerald-600 dark:text-emerald-400" : "text-destructive"
+                "font-semibold inline-flex items-center gap-0.5",
+                isPositive ? "text-primary" : "text-destructive"
               )}
             >
+              {isPositive ? (
+                <TrendingUp className="h-3 w-3 shrink-0" aria-hidden="true" />
+              ) : (
+                <TrendingDown className="h-3 w-3 shrink-0" aria-hidden="true" />
+              )}
               {trend.value >= 0 ? `+${trend.value}%` : `${trend.value}%`}
             </span>
             <span className="text-muted-foreground">{trend.label}</span>

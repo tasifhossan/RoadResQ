@@ -381,7 +381,7 @@ export function MechanicRequestDetailClient({
                     setLaborCostError(null);
                     setActiveAction("COMPLETED");
                   }}
-                  className="rounded-xl gap-2 font-bold shadow-sm bg-emerald-600 hover:bg-emerald-700 text-white"
+                  className="rounded-xl gap-2 font-bold shadow-sm bg-primary hover:bg-primary/90 text-primary-foreground"
                 >
                   <CheckCircle2 className="h-4 w-4" />
                   Complete Job
@@ -414,7 +414,7 @@ export function MechanicRequestDetailClient({
         </CardHeader>
         <CardContent className="p-6">
           {isCancelled ? (
-            <div className="p-4 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-700 dark:text-rose-400 flex items-center gap-3 text-sm font-semibold">
+            <div className="p-4 rounded-xl bg-destructive/10 border border-destructive/20 text-destructive flex items-center gap-3 text-sm font-semibold">
               <XCircle className="h-5 w-5 shrink-0" />
               This service request was cancelled.
             </div>
@@ -713,7 +713,7 @@ export function MechanicRequestDetailClient({
               {selectedInventoryItem && (
                 <div className="flex items-center justify-between text-xs text-muted-foreground pt-1 border-t border-border/40">
                   <span>Price at use: <strong className="text-foreground">{formatMoney(selectedInventoryItem.price)}</strong></span>
-                  <span>Available stock: <strong className={cn(selectedInventoryItem.stock > 0 ? "text-emerald-600 dark:text-emerald-400" : "text-destructive")}>{selectedInventoryItem.stock} items</strong></span>
+                  <span>Available stock: <strong className={cn(selectedInventoryItem.stock > 0 ? "text-primary" : "text-destructive")}>{selectedInventoryItem.stock} items</strong></span>
                 </div>
               )}
             </form>
@@ -769,7 +769,7 @@ export function MechanicRequestDetailClient({
         <Card className="rounded-2xl border shadow-sm bg-card overflow-hidden">
           <CardHeader className="bg-muted/30 border-b py-3.5 flex flex-row items-center justify-between">
             <CardTitle className="text-sm font-bold flex items-center gap-2">
-              <CreditCard className="h-4 w-4 text-emerald-600" />
+              <CreditCard className="h-4 w-4 text-primary" />
               Auto-Generated Invoice & Payment Summary
             </CardTitle>
             <StatusBadge status={request.invoice.status} />
@@ -790,15 +790,15 @@ export function MechanicRequestDetailClient({
               </div>
               <div>
                 <span className="text-muted-foreground block font-medium">Grand Total Amount</span>
-                <span className="text-base font-extrabold text-emerald-600 dark:text-emerald-400">
+                <span className="text-base font-extrabold text-primary">
                   {formatMoney(request.invoice.totalAmount ?? request.invoice.totalCost ?? request.invoice.total ?? request.invoice.laborCost)}
                 </span>
               </div>
             </div>
 
             {request.invoice.payment && (
-              <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-xs space-y-1">
-                <p className="font-bold text-emerald-700 dark:text-emerald-400 flex items-center gap-1.5">
+              <div className="p-4 rounded-xl bg-blue-500/10 border border-blue-500/20 text-xs space-y-1">
+                <p className="font-bold text-blue-700 dark:text-blue-400 flex items-center gap-1.5">
                   <DollarSign className="h-4 w-4" />
                   Payment {request.invoice.payment.status} via {request.invoice.payment.gateway}
                 </p>

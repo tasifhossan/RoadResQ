@@ -109,20 +109,20 @@ export function PaymentSuccessClient({
   if (requestId && !isPaid && !isPollingExhausted) {
     return (
       <div className="container max-w-xl mx-auto py-12 px-4 flex justify-center items-center min-h-[70vh]">
-        <Card className="w-full text-center shadow-lg border-amber-100 dark:border-amber-950">
+        <Card className="w-full text-center shadow-lg border-border bg-card">
           <CardHeader className="flex flex-col items-center pb-2">
-            <div className="w-16 h-16 rounded-full bg-amber-100 dark:bg-amber-900/40 flex items-center justify-center mb-4 text-amber-600 dark:text-amber-400">
+            <div className="w-16 h-16 rounded-full bg-orange-500/10 flex items-center justify-center mb-4 text-orange-600 dark:text-orange-400">
               <Loader2 className="w-8 h-8 animate-spin" />
             </div>
-            <CardTitle className="text-2xl font-bold text-slate-900 dark:text-slate-50">
+            <CardTitle className="text-2xl font-bold text-foreground">
               Payment is being confirmed
             </CardTitle>
-            <CardDescription className="text-slate-600 dark:text-slate-400 mt-1">
+            <CardDescription className="text-muted-foreground mt-1">
               We are verifying your transaction with the gateway. Please wait...
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-3 py-4 text-sm text-slate-600 dark:text-slate-300">
-            <div className="flex items-center justify-center text-xs text-slate-500 gap-2">
+          <CardContent className="space-y-3 py-4 text-sm text-muted-foreground">
+            <div className="flex items-center justify-center text-xs text-muted-foreground gap-2">
               <RefreshCw className="w-3.5 h-3.5 animate-spin" />
               Checking status... ({pollCount * 3}s / 30s)
             </div>
@@ -146,22 +146,22 @@ export function PaymentSuccessClient({
   if (requestId && isPollingExhausted) {
     return (
       <div className="container max-w-xl mx-auto py-12 px-4 flex justify-center items-center min-h-[70vh]">
-        <Card className="w-full text-center shadow-lg border-amber-200 dark:border-amber-900">
+        <Card className="w-full text-center shadow-lg border-border bg-card">
           <CardHeader className="flex flex-col items-center pb-2">
-            <div className="w-16 h-16 rounded-full bg-amber-100 dark:bg-amber-900/40 flex items-center justify-center mb-4 text-amber-600 dark:text-amber-400">
+            <div className="w-16 h-16 rounded-full bg-orange-500/10 flex items-center justify-center mb-4 text-orange-600 dark:text-orange-400">
               <AlertCircle className="w-8 h-8" />
             </div>
-            <CardTitle className="text-2xl font-bold text-slate-900 dark:text-slate-50">
+            <CardTitle className="text-2xl font-bold text-foreground">
               Taking longer than expected
             </CardTitle>
-            <CardDescription className="text-slate-600 dark:text-slate-400 mt-1">
+            <CardDescription className="text-muted-foreground mt-1">
               Payment confirmation is taking longer than expected. Your invoice will update as soon as the gateway notifies us.
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-3 py-4 text-sm text-slate-600 dark:text-slate-300">
-            <div className="bg-slate-50 dark:bg-slate-800/50 p-3 rounded-lg flex items-center justify-between text-xs">
-              <span className="text-slate-500 font-medium">Request Reference</span>
-              <span className="font-mono text-slate-700 dark:text-slate-200">{requestId}</span>
+          <CardContent className="space-y-3 py-4 text-sm text-muted-foreground">
+            <div className="bg-muted p-3 rounded-lg flex items-center justify-between text-xs">
+              <span className="text-muted-foreground font-medium">Request Reference</span>
+              <span className="font-mono text-foreground">{requestId}</span>
             </div>
           </CardContent>
           <CardFooter className="flex flex-col sm:flex-row gap-3 justify-center pt-2">
@@ -187,15 +187,15 @@ export function PaymentSuccessClient({
   // 4. LOGGED IN & VERIFIED PAID (or standard success display)
   return (
     <div className="container max-w-xl mx-auto py-12 px-4 flex justify-center items-center min-h-[70vh]">
-      <Card className="w-full text-center shadow-lg border-emerald-100 dark:border-emerald-950">
+      <Card className="w-full text-center shadow-lg border-border bg-card">
         <CardHeader className="flex flex-col items-center pb-2">
-          <div className="w-16 h-16 rounded-full bg-emerald-100 dark:bg-emerald-900/40 flex items-center justify-center mb-4 text-emerald-600 dark:text-emerald-400">
+          <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4 text-primary">
             <CheckCircle2 className="w-10 h-10" />
           </div>
-          <CardTitle className="text-2xl font-bold text-slate-900 dark:text-slate-50">
+          <CardTitle className="text-2xl font-bold text-foreground">
             Payment Successful!
           </CardTitle>
-          <CardDescription className="text-slate-600 dark:text-slate-400 mt-1">
+          <CardDescription className="text-muted-foreground mt-1">
             Thank you! Your payment has been processed and verified successfully.
           </CardDescription>
         </CardHeader>

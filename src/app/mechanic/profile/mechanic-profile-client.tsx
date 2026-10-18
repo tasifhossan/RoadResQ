@@ -286,10 +286,10 @@ export function MechanicProfileClient({
                       variant="outline"
                       className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${
                         mechanicProfile.availability === "AVAILABLE"
-                          ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20"
+                          ? "bg-blue-500/10 text-blue-700 dark:text-blue-400 border-blue-500/20"
                           : mechanicProfile.availability === "BUSY"
-                          ? "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20"
-                          : "bg-muted text-muted-foreground"
+                          ? "bg-orange-500/10 text-orange-700 dark:text-orange-400 border-orange-500/20"
+                          : "bg-muted text-muted-foreground border-border"
                       }`}
                     >
                       {mechanicProfile.availability}
@@ -299,7 +299,7 @@ export function MechanicProfileClient({
                   {/* Rating */}
                   <div className="flex items-center justify-between py-2 border-b border-border">
                     <span className="text-xs text-muted-foreground flex items-center gap-1.5">
-                      <Star className="h-3.5 w-3.5 text-yellow-500 fill-yellow-500" /> Overall Rating
+                      <Star className="h-3.5 w-3.5 text-orange-500 fill-orange-500" /> Overall Rating
                     </span>
                     <span className="font-bold text-foreground">
                       {mechanicProfile.rating.toFixed(1)} / 5.0
@@ -309,7 +309,7 @@ export function MechanicProfileClient({
                   {/* Completed Jobs */}
                   <div className="flex items-center justify-between py-2 border-b border-border">
                     <span className="text-xs text-muted-foreground flex items-center gap-1.5">
-                      <CheckCircle2 className="h-3.5 w-3.5 text-purple-500" /> Total Jobs Completed
+                      <CheckCircle2 className="h-3.5 w-3.5 text-primary" /> Total Jobs Completed
                     </span>
                     <span className="font-bold text-foreground">
                       {mechanicProfile.totalJobs}
@@ -401,8 +401,8 @@ export function MechanicProfileClient({
                             {formatDate(rev.createdAt)}
                           </p>
                         </div>
-                        <div className="flex items-center gap-1 bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 px-2 py-0.5 rounded-full text-xs font-bold">
-                          <Star className="h-3 w-3 fill-yellow-500 text-yellow-500" />
+                        <div className="flex items-center gap-1 bg-orange-500/10 text-orange-600 dark:text-orange-400 px-2 py-0.5 rounded-full text-xs font-bold">
+                          <Star className="h-3 w-3 fill-orange-500 text-orange-500" />
                           {rev.rating}.0
                         </div>
                       </div>

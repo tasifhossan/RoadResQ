@@ -91,18 +91,18 @@ export default function ContactPage() {
           </Card>
 
           <Card className="rounded-2xl border-border/80 p-6 space-y-3 shadow-xs">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
               <Clock className="h-5 w-5" />
             </div>
             <h3 className="text-base font-bold text-foreground">Operating Hours</h3>
             <p className="text-xs text-muted-foreground leading-relaxed">
               Roadside Emergency Dispatch
             </p>
-            <p className="text-sm font-semibold text-emerald-600 dark:text-emerald-400">24/7 Every Day</p>
+            <p className="text-sm font-semibold text-primary">24/7 Every Day</p>
           </Card>
 
           <Card className="rounded-2xl border-border/80 p-6 space-y-3 shadow-xs">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-purple-500/10 text-purple-600 dark:text-purple-400">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-orange-500/10 text-orange-600 dark:text-orange-400">
               <MapPin className="h-5 w-5" />
             </div>
             <h3 className="text-base font-bold text-foreground">Headquarters</h3>
@@ -160,7 +160,7 @@ export default function ContactPage() {
           <Card className="lg:col-span-7 rounded-3xl border-border/80 p-6 sm:p-8 shadow-xs">
             {submitted ? (
               <div className="text-center py-12 space-y-4">
-                <div className="mx-auto w-14 h-14 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
+                <div className="mx-auto w-14 h-14 rounded-full bg-primary/10 text-primary flex items-center justify-center">
                   <CheckCircle2 className="w-8 h-8" />
                 </div>
                 <h3 className="text-2xl font-bold text-foreground">Message Sent Successfully!</h3>

@@ -61,7 +61,7 @@ export default function AboutPage() {
           </Card>
 
           <Card className="rounded-3xl border-border/80 p-6 sm:p-8 shadow-xs space-y-4">
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold">
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary font-bold">
               <ShieldCheck className="h-6 w-6" />
             </div>
             <h2 className="text-xl font-bold text-foreground">The RoadResQ Solution</h2>
@@ -102,7 +102,7 @@ export default function AboutPage() {
             </Card>
 
             <Card className="rounded-2xl border-border/80 p-6 space-y-3 shadow-xs">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
                 <ShieldCheck className="h-5 w-5" />
               </div>
               <h3 className="text-base font-bold text-foreground">Fair Pricing</h3>
@@ -112,7 +112,7 @@ export default function AboutPage() {
             </Card>
 
             <Card className="rounded-2xl border-border/80 p-6 space-y-3 shadow-xs">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-purple-500/10 text-purple-600 dark:text-purple-400">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent/10 text-accent">
                 <MapPin className="h-5 w-5" />
               </div>
               <h3 className="text-base font-bold text-foreground">Live Tracking</h3>
