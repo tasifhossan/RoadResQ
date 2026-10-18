@@ -44,12 +44,12 @@ const statusStyles: Record<string, { label: string; className: string }> = {
   EN_ROUTE: { label: "En Route", className: "bg-blue-500/15 text-blue-700 border-blue-500/30 dark:text-blue-400 dark:border-blue-500/30" },
   ARRIVED: { label: "Arrived", className: "bg-blue-500/15 text-blue-700 border-blue-500/30 dark:text-blue-400 dark:border-blue-500/30" },
   IN_PROGRESS: { label: "In Progress", className: "bg-orange-500/15 text-orange-700 border-orange-500/30 dark:text-orange-400 dark:border-orange-500/30" },
-  COMPLETED: { label: "Completed", className: "bg-blue-600 text-white border-blue-700 font-semibold dark:bg-blue-500 dark:text-white dark:border-blue-400" },
-  CANCELLED: { label: "Cancelled", className: "bg-red-500/15 text-red-700 border-red-500/30 dark:text-red-400 dark:border-red-500/30" },
+  COMPLETED: { label: "Completed", className: "bg-blue-600 text-white border-blue-700 font-semibold dark:bg-blue-600 dark:text-white dark:border-blue-500" },
+  CANCELLED: { label: "Cancelled", className: "bg-red-500/15 text-red-700 border-red-500/30 dark:text-red-300 dark:border-red-500/30" },
 
   // Invoice / Payment Status
-  PAID: { label: "Paid", className: "bg-blue-600 text-white border-blue-700 font-semibold dark:bg-blue-500 dark:text-white dark:border-blue-400" },
-  FAILED: { label: "Failed", className: "bg-red-500/15 text-red-700 border-red-500/30 dark:text-red-400 dark:border-red-500/30" },
+  PAID: { label: "Paid", className: "bg-blue-600 text-white border-blue-700 font-semibold dark:bg-blue-600 dark:text-white dark:border-blue-500" },
+  FAILED: { label: "Failed", className: "bg-red-500/15 text-red-700 border-red-500/30 dark:text-red-300 dark:border-red-500/30" },
   REFUNDED: { label: "Refunded", className: "bg-slate-500/15 text-slate-700 border-slate-500/30 dark:text-slate-300 dark:border-slate-500/30" },
 
   // Availability
@@ -61,7 +61,7 @@ const statusStyles: Record<string, { label: string; className: string }> = {
   LOW: { label: "Low", className: "bg-slate-500/15 text-slate-700 border-slate-500/30 dark:text-slate-300 dark:border-slate-500/30" },
   NORMAL: { label: "Normal", className: "bg-blue-500/15 text-blue-700 border-blue-500/30 dark:text-blue-400 dark:border-blue-500/30" },
   HIGH: { label: "High", className: "bg-orange-500/15 text-orange-700 border-orange-500/30 dark:text-orange-400 dark:border-orange-500/30" },
-  EMERGENCY: { label: "Emergency", className: "bg-red-500/15 text-red-700 border-red-500/30 dark:text-red-400 dark:border-red-500/30" },
+  EMERGENCY: { label: "Emergency", className: "bg-red-500/15 text-red-700 border-red-500/30 dark:text-red-300 dark:border-red-500/30" },
 
   // Role
   CUSTOMER: { label: "Customer", className: "bg-blue-500/15 text-blue-700 border-blue-500/30 dark:text-blue-400 dark:border-blue-500/30" },

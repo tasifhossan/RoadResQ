@@ -79,12 +79,14 @@ export function MechanicEarningsChart({ monthly }: MechanicEarningsChartProps) {
                 ]}
                 labelFormatter={(lbl) => `Month: ${String(lbl ?? "")}`}
                 contentStyle={{
-                  backgroundColor: "var(--background)",
+                  backgroundColor: "var(--card)",
                   borderColor: "var(--border)",
                   borderRadius: "0.75rem",
-                  boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
-                  color: "var(--foreground)",
+                  boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+                  color: "var(--card-foreground)",
                 }}
+                itemStyle={{ color: "var(--card-foreground)" }}
+                labelStyle={{ color: "var(--card-foreground)", fontWeight: 600 }}
               />
               <Legend
                 wrapperStyle={{ paddingTop: "10px" }}
@@ -94,8 +96,8 @@ export function MechanicEarningsChart({ monthly }: MechanicEarningsChartProps) {
                   </span>
                 )}
               />
-              <Bar dataKey="labor" stackId="a" fill="#2563eb" radius={[0, 0, 4, 4]} />
-              <Bar dataKey="parts" stackId="a" fill="#f97316" radius={[4, 4, 0, 0]} />
+              <Bar dataKey="labor" stackId="a" fill="var(--color-chart-1, #2563eb)" radius={[0, 0, 4, 4]} />
+              <Bar dataKey="parts" stackId="a" fill="var(--color-chart-2, #ea580c)" radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>

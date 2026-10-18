@@ -220,7 +220,7 @@ export function AdminDashboardClient({
               <Card className="rounded-xl border-border bg-card shadow-sm hover:border-primary/50 transition-all cursor-pointer group">
                 <CardContent className="p-4 flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="h-10 w-10 rounded-xl bg-orange-500/10 text-orange-600 flex items-center justify-center">
+                    <div className="h-10 w-10 rounded-xl bg-orange-500/10 text-orange-600 dark:text-orange-400 flex items-center justify-center">
                       <Wrench className="h-5 w-5" />
                     </div>
                     <div>

@@ -324,7 +324,7 @@ export function MechanicDashboardClient({
           title="Rating"
           value={`${ratingVal.toFixed(1)} ★`}
           description="Average customer rating"
-          icon={<Star className="h-5 w-5 text-orange-500 fill-orange-500" />}
+          icon={<Star className="h-5 w-5 text-orange-600 fill-orange-600 dark:text-orange-400 dark:fill-orange-400" />}
         />
 
         {/* Total Jobs */}
@@ -340,7 +340,7 @@ export function MechanicDashboardClient({
           title="Needs Response"
           value={pendingInvitations.length}
           description="Requests awaiting accept"
-          icon={<Inbox className="h-5 w-5 text-orange-500" />}
+          icon={<Inbox className="h-5 w-5 text-orange-600 dark:text-orange-400" />}
         />
 
         {/* Earnings Headline */}
@@ -394,7 +394,7 @@ export function MechanicDashboardClient({
                   </span>
                 </div>
               ) : (
-                <p className="text-sm font-medium text-orange-600 dark:text-orange-400">
+                <p className="text-sm font-medium text-orange-700 dark:text-orange-400">
                   Location coordinates not set. Click &quot;Share my location&quot; to update.
                 </p>
               )}

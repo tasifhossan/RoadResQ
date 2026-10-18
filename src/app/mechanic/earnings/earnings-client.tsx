@@ -178,7 +178,7 @@ export function EarningsClient({ initialData, initialError }: EarningsClientProp
                   Average Rating
                 </CardTitle>
                 <div className="h-9 w-9 rounded-xl bg-orange-500/10 text-orange-600 dark:text-orange-400 flex items-center justify-center">
-                  <Star className="h-5 w-5 fill-orange-500 text-orange-500" />
+                  <Star className="h-5 w-5 fill-orange-600 text-orange-600 dark:fill-orange-400 dark:text-orange-400" />
                 </div>
               </CardHeader>
               <CardContent className="p-5 pt-0">

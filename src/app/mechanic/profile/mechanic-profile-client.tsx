@@ -306,7 +306,7 @@ export function MechanicProfileClient({
                   {/* Rating */}
                   <div className="flex items-center justify-between py-2 border-b border-border">
                     <span className="text-xs text-muted-foreground flex items-center gap-1.5">
-                      <Star className="h-3.5 w-3.5 text-orange-500 fill-orange-500" /> Overall Rating
+                      <Star className="h-3.5 w-3.5 text-orange-600 fill-orange-600 dark:text-orange-400 dark:fill-orange-400" /> Overall Rating
                     </span>
                     <span className="font-bold text-foreground">
                       {mechanicProfile.rating.toFixed(1)} / 5.0
@@ -327,7 +327,7 @@ export function MechanicProfileClient({
                   {(mechanicProfile.currentLat !== undefined && mechanicProfile.currentLat !== null) && (
                     <div className="flex items-center justify-between py-2 border-b border-border">
                       <span className="text-xs text-muted-foreground flex items-center gap-1.5">
-                        <MapPin className="h-3.5 w-3.5 text-red-500" /> Last Known Location
+                        <MapPin className="h-3.5 w-3.5 text-red-600 dark:text-red-400" /> Last Known Location
                       </span>
                       <span className="font-mono text-xs text-foreground">
                         {mechanicProfile.currentLat.toFixed(4)}, {mechanicProfile.currentLng?.toFixed(4)}
@@ -408,8 +408,8 @@ export function MechanicProfileClient({
                             {formatDate(rev.createdAt)}
                           </p>
                         </div>
-                        <div className="flex items-center gap-1 bg-orange-500/10 text-orange-600 dark:text-orange-400 px-2 py-0.5 rounded-full text-xs font-bold">
-                          <Star className="h-3 w-3 fill-orange-500 text-orange-500" />
+                        <div className="flex items-center gap-1 bg-orange-500/10 text-orange-700 dark:text-orange-400 px-2 py-0.5 rounded-full text-xs font-bold">
+                          <Star className="h-3 w-3 fill-orange-600 text-orange-600 dark:fill-orange-400 dark:text-orange-400" />
                           {rev.rating}.0
                         </div>
                       </div>

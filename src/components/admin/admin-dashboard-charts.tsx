@@ -26,9 +26,9 @@ const statusConfig: Record<string, { label: string; color: string }> = {
   ASSIGNED: { label: "Assigned", color: "#60a5fa" }, // lighter brand blue
   EN_ROUTE: { label: "En Route", color: "#3b82f6" }, // medium brand blue
   ARRIVED: { label: "Arrived", color: "#1d4ed8" }, // deep brand blue
-  IN_PROGRESS: { label: "In Progress", color: "#f97316" }, // accent orange
+  IN_PROGRESS: { label: "In Progress", color: "#ea580c" }, // accent orange
   COMPLETED: { label: "Completed", color: "#1e40af" }, // solid primary blue
-  CANCELLED: { label: "Cancelled", color: "#ef4444" }, // destructive red
+  CANCELLED: { label: "Cancelled", color: "#dc2626" }, // destructive red
 };
 
 interface AdminDashboardChartsProps {
@@ -123,12 +123,14 @@ export function AdminDashboardCharts({ data }: AdminDashboardChartsProps) {
                       formatter={(val) => [val, "Requests"]}
                       labelFormatter={(lbl) => `Status: ${String(lbl ?? "")}`}
                       contentStyle={{
-                        backgroundColor: "var(--background)",
+                        backgroundColor: "var(--card)",
                         borderColor: "var(--border)",
                         borderRadius: "0.75rem",
-                        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
-                        color: "var(--foreground)",
+                        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+                        color: "var(--card-foreground)",
                       }}
+                      itemStyle={{ color: "var(--card-foreground)" }}
+                      labelStyle={{ color: "var(--card-foreground)", fontWeight: 600 }}
                     />
                     <Bar dataKey="count" radius={[6, 6, 0, 0]}>
                       {byStatusData.map((entry, index) => (
@@ -200,12 +202,14 @@ export function AdminDashboardCharts({ data }: AdminDashboardChartsProps) {
                         `Date: ${formatDate(typeof lbl === "string" || typeof lbl === "number" ? lbl : String(lbl || ""))}`
                       }
                       contentStyle={{
-                        backgroundColor: "var(--background)",
+                        backgroundColor: "var(--card)",
                         borderColor: "var(--border)",
                         borderRadius: "0.75rem",
-                        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
-                        color: "var(--foreground)",
+                        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+                        color: "var(--card-foreground)",
                       }}
+                      itemStyle={{ color: "var(--card-foreground)" }}
+                      labelStyle={{ color: "var(--card-foreground)", fontWeight: 600 }}
                     />
                     <Area
                       type="monotone"
@@ -273,14 +277,16 @@ export function AdminDashboardCharts({ data }: AdminDashboardChartsProps) {
                     ]}
                     labelFormatter={(lbl) => `Month: ${String(lbl ?? "")}`}
                     contentStyle={{
-                      backgroundColor: "var(--background)",
+                      backgroundColor: "var(--card)",
                       borderColor: "var(--border)",
                       borderRadius: "0.75rem",
-                      boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
-                      color: "var(--foreground)",
+                      boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+                      color: "var(--card-foreground)",
                     }}
+                    itemStyle={{ color: "var(--card-foreground)" }}
+                    labelStyle={{ color: "var(--card-foreground)", fontWeight: 600 }}
                   />
-                  <Bar dataKey="amount" fill="#2563eb" radius={[6, 6, 0, 0]} />
+                  <Bar dataKey="amount" fill="var(--color-chart-1, #2563eb)" radius={[6, 6, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>

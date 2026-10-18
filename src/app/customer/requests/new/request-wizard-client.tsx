@@ -459,7 +459,7 @@ export function RequestWizardClient({ initialVehicles }: RequestWizardClientProp
               </div>
             ) : vehicles.length === 0 ? (
               <div className="rounded-xl border border-dashed border-border bg-muted/30 p-6 text-center space-y-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-orange-500/10 text-orange-500 mx-auto">
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-orange-500/10 text-orange-600 dark:text-orange-400 mx-auto">
                   <AlertCircle className="h-6 w-6" />
                 </div>
                 <div>
@@ -887,7 +887,7 @@ export function RequestWizardClient({ initialVehicles }: RequestWizardClientProp
                       draft.priority === "EMERGENCY"
                         ? "border-destructive text-destructive bg-destructive/10"
                         : draft.priority === "HIGH"
-                        ? "border-orange-500 text-orange-600 bg-orange-500/10"
+                        ? "border-orange-500/30 text-orange-700 dark:text-orange-400 bg-orange-500/10"
                         : "border-primary text-primary bg-primary/10"
                     }`}
                   >

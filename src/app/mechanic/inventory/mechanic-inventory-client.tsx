@@ -330,7 +330,7 @@ export function MechanicInventoryClient({
             onClick={handleToggleLowStock}
             className="rounded-xl gap-2 text-xs sm:text-sm font-medium"
           >
-            <AlertTriangle className="h-4 w-4 text-orange-500" />
+            <AlertTriangle className="h-4 w-4 text-orange-600 dark:text-orange-400" />
             {queryParams.lowStock ? "Showing Low Stock" : "Filter Low Stock"}
           </Button>
         </div>
@@ -436,7 +436,7 @@ export function MechanicInventoryClient({
                             {isLowStock ? (
                               <Badge
                                 variant="outline"
-                                className="bg-orange-500/10 text-orange-600 dark:text-orange-400 border-orange-500/20 font-medium text-xs rounded-full px-2.5 py-0.5"
+                                className="bg-orange-500/10 text-orange-700 dark:text-orange-400 border-orange-500/20 font-medium text-xs rounded-full px-2.5 py-0.5"
                               >
                                 <AlertTriangle className="h-3 w-3 mr-1 shrink-0" />
                                 Low Stock
@@ -501,7 +501,7 @@ export function MechanicInventoryClient({
                           {isLowStock ? (
                             <Badge
                               variant="outline"
-                              className="bg-orange-500/10 text-orange-600 dark:text-orange-400 border-orange-500/20 font-medium text-xs rounded-full"
+                              className="bg-orange-500/10 text-orange-700 dark:text-orange-400 border-orange-500/20 font-medium text-xs rounded-full"
                             >
                               <AlertTriangle className="h-3 w-3 mr-1 shrink-0" />
                               Low Stock

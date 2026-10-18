@@ -511,8 +511,8 @@ export function RequestDetailClient({
                           </div>
 
                           <div className="flex items-center gap-3 text-xs text-muted-foreground flex-wrap">
-                            <span className="flex items-center gap-1 font-semibold text-orange-500">
-                              <Star className="h-3.5 w-3.5 fill-orange-500 text-orange-500" />
+                            <span className="flex items-center gap-1 font-semibold text-orange-700 dark:text-orange-400">
+                              <Star className="h-3.5 w-3.5 fill-orange-600 text-orange-600 dark:fill-orange-400 dark:text-orange-400" />
                               {(m.rating ?? 5.0).toFixed(1)} Rating
                             </span>
                             <span>•</span>
@@ -652,8 +652,8 @@ export function RequestDetailClient({
                 <p className="font-bold text-foreground text-base">{mechanic.name}</p>
                 {mechanic.mechanicProfile && (
                   <div className="flex items-center gap-2 text-xs text-muted-foreground mt-1">
-                    <span className="flex items-center gap-0.5 font-semibold text-orange-500">
-                      <Star className="h-3.5 w-3.5 fill-orange-500 text-orange-500" />
+                    <span className="flex items-center gap-0.5 font-semibold text-orange-700 dark:text-orange-400">
+                      <Star className="h-3.5 w-3.5 fill-orange-600 text-orange-600 dark:fill-orange-400 dark:text-orange-400" />
                       {mechanic.mechanicProfile.rating.toFixed(1)}
                     </span>
                     <span>•</span>
@@ -947,8 +947,8 @@ export function RequestDetailClient({
                 <MessageSquare className="h-5 w-5 text-primary" />
                 <CardTitle className="text-lg">Your Review</CardTitle>
               </div>
-              <div className="flex items-center gap-1 font-bold text-orange-500 text-sm">
-                <Star className="h-4 w-4 fill-orange-500 text-orange-500" />
+              <div className="flex items-center gap-1 font-bold text-orange-700 dark:text-orange-400 text-sm">
+                <Star className="h-4 w-4 fill-orange-600 text-orange-600 dark:fill-orange-400 dark:text-orange-400" />
                 <span>{review.rating} / 5</span>
               </div>
             </div>

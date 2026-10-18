@@ -363,7 +363,7 @@ export function AdminSparePartsClient({
                           ) : (
                             <Badge
                               variant="outline"
-                              className="bg-orange-500/10 text-orange-700 border-orange-500/30 text-xs rounded-full gap-1"
+                              className="bg-orange-500/10 text-orange-700 border-orange-500/30 dark:text-orange-400 dark:border-orange-500/30 text-xs rounded-full gap-1"
                             >
                               <UserCheck className="h-3 w-3" />
                               Mechanic Custom
