@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { UserMenu } from "@/components/layout/user-menu";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { LayoutDashboard, Wrench, Package, DollarSign, User } from "lucide-react";
+import { LayoutDashboard, Wrench, Package, DollarSign, User, Users } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const mechanicNavItems = [
@@ -12,6 +12,7 @@ const mechanicNavItems = [
   { label: "Jobs", href: "/mechanic/requests", icon: Wrench },
   { label: "Inventory", href: "/mechanic/inventory", icon: Package },
   { label: "Earnings", href: "/mechanic/earnings", icon: DollarSign },
+  { label: "Mechanics", href: "/mechanics", icon: Users },
   { label: "Profile", href: "/mechanic/profile", icon: User },
 ];
 
