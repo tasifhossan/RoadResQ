@@ -126,6 +126,7 @@ export function AdminDashboardCharts({ data }: AdminDashboardChartsProps) {
                         borderColor: "var(--border)",
                         borderRadius: "0.75rem",
                         boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+                        color: "var(--foreground)",
                       }}
                     />
                     <Bar dataKey="count" radius={[6, 6, 0, 0]}>
@@ -202,6 +203,7 @@ export function AdminDashboardCharts({ data }: AdminDashboardChartsProps) {
                         borderColor: "var(--border)",
                         borderRadius: "0.75rem",
                         boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+                        color: "var(--foreground)",
                       }}
                     />
                     <Area
@@ -274,6 +276,7 @@ export function AdminDashboardCharts({ data }: AdminDashboardChartsProps) {
                       borderColor: "var(--border)",
                       borderRadius: "0.75rem",
                       boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+                      color: "var(--foreground)",
                     }}
                   />
                   <Bar dataKey="amount" fill="#10b981" radius={[6, 6, 0, 0]} />

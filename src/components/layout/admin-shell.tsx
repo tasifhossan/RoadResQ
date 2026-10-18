@@ -15,6 +15,8 @@ const adminNavItems = [
   { label: "Audit logs", href: "/admin/audit-logs", icon: FileText },
 ];
 
+import { ThemeToggle } from "@/components/theme-toggle";
+
 export function AdminShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const { sidebarCollapsed, toggleSidebarCollapsed, sidebarOpen, toggleSidebar } = useUIStore();
@@ -127,7 +129,8 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
               Admin Portal
             </span>
           </div>
-          <div className="ml-auto">
+          <div className="ml-auto flex items-center gap-3">
+            <ThemeToggle />
             <UserMenu defaultName="Admin User" defaultRole="ADMIN" />
           </div>
         </header>

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { UserMenu } from "@/components/layout/user-menu";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { LayoutDashboard, Wrench, Package, DollarSign, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -61,7 +62,8 @@ export function MechanicShell({ children }: { children: React.ReactNode }) {
               RoadResQ
             </Link>
           </div>
-          <div className="ml-auto">
+          <div className="ml-auto flex items-center gap-3">
+            <ThemeToggle />
             <UserMenu defaultName="Mechanic User" defaultRole="MECHANIC" />
           </div>
         </header>

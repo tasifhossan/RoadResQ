@@ -15,6 +15,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { StatusBadge } from "@/components/shared/status-badge";
 import { LogOut, User as UserIcon } from "lucide-react";
 import { Role } from "@/lib/api/types";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export interface UserMenuProps {
   defaultName?: string;
@@ -75,6 +76,8 @@ export function UserMenu({ defaultName = "User", defaultRole = "CUSTOMER" }: Use
           <UserIcon className="mr-2 h-4 w-4" />
           <span>Profile</span>
         </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <ThemeToggle variant="sub" />
         <DropdownMenuSeparator />
         <DropdownMenuItem
           variant="destructive"

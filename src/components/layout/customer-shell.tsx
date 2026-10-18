@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { UserMenu } from "@/components/layout/user-menu";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { LayoutDashboard, PlusCircle, ListOrdered, Car, CreditCard, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -70,7 +71,8 @@ export function CustomerShell({ children }: { children: React.ReactNode }) {
               RoadResQ
             </Link>
           </div>
-          <div className="ml-auto">
+          <div className="ml-auto flex items-center gap-3">
+            <ThemeToggle />
             <UserMenu defaultName="Customer User" defaultRole="CUSTOMER" />
           </div>
         </header>

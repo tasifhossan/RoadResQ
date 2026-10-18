@@ -83,6 +83,7 @@ export function MechanicEarningsChart({ monthly }: MechanicEarningsChartProps) {
                   borderColor: "var(--border)",
                   borderRadius: "0.75rem",
                   boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+                  color: "var(--foreground)",
                 }}
               />
               <Legend
