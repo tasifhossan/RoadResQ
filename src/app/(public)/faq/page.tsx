@@ -1,4 +1,4 @@
-import { Metadata } from "next";
+﻿import { Metadata } from "next";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -97,7 +97,7 @@ export default function FAQPage() {
         </div>
 
         {/* Demo Shortcut Tip Alert */}
-        <div className="p-5 sm:p-6 rounded-3xl bg-accent/10 border border-accent/30 flex items-start gap-4">
+        <div className="p-5 sm:p-6 rounded-xl bg-accent/10 border border-accent/30 flex items-start gap-4">
           <MapPin className="h-6 w-6 shrink-0 text-accent mt-0.5" />
           <div className="space-y-1 text-sm text-foreground">
             <p className="font-bold text-accent">Demo Testing Pro Tip: Dhaka Location Coordinates</p>
@@ -120,7 +120,7 @@ export default function FAQPage() {
         </div>
 
         {/* Closing CTA */}
-        <div className="p-8 sm:p-12 rounded-3xl bg-gradient-to-br from-primary/10 via-card to-accent/10 border border-border/80 text-center space-y-6">
+        <div className="p-8 sm:p-12 rounded-xl bg-gradient-to-br from-primary/10 via-card to-accent/10 border border-border/80 text-center space-y-6">
           <Badge className="bg-primary text-primary-foreground hover:bg-primary px-3 py-1 text-xs">
             Ready to Rescue?
           </Badge>

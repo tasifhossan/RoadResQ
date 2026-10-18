@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React from "react";
 import {
@@ -74,7 +74,7 @@ export function AdminDashboardCharts({ data }: AdminDashboardChartsProps) {
       {/* Charts Row 1: Requests by Status & Requests Over Time */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Chart 1: Requests by Status */}
-        <Card className="rounded-2xl border-border bg-card p-6 shadow-sm flex flex-col justify-between">
+        <Card className="rounded-xl border-border bg-card p-6 shadow-sm flex flex-col justify-between">
           <div>
             <CardTitle className="text-base font-bold flex items-center gap-2">
               <BarChart3 className="h-5 w-5 text-primary" />
@@ -143,7 +143,7 @@ export function AdminDashboardCharts({ data }: AdminDashboardChartsProps) {
         </Card>
 
         {/* Chart 2: Requests Over Time (Last 14 Days) */}
-        <Card className="rounded-2xl border-border bg-card p-6 shadow-sm flex flex-col justify-between">
+        <Card className="rounded-xl border-border bg-card p-6 shadow-sm flex flex-col justify-between">
           <div>
             <CardTitle className="text-base font-bold flex items-center gap-2">
               <Calendar className="h-5 w-5 text-primary" />
@@ -224,7 +224,7 @@ export function AdminDashboardCharts({ data }: AdminDashboardChartsProps) {
       </div>
 
       {/* Chart 3: Revenue by Month (Last 6 Months) */}
-      <Card className="rounded-2xl border-border bg-card p-6 shadow-sm">
+      <Card className="rounded-xl border-border bg-card p-6 shadow-sm">
         <div>
           <CardTitle className="text-base font-bold flex items-center gap-2">
             <DollarSign className="h-5 w-5 text-primary" />

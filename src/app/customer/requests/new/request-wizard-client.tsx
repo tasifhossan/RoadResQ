@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
@@ -376,7 +376,7 @@ export function RequestWizardClient({ initialVehicles }: RequestWizardClientProp
           title="Request Roadside Assistance"
           description="Follow the steps to submit a service request for a mechanic."
         />
-        <Skeleton className="h-64 w-full rounded-2xl" />
+        <Skeleton className="h-64 w-full rounded-xl" />
       </div>
     );
   }
@@ -392,7 +392,7 @@ export function RequestWizardClient({ initialVehicles }: RequestWizardClientProp
       />
 
       {/* Step Indicator */}
-      <div className="rounded-2xl border border-border bg-card p-4 sm:p-6 shadow-sm">
+      <div className="rounded-xl border border-border bg-card p-4 sm:p-6 shadow-sm">
         <div className="grid grid-cols-4 gap-2 sm:gap-4 relative">
           {STEPS.map((step) => {
             const isCompleted = currentStep > step.id;
@@ -407,7 +407,7 @@ export function RequestWizardClient({ initialVehicles }: RequestWizardClientProp
                 }}
               >
                 <div
-                  className={`flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-2xl font-bold text-sm sm:text-base transition-all ${
+                  className={`flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-xl font-bold text-sm sm:text-base transition-all ${
                     isCompleted
                       ? "bg-primary text-primary-foreground shadow-md"
                       : isCurrent
@@ -437,7 +437,7 @@ export function RequestWizardClient({ initialVehicles }: RequestWizardClientProp
 
       {/* STEP 1: VEHICLE SELECTION */}
       {currentStep === 1 && (
-        <Card className="rounded-2xl border-border shadow-sm">
+        <Card className="rounded-xl border-border shadow-sm">
           <CardHeader>
             <div className="flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
@@ -458,7 +458,7 @@ export function RequestWizardClient({ initialVehicles }: RequestWizardClientProp
                 <Skeleton className="h-16 w-full rounded-xl" />
               </div>
             ) : vehicles.length === 0 ? (
-              <div className="rounded-2xl border border-dashed border-border bg-muted/30 p-6 text-center space-y-4">
+              <div className="rounded-xl border border-dashed border-border bg-muted/30 p-6 text-center space-y-4">
                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-orange-500/10 text-orange-500 mx-auto">
                   <AlertCircle className="h-6 w-6" />
                 </div>
@@ -488,7 +488,7 @@ export function RequestWizardClient({ initialVehicles }: RequestWizardClientProp
                         return (
                           <div
                             key={v.id}
-                            className={`flex items-center justify-between p-4 rounded-2xl border transition-all cursor-pointer ${
+                            className={`flex items-center justify-between p-4 rounded-xl border transition-all cursor-pointer ${
                               isSelected
                                 ? "border-primary bg-primary/5 shadow-sm"
                                 : "border-border hover:bg-muted/40"
@@ -526,7 +526,7 @@ export function RequestWizardClient({ initialVehicles }: RequestWizardClientProp
                       })}
 
                       <div
-                        className={`flex items-center space-x-3 p-4 rounded-2xl border transition-all cursor-pointer ${
+                        className={`flex items-center space-x-3 p-4 rounded-xl border transition-all cursor-pointer ${
                           !field.value
                             ? "border-primary bg-primary/5 shadow-sm"
                             : "border-border hover:bg-muted/40"
@@ -578,7 +578,7 @@ export function RequestWizardClient({ initialVehicles }: RequestWizardClientProp
 
       {/* STEP 2: LOCATION */}
       {currentStep === 2 && (
-        <Card className="rounded-2xl border-border shadow-sm">
+        <Card className="rounded-xl border-border shadow-sm">
           <CardHeader>
             <div className="flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
@@ -594,7 +594,7 @@ export function RequestWizardClient({ initialVehicles }: RequestWizardClientProp
           </CardHeader>
           <CardContent className="space-y-6 pt-2">
             {/* Geolocation Button */}
-            <div className="rounded-2xl border border-primary/20 bg-primary/5 p-5 space-y-3">
+            <div className="rounded-xl border border-primary/20 bg-primary/5 p-5 space-y-3">
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <div>
                   <h4 className="font-semibold text-foreground flex items-center gap-2">
@@ -705,7 +705,7 @@ export function RequestWizardClient({ initialVehicles }: RequestWizardClientProp
 
       {/* STEP 3: PROBLEM DETAILS */}
       {currentStep === 3 && (
-        <Card className="rounded-2xl border-border shadow-sm">
+        <Card className="rounded-xl border-border shadow-sm">
           <CardHeader>
             <div className="flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
@@ -758,7 +758,7 @@ export function RequestWizardClient({ initialVehicles }: RequestWizardClientProp
                         return (
                           <div
                             key={p}
-                            className={`flex items-start space-x-3 p-4 rounded-2xl border transition-all cursor-pointer ${
+                            className={`flex items-start space-x-3 p-4 rounded-xl border transition-all cursor-pointer ${
                               isSelected
                                 ? isEmergency
                                   ? "border-destructive bg-destructive/5 shadow-sm"
@@ -815,7 +815,7 @@ export function RequestWizardClient({ initialVehicles }: RequestWizardClientProp
 
       {/* STEP 4: REVIEW & PHOTO ATTACHMENTS & SUBMIT */}
       {currentStep === 4 && (
-        <Card className="rounded-2xl border-border shadow-sm overflow-hidden">
+        <Card className="rounded-xl border-border shadow-sm overflow-hidden">
           <CardHeader className="bg-muted/30 border-b border-border">
             <div className="flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
@@ -833,7 +833,7 @@ export function RequestWizardClient({ initialVehicles }: RequestWizardClientProp
             {/* Summary Details Grid */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {/* Vehicle Summary Card */}
-              <div className="rounded-2xl border border-border p-4 space-y-2 bg-card">
+              <div className="rounded-xl border border-border p-4 space-y-2 bg-card">
                 <div className="flex items-center gap-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                   <Car className="h-4 w-4 text-primary" />
                   Vehicle
@@ -853,7 +853,7 @@ export function RequestWizardClient({ initialVehicles }: RequestWizardClientProp
               </div>
 
               {/* Location Summary Card */}
-              <div className="rounded-2xl border border-border p-4 space-y-2 bg-card">
+              <div className="rounded-xl border border-border p-4 space-y-2 bg-card">
                 <div className="flex items-center gap-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                   <MapPin className="h-4 w-4 text-primary" />
                   Location Coordinates
@@ -869,7 +869,7 @@ export function RequestWizardClient({ initialVehicles }: RequestWizardClientProp
               </div>
 
               {/* Priority Summary Card */}
-              <div className="rounded-2xl border border-border p-4 space-y-2 bg-card">
+              <div className="rounded-xl border border-border p-4 space-y-2 bg-card">
                 <div className="flex items-center gap-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                   <ShieldAlert className="h-4 w-4 text-primary" />
                   Priority Level
@@ -892,7 +892,7 @@ export function RequestWizardClient({ initialVehicles }: RequestWizardClientProp
             </div>
 
             {/* Problem Description Summary */}
-            <div className="rounded-2xl border border-border p-4 space-y-2 bg-card">
+            <div className="rounded-xl border border-border p-4 space-y-2 bg-card">
               <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                 Problem Description
               </p>
@@ -902,7 +902,7 @@ export function RequestWizardClient({ initialVehicles }: RequestWizardClientProp
             </div>
 
             {/* Damage Photos Section */}
-            <div className="rounded-2xl border border-border p-5 space-y-4 bg-card">
+            <div className="rounded-xl border border-border p-5 space-y-4 bg-card">
               <div className="flex items-center justify-between">
                 <div>
                   <h4 className="font-semibold text-foreground flex items-center gap-2">

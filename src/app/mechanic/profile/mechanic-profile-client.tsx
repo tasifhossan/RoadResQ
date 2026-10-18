@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -153,8 +153,8 @@ export function MechanicProfileClient({
       {/* Loading state */}
       {isUserLoading && !user && (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <Skeleton className="h-96 lg:col-span-2 rounded-2xl" />
-          <Skeleton className="h-96 rounded-2xl" />
+          <Skeleton className="h-96 lg:col-span-2 rounded-xl" />
+          <Skeleton className="h-96 rounded-xl" />
         </div>
       )}
 
@@ -162,7 +162,7 @@ export function MechanicProfileClient({
         <div className="space-y-8">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Account Details Form (Editable Name & Phone) */}
-            <Card className="lg:col-span-2 rounded-2xl border-border bg-card shadow-sm p-6 space-y-4">
+            <Card className="lg:col-span-2 rounded-xl border-border bg-card shadow-sm p-6 space-y-4">
               <div>
                 <CardTitle className="text-xl font-bold flex items-center gap-2">
                   <UserIcon className="h-5 w-5 text-primary" />
@@ -264,7 +264,7 @@ export function MechanicProfileClient({
             </Card>
 
             {/* Read-Only Mechanic Profile Metrics */}
-            <Card className="rounded-2xl border-border bg-card shadow-sm p-6 space-y-4">
+            <Card className="rounded-xl border-border bg-card shadow-sm p-6 space-y-4">
               <div>
                 <CardTitle className="text-xl font-bold flex items-center gap-2">
                   <Wrench className="h-5 w-5 text-primary" />
@@ -361,7 +361,7 @@ export function MechanicProfileClient({
           </div>
 
           {/* "My Reviews" Section */}
-          <Card className="rounded-2xl border-border bg-card p-6 shadow-sm space-y-6">
+          <Card className="rounded-xl border-border bg-card p-6 shadow-sm space-y-6">
             <div>
               <CardTitle className="text-xl font-bold flex items-center gap-2">
                 <MessageSquare className="h-5 w-5 text-primary" />

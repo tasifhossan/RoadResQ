@@ -1,4 +1,4 @@
-import { Metadata } from "next";
+﻿import { Metadata } from "next";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -75,7 +75,7 @@ const WORKFLOW_STEPS = [
     roleVariant: "MECHANIC" as const,
     icon: Clock,
     description:
-      "As the mechanic travels to the breakdown location and performs repairs, they update job status in real time: EN_ROUTE → ARRIVED → IN_PROGRESS → COMPLETED.",
+      "As the mechanic travels to the breakdown location and performs repairs, they update job status in real time: EN_ROUTE â†’ ARRIVED â†’ IN_PROGRESS â†’ COMPLETED.",
     details: ["Live real-time status updates", "GPS location update pings", "Sequential state transition verification"],
   },
   {
@@ -149,10 +149,10 @@ export default function HowItWorksPage() {
             {WORKFLOW_STEPS.map((item) => {
               const Icon = item.icon;
               return (
-                <Card key={item.step} className="rounded-2xl border-border/80 shadow-xs overflow-hidden transition-all hover:border-primary/40">
+                <Card key={item.step} className="rounded-xl border-border/80 shadow-xs overflow-hidden transition-all hover:border-primary/40">
                   <div className="p-6 sm:p-8 flex flex-col md:flex-row gap-6 items-start">
                     <div className="flex items-center gap-4 shrink-0">
-                      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary text-primary-foreground font-extrabold text-lg shadow-sm">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary text-primary-foreground font-extrabold text-lg shadow-sm">
                         0{item.step}
                       </div>
                       <div className="md:hidden">
@@ -192,7 +192,7 @@ export default function HowItWorksPage() {
         </div>
 
         {/* Closing CTA */}
-        <div className="p-8 sm:p-12 rounded-3xl bg-gradient-to-br from-primary/10 via-card to-accent/10 border border-border/80 text-center space-y-6">
+        <div className="p-8 sm:p-12 rounded-xl bg-gradient-to-br from-primary/10 via-card to-accent/10 border border-border/80 text-center space-y-6">
           <Badge className="bg-primary text-primary-foreground hover:bg-primary px-3 py-1 text-xs">
             Interactive Rescue Demo
           </Badge>

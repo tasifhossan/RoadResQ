@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import {
   Dialog,
@@ -38,7 +38,7 @@ export function ConfirmDialog({
 }: ConfirmDialogProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md rounded-2xl p-6">
+      <DialogContent className="sm:max-w-md rounded-xl p-6">
         <DialogHeader>
           <DialogTitle className="text-lg font-bold">{title}</DialogTitle>
           <DialogDescription className="text-sm text-muted-foreground pt-1">

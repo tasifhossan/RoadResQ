@@ -1,4 +1,4 @@
-import { Metadata } from "next";
+﻿import { Metadata } from "next";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -39,7 +39,7 @@ export default function Home() {
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-accent"></span>
                 </span>
-                Roadside Assistance Demo • SSLCommerz Gateway Test Mode
+                Roadside Assistance Demo â€¢ SSLCommerz Gateway Test Mode
               </div>
 
               <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-foreground leading-[1.15]">
@@ -76,7 +76,7 @@ export default function Home() {
 
             {/* Right Visual (Pure CSS & Inline SVG) */}
             <div className="lg:col-span-5 flex justify-center w-full">
-              <div className="relative w-full max-w-lg rounded-2xl border border-border/80 bg-card p-6 shadow-xl overflow-hidden">
+              <div className="relative w-full max-w-lg rounded-xl border border-border/80 bg-card p-6 shadow-xl overflow-hidden">
                 {/* Visual Header */}
                 <div className="flex items-center justify-between pb-4 mb-4 border-b border-border/60">
                   <div className="flex items-center gap-2">
@@ -102,7 +102,7 @@ export default function Home() {
                         <p className="text-sm font-semibold text-foreground truncate">1. Customer Request</p>
                         <span className="text-[11px] text-muted-foreground font-mono">GPS Tagged</span>
                       </div>
-                      <p className="text-xs text-muted-foreground truncate mt-0.5">Vehicle: Sedan • Battery jump required</p>
+                      <p className="text-xs text-muted-foreground truncate mt-0.5">Vehicle: Sedan â€¢ Battery jump required</p>
                     </div>
                   </div>
 
@@ -180,7 +180,7 @@ export default function Home() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 relative">
             {/* Step 1 */}
-            <div className="relative flex flex-col rounded-2xl border border-border/80 bg-background p-6 shadow-sm hover:shadow-md transition-shadow">
+            <div className="relative flex flex-col rounded-xl border border-border/80 bg-background p-6 shadow-sm hover:shadow-md transition-shadow">
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary font-bold text-lg mb-5">
                 01
               </div>
@@ -195,7 +195,7 @@ export default function Home() {
             </div>
 
             {/* Step 2 */}
-            <div className="relative flex flex-col rounded-2xl border border-border/80 bg-background p-6 shadow-sm hover:shadow-md transition-shadow">
+            <div className="relative flex flex-col rounded-xl border border-border/80 bg-background p-6 shadow-sm hover:shadow-md transition-shadow">
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-accent/10 text-accent font-bold text-lg mb-5">
                 02
               </div>
@@ -210,7 +210,7 @@ export default function Home() {
             </div>
 
             {/* Step 3 */}
-            <div className="relative flex flex-col rounded-2xl border border-border/80 bg-background p-6 shadow-sm hover:shadow-md transition-shadow">
+            <div className="relative flex flex-col rounded-xl border border-border/80 bg-background p-6 shadow-sm hover:shadow-md transition-shadow">
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary font-bold text-lg mb-5">
                 03
               </div>
@@ -225,7 +225,7 @@ export default function Home() {
             </div>
 
             {/* Step 4 */}
-            <div className="relative flex flex-col rounded-2xl border border-border/80 bg-background p-6 shadow-sm hover:shadow-md transition-shadow">
+            <div className="relative flex flex-col rounded-xl border border-border/80 bg-background p-6 shadow-sm hover:shadow-md transition-shadow">
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary font-bold text-lg mb-5">
                 04
               </div>
@@ -269,7 +269,7 @@ export default function Home() {
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Customer Role Card */}
-            <Card className="rounded-2xl border-border/80 shadow-sm flex flex-col justify-between hover:border-primary/50 transition-colors">
+            <Card className="rounded-xl border-border/80 shadow-sm flex flex-col justify-between hover:border-primary/50 transition-colors">
               <CardHeader className="pb-4">
                 <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary mb-4">
                   <Car className="h-6 w-6" />
@@ -304,7 +304,7 @@ export default function Home() {
             </Card>
 
             {/* Mechanic Role Card */}
-            <Card className="rounded-2xl border-border/80 shadow-sm flex flex-col justify-between hover:border-accent/50 transition-colors">
+            <Card className="rounded-xl border-border/80 shadow-sm flex flex-col justify-between hover:border-accent/50 transition-colors">
               <CardHeader className="pb-4">
                 <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-accent/10 text-accent mb-4">
                   <Wrench className="h-6 w-6" />
@@ -339,7 +339,7 @@ export default function Home() {
             </Card>
 
             {/* Admin Role Card */}
-            <Card className="rounded-2xl border-border/80 shadow-sm flex flex-col justify-between hover:border-primary/50 transition-colors">
+            <Card className="rounded-xl border-border/80 shadow-sm flex flex-col justify-between hover:border-primary/50 transition-colors">
               <CardHeader className="pb-4">
                 <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary mb-4">
                   <ShieldCheck className="h-6 w-6" />
@@ -393,7 +393,7 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {/* Highlight 1 */}
-            <div className="p-6 rounded-2xl border border-border/80 bg-background shadow-sm space-y-3">
+            <div className="p-6 rounded-xl border border-border/80 bg-background shadow-sm space-y-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
                 <Clock className="h-5 w-5" />
               </div>
@@ -404,7 +404,7 @@ export default function Home() {
             </div>
 
             {/* Highlight 2 */}
-            <div className="p-6 rounded-2xl border border-border/80 bg-background shadow-sm space-y-3">
+            <div className="p-6 rounded-xl border border-border/80 bg-background shadow-sm space-y-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-accent/10 text-accent">
                 <Navigation className="h-5 w-5" />
               </div>
@@ -415,7 +415,7 @@ export default function Home() {
             </div>
 
             {/* Highlight 3 */}
-            <div className="p-6 rounded-2xl border border-border/80 bg-background shadow-sm space-y-3">
+            <div className="p-6 rounded-xl border border-border/80 bg-background shadow-sm space-y-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
                 <FileText className="h-5 w-5" />
               </div>
@@ -426,7 +426,7 @@ export default function Home() {
             </div>
 
             {/* Highlight 4 */}
-            <div className="p-6 rounded-2xl border border-border/80 bg-background shadow-sm space-y-3">
+            <div className="p-6 rounded-xl border border-border/80 bg-background shadow-sm space-y-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
                 <CreditCard className="h-5 w-5" />
               </div>
@@ -437,13 +437,13 @@ export default function Home() {
             </div>
 
             {/* Highlight 5 */}
-            <div className="p-6 rounded-2xl border border-border/80 bg-background shadow-sm space-y-3 md:col-span-2 lg:col-span-1">
+            <div className="p-6 rounded-xl border border-border/80 bg-background shadow-sm space-y-3 md:col-span-2 lg:col-span-1">
               <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-accent/10 text-accent">
                 <Star className="h-5 w-5" />
               </div>
               <h3 className="text-lg font-semibold text-foreground">Dynamic Mechanic Ratings</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Customer reviews and 1-to-5 star ratings feed directly into backend calculations, dynamically updating the mechanic’s overall average rating and job history.
+                Customer reviews and 1-to-5 star ratings feed directly into backend calculations, dynamically updating the mechanicâ€™s overall average rating and job history.
               </p>
             </div>
           </div>

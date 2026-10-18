@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import dynamic from "next/dynamic";
@@ -29,7 +29,7 @@ const MechanicEarningsChart = dynamic(
   () => import("@/components/mechanic/mechanic-earnings-chart").then((m) => m.MechanicEarningsChart),
   {
     ssr: false,
-    loading: () => <Skeleton className="h-[380px] w-full rounded-2xl" />,
+    loading: () => <Skeleton className="h-[380px] w-full rounded-xl" />,
   }
 );
 
@@ -72,10 +72,10 @@ export function EarningsClient({ initialData, initialError }: EarningsClientProp
         <div className="space-y-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {Array.from({ length: 6 }).map((_, i) => (
-              <Skeleton key={i} className="h-28 rounded-2xl" />
+              <Skeleton key={i} className="h-28 rounded-xl" />
             ))}
           </div>
-          <Skeleton className="h-80 rounded-2xl" />
+          <Skeleton className="h-80 rounded-xl" />
         </div>
       )}
 
@@ -84,7 +84,7 @@ export function EarningsClient({ initialData, initialError }: EarningsClientProp
           {/* KPI Cards Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {/* Grand Total */}
-            <Card className="rounded-2xl border-border bg-card shadow-sm hover:shadow-md transition-shadow">
+            <Card className="rounded-xl border-border bg-card shadow-sm hover:shadow-md transition-shadow">
               <CardHeader className="flex flex-row items-center justify-between pb-2 p-5">
                 <CardTitle className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                   Grand Total Revenue
@@ -102,7 +102,7 @@ export function EarningsClient({ initialData, initialError }: EarningsClientProp
             </Card>
 
             {/* Labor Total */}
-            <Card className="rounded-2xl border-border bg-card shadow-sm hover:shadow-md transition-shadow">
+            <Card className="rounded-xl border-border bg-card shadow-sm hover:shadow-md transition-shadow">
               <CardHeader className="flex flex-row items-center justify-between pb-2 p-5">
                 <CardTitle className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                   Labor Revenue
@@ -120,7 +120,7 @@ export function EarningsClient({ initialData, initialError }: EarningsClientProp
             </Card>
 
             {/* Parts Total */}
-            <Card className="rounded-2xl border-border bg-card shadow-sm hover:shadow-md transition-shadow">
+            <Card className="rounded-xl border-border bg-card shadow-sm hover:shadow-md transition-shadow">
               <CardHeader className="flex flex-row items-center justify-between pb-2 p-5">
                 <CardTitle className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                   Spare Parts Revenue
@@ -138,7 +138,7 @@ export function EarningsClient({ initialData, initialError }: EarningsClientProp
             </Card>
 
             {/* Pending Amount */}
-            <Card className="rounded-2xl border-border bg-card shadow-sm hover:shadow-md transition-shadow">
+            <Card className="rounded-xl border-border bg-card shadow-sm hover:shadow-md transition-shadow">
               <CardHeader className="flex flex-row items-center justify-between pb-2 p-5">
                 <CardTitle className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                   Pending Payouts
@@ -156,7 +156,7 @@ export function EarningsClient({ initialData, initialError }: EarningsClientProp
             </Card>
 
             {/* Completed Jobs */}
-            <Card className="rounded-2xl border-border bg-card shadow-sm hover:shadow-md transition-shadow">
+            <Card className="rounded-xl border-border bg-card shadow-sm hover:shadow-md transition-shadow">
               <CardHeader className="flex flex-row items-center justify-between pb-2 p-5">
                 <CardTitle className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                   Completed Jobs
@@ -172,7 +172,7 @@ export function EarningsClient({ initialData, initialError }: EarningsClientProp
             </Card>
 
             {/* Average Rating */}
-            <Card className="rounded-2xl border-border bg-card shadow-sm hover:shadow-md transition-shadow">
+            <Card className="rounded-xl border-border bg-card shadow-sm hover:shadow-md transition-shadow">
               <CardHeader className="flex flex-row items-center justify-between pb-2 p-5">
                 <CardTitle className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                   Average Rating
@@ -194,7 +194,7 @@ export function EarningsClient({ initialData, initialError }: EarningsClientProp
           <MechanicEarningsChart monthly={monthly} />
 
           {/* Recent Completed Invoices / Jobs Table */}
-          <Card className="rounded-2xl border-border bg-card p-6 shadow-sm space-y-4">
+          <Card className="rounded-xl border-border bg-card p-6 shadow-sm space-y-4">
             <div className="flex items-center justify-between">
               <div>
                 <CardTitle className="text-lg font-bold flex items-center gap-2">

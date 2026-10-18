@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -101,7 +101,7 @@ export function CustomerPaymentsClient({
         <div className="text-xs space-y-0.5 font-mono">
           <div className="flex items-center gap-2 text-muted-foreground">
             <span>Labor: {formatMoney(item.invoice.laborCost)}</span>
-            <span>•</span>
+            <span>â€¢</span>
             <span>Parts: {formatMoney(item.invoice.partsCost)}</span>
           </div>
           <div className="font-semibold text-foreground">
@@ -152,7 +152,7 @@ export function CustomerPaymentsClient({
       />
 
       {/* Filter Bar */}
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-card p-4 rounded-2xl border border-border shadow-sm">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-card p-4 rounded-xl border border-border shadow-sm">
         <div className="flex flex-wrap items-center gap-3">
           <FilterSelect
             paramName="status"
@@ -200,7 +200,7 @@ export function CustomerPaymentsClient({
             {paymentsList.map((item) => (
               <Card
                 key={item.id}
-                className="rounded-2xl border-border shadow-sm overflow-hidden"
+                className="rounded-xl border-border shadow-sm overflow-hidden"
               >
                 <CardHeader className="pb-3 flex flex-row items-start justify-between space-y-0 bg-muted/20">
                   <div>

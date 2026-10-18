@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React from "react";
 import {
@@ -37,7 +37,7 @@ export function MechanicEarningsChart({ monthly }: MechanicEarningsChartProps) {
   const isChartAllZero = chartData.every((m) => m.labor === 0 && m.parts === 0);
 
   return (
-    <Card className="rounded-2xl border-border bg-card p-6 shadow-sm space-y-4">
+    <Card className="rounded-xl border-border bg-card p-6 shadow-sm space-y-4">
       <div>
         <CardTitle className="text-lg font-bold">6-Month Earnings Breakdown</CardTitle>
         <CardDescription className="text-xs text-muted-foreground">

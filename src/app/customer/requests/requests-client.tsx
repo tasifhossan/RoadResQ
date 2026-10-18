@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -166,7 +166,7 @@ export function CustomerRequestsClient({
       </PageHeader>
 
       {/* Filter & Sort Controls */}
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-card p-4 rounded-2xl border border-border shadow-sm">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-card p-4 rounded-xl border border-border shadow-sm">
         <div className="flex flex-wrap items-center gap-3">
           <FilterSelect
             paramName="status"
@@ -241,7 +241,7 @@ export function CustomerRequestsClient({
               <Card
                 key={item.id}
                 onClick={() => router.push(`/customer/requests/${item.id}`)}
-                className="rounded-2xl border-border shadow-sm overflow-hidden hover:border-primary/50 transition-all cursor-pointer"
+                className="rounded-xl border-border shadow-sm overflow-hidden hover:border-primary/50 transition-all cursor-pointer"
               >
                 <CardHeader className="pb-3 flex flex-row items-start justify-between space-y-0">
                   <div>

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -316,7 +316,7 @@ export function MechanicInventoryClient({
       </PageHeader>
 
       {/* Filter and Search Bar */}
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-card p-4 rounded-2xl border border-border shadow-sm">
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-card p-4 rounded-xl border border-border shadow-sm">
         <SearchInput
           placeholder="Search by part name..."
           paramName="search"
@@ -350,7 +350,7 @@ export function MechanicInventoryClient({
       {/* Skeleton loading state */}
       {isLoading && !data && (
         <div className="space-y-4">
-          <div className="rounded-2xl border border-border bg-card p-4 space-y-3">
+          <div className="rounded-xl border border-border bg-card p-4 space-y-3">
             {Array.from({ length: 5 }).map((_, i) => (
               <Skeleton key={i} className="h-12 w-full rounded-xl" />
             ))}
@@ -389,7 +389,7 @@ export function MechanicInventoryClient({
           ) : (
             <>
               {/* Desktop Table View */}
-              <div className="hidden md:block rounded-2xl border border-border bg-card overflow-hidden shadow-sm">
+              <div className="hidden md:block rounded-xl border border-border bg-card overflow-hidden shadow-sm">
                 <Table>
                   <TableHeader>
                     <TableRow className="bg-muted/40 hover:bg-muted/40">
@@ -486,7 +486,7 @@ export function MechanicInventoryClient({
                   const isLowStock = item.stock <= LOW_STOCK_THRESHOLD;
 
                   return (
-                    <Card key={item.id} className="rounded-2xl border-border shadow-sm">
+                    <Card key={item.id} className="rounded-xl border-border shadow-sm">
                       <CardHeader className="p-4 pb-2">
                         <div className="flex items-start justify-between gap-2">
                           <div className="space-y-1">
@@ -567,7 +567,7 @@ export function MechanicInventoryClient({
 
       {/* Add Inventory Item Dialog */}
       <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
-        <DialogContent className="sm:max-w-lg rounded-2xl p-6">
+        <DialogContent className="sm:max-w-lg rounded-xl p-6">
           <DialogHeader>
             <DialogTitle className="text-xl font-bold">Add Spare Part to Inventory</DialogTitle>
             <DialogDescription className="text-sm text-muted-foreground">
@@ -744,7 +744,7 @@ export function MechanicInventoryClient({
 
       {/* Edit Inventory Item Dialog */}
       <Dialog open={Boolean(editingItem)} onOpenChange={(open) => !open && setEditingItem(null)}>
-        <DialogContent className="sm:max-w-md rounded-2xl p-6">
+        <DialogContent className="sm:max-w-md rounded-xl p-6">
           <DialogHeader>
             <DialogTitle className="text-xl font-bold">Edit Inventory Item</DialogTitle>
             <DialogDescription className="text-sm text-muted-foreground">

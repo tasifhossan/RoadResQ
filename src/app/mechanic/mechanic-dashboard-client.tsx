@@ -268,7 +268,7 @@ export function MechanicDashboardClient({
   }
 
   return (
-    <div className="space-y-8 max-w-7xl mx-auto">
+    <div className="space-y-6 sm:space-y-8 w-full">
       {/* Top Header & Controls */}
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 pb-2 border-b">
         <PageHeader
@@ -277,7 +277,7 @@ export function MechanicDashboardClient({
         />
 
         {/* Availability Controls */}
-        <div className="flex items-center gap-4 bg-card p-3 rounded-2xl border shadow-sm shrink-0">
+        <div className="flex items-center gap-4 bg-card p-3 rounded-xl border shadow-sm shrink-0">
           <div className="flex items-center gap-2">
             <Activity className="h-4 w-4 text-muted-foreground" />
             <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
@@ -322,7 +322,7 @@ export function MechanicDashboardClient({
         {/* Rating */}
         <StatCard
           title="Rating"
-          value={`${ratingVal.toFixed(1)} ★`}
+          value={`${ratingVal.toFixed(1)} â˜…`}
           description="Average customer rating"
           icon={<Star className="h-5 w-5 text-orange-500 fill-orange-500" />}
         />
@@ -353,7 +353,7 @@ export function MechanicDashboardClient({
       </div>
 
       {/* Location Card */}
-      <Card className="rounded-2xl border shadow-sm overflow-hidden bg-card">
+      <Card className="rounded-xl border shadow-sm overflow-hidden bg-card">
         <CardHeader className="bg-muted/30 border-b py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -408,7 +408,7 @@ export function MechanicDashboardClient({
       </Card>
 
       {/* Active Job Section */}
-      <Card className="rounded-2xl border shadow-sm overflow-hidden bg-card">
+      <Card className="rounded-xl border shadow-sm overflow-hidden bg-card">
         <CardHeader className="bg-muted/30 border-b py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -494,7 +494,7 @@ export function MechanicDashboardClient({
       </Card>
 
       {/* Needs Your Response Section (ASSIGNED status) */}
-      <Card className="rounded-2xl border shadow-sm overflow-hidden bg-card">
+      <Card className="rounded-xl border shadow-sm overflow-hidden bg-card">
         <CardHeader className="bg-muted/30 border-b py-4 flex flex-row items-center justify-between">
           <div>
             <CardTitle className="text-base font-bold flex items-center gap-2">

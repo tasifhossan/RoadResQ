@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import Link from "next/link";
@@ -405,7 +405,7 @@ export function MechanicRequestDetailClient({
       </div>
 
       {/* Status Timeline */}
-      <Card className="rounded-2xl border shadow-sm bg-card overflow-hidden">
+      <Card className="rounded-xl border shadow-sm bg-card overflow-hidden">
         <CardHeader className="bg-muted/30 border-b py-3.5">
           <CardTitle className="text-sm font-bold flex items-center gap-2">
             <ShieldCheck className="h-4 w-4 text-primary" />
@@ -461,7 +461,7 @@ export function MechanicRequestDetailClient({
       {/* Customer & Vehicle Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Customer Card */}
-        <Card className="rounded-2xl border shadow-sm">
+        <Card className="rounded-xl border shadow-sm">
           <CardHeader className="bg-muted/30 border-b py-3.5">
             <CardTitle className="text-sm font-bold flex items-center gap-2">
               <User className="h-4 w-4 text-primary" />
@@ -501,7 +501,7 @@ export function MechanicRequestDetailClient({
         </Card>
 
         {/* Vehicle Card */}
-        <Card className="rounded-2xl border shadow-sm">
+        <Card className="rounded-xl border shadow-sm">
           <CardHeader className="bg-muted/30 border-b py-3.5">
             <CardTitle className="text-sm font-bold flex items-center gap-2">
               <Car className="h-4 w-4 text-primary" />
@@ -534,7 +534,7 @@ export function MechanicRequestDetailClient({
       {/* Problem Description & Location */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Issue Overview (2 cols) */}
-        <Card className="md:col-span-2 rounded-2xl border shadow-sm">
+        <Card className="md:col-span-2 rounded-xl border shadow-sm">
           <CardHeader className="bg-muted/30 border-b py-3.5">
             <div className="flex items-center justify-between">
               <CardTitle className="text-sm font-bold flex items-center gap-2">
@@ -556,7 +556,7 @@ export function MechanicRequestDetailClient({
         </Card>
 
         {/* Location Card (1 col) */}
-        <Card className="rounded-2xl border shadow-sm">
+        <Card className="rounded-xl border shadow-sm">
           <CardHeader className="bg-muted/30 border-b py-3.5">
             <CardTitle className="text-sm font-bold flex items-center gap-2">
               <MapPin className="h-4 w-4 text-primary" />
@@ -587,7 +587,7 @@ export function MechanicRequestDetailClient({
       </div>
 
       {/* Damage Photos Gallery */}
-      <Card className="rounded-2xl border shadow-sm">
+      <Card className="rounded-xl border shadow-sm">
         <CardHeader className="bg-muted/30 border-b py-3.5">
           <CardTitle className="text-sm font-bold flex items-center gap-2">
             <FileText className="h-4 w-4 text-primary" />
@@ -627,7 +627,7 @@ export function MechanicRequestDetailClient({
       </Card>
 
       {/* Parts Used Section & Log Form */}
-      <Card className="rounded-2xl border shadow-sm bg-card overflow-hidden">
+      <Card className="rounded-xl border shadow-sm bg-card overflow-hidden">
         <CardHeader className="bg-muted/30 border-b py-3.5 flex flex-row items-center justify-between">
           <CardTitle className="text-sm font-bold flex items-center gap-2">
             <Package className="h-4 w-4 text-primary" />
@@ -766,7 +766,7 @@ export function MechanicRequestDetailClient({
 
       {/* Invoice & Payment Summary (Shown if Invoice Exists or Job Completed) */}
       {request.invoice && (
-        <Card className="rounded-2xl border shadow-sm bg-card overflow-hidden">
+        <Card className="rounded-xl border shadow-sm bg-card overflow-hidden">
           <CardHeader className="bg-muted/30 border-b py-3.5 flex flex-row items-center justify-between">
             <CardTitle className="text-sm font-bold flex items-center gap-2">
               <CreditCard className="h-4 w-4 text-primary" />

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
@@ -194,7 +194,7 @@ export function JobsListClient({
       />
 
       {/* Filter and Sort Toolbar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-card p-4 rounded-2xl border shadow-sm">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-card p-4 rounded-xl border shadow-sm">
         <div className="flex flex-wrap items-center gap-3">
           <div className="flex items-center gap-2 text-xs font-semibold text-muted-foreground">
             <Filter className="h-4 w-4" />
@@ -225,7 +225,7 @@ export function JobsListClient({
 
       {/* Main Content: Desktop Table & Mobile Cards */}
       {isLoading ? (
-        <div className="space-y-4 p-6 bg-card rounded-2xl border">
+        <div className="space-y-4 p-6 bg-card rounded-xl border">
           <Skeleton className="h-12 w-full rounded-xl" />
           <Skeleton className="h-16 w-full rounded-xl" />
           <Skeleton className="h-16 w-full rounded-xl" />
@@ -234,7 +234,7 @@ export function JobsListClient({
       ) : items.length > 0 ? (
         <>
           {/* Desktop Data Table */}
-          <div className="hidden md:block bg-card rounded-2xl border shadow-sm overflow-hidden">
+          <div className="hidden md:block bg-card rounded-xl border shadow-sm overflow-hidden">
             <DataTable
               columns={columns}
               data={items}
@@ -247,7 +247,7 @@ export function JobsListClient({
             {items.map((req) => (
               <Card
                 key={req.id}
-                className="rounded-2xl border shadow-sm overflow-hidden hover:bg-muted/10 transition-colors"
+                className="rounded-xl border shadow-sm overflow-hidden hover:bg-muted/10 transition-colors"
               >
                 <CardContent className="p-5 space-y-4">
                   <div className="flex items-start justify-between gap-2">

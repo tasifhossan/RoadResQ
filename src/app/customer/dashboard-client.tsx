@@ -69,7 +69,7 @@ export function DashboardClient({
   const userName = initialUser?.name || "Customer";
 
   return (
-    <div className="space-y-8 max-w-6xl mx-auto">
+    <div className="space-y-6 sm:space-y-8 w-full">
       {/* Top Header + Quick Actions */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <PageHeader
@@ -99,7 +99,7 @@ export function DashboardClient({
       {/* Top Cards Grid: Active Request & Vehicle Summary */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Active Request Card (Spans 2 columns on medium screens) */}
-        <Card className="md:col-span-2 rounded-2xl border-border shadow-sm overflow-hidden flex flex-col">
+        <Card className="md:col-span-2 rounded-xl border-border shadow-sm overflow-hidden flex flex-col">
           <CardHeader className="bg-muted/30 border-b border-border py-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
@@ -177,7 +177,7 @@ export function DashboardClient({
         </Card>
 
         {/* Vehicle Count Summary Card */}
-        <Card className="rounded-2xl border-border shadow-sm flex flex-col justify-between overflow-hidden">
+        <Card className="rounded-xl border-border shadow-sm flex flex-col justify-between overflow-hidden">
           <CardHeader className="bg-muted/30 border-b border-border py-4">
             <div className="flex items-center gap-2">
               <Car className="h-5 w-5 text-primary" />
@@ -210,7 +210,7 @@ export function DashboardClient({
       </div>
 
       {/* Recent Requests List Card (Top 5) */}
-      <Card className="rounded-2xl border-border shadow-sm overflow-hidden">
+      <Card className="rounded-xl border-border shadow-sm overflow-hidden">
         <CardHeader className="bg-muted/30 border-b border-border py-4 flex flex-row items-center justify-between">
           <div>
             <CardTitle className="text-base font-bold flex items-center gap-2">

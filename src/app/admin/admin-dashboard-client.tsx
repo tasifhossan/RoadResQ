@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React from "react";
 import Link from "next/link";
@@ -33,10 +33,10 @@ const AdminDashboardCharts = dynamic(
     loading: () => (
       <div className="space-y-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <Skeleton className="h-[360px] w-full rounded-2xl" />
-          <Skeleton className="h-[360px] w-full rounded-2xl" />
+          <Skeleton className="h-[360px] w-full rounded-xl" />
+          <Skeleton className="h-[360px] w-full rounded-xl" />
         </div>
-        <Skeleton className="h-[380px] w-full rounded-2xl" />
+        <Skeleton className="h-[380px] w-full rounded-xl" />
       </div>
     ),
   }
@@ -97,14 +97,14 @@ export function AdminDashboardClient({
         <div className="space-y-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {Array.from({ length: 4 }).map((_, i) => (
-              <Skeleton key={i} className="h-32 rounded-2xl" />
+              <Skeleton key={i} className="h-32 rounded-xl" />
             ))}
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <Skeleton className="h-80 rounded-2xl" />
-            <Skeleton className="h-80 rounded-2xl" />
+            <Skeleton className="h-80 rounded-xl" />
+            <Skeleton className="h-80 rounded-xl" />
           </div>
-          <Skeleton className="h-80 rounded-2xl" />
+          <Skeleton className="h-80 rounded-xl" />
         </div>
       )}
 
@@ -113,7 +113,7 @@ export function AdminDashboardClient({
           {/* KPI Cards Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {/* Total Users */}
-            <Card className="rounded-2xl border-border bg-card shadow-sm hover:shadow-md transition-shadow">
+            <Card className="rounded-xl border-border bg-card shadow-sm hover:shadow-md transition-shadow">
               <CardHeader className="flex flex-row items-center justify-between pb-2 p-5">
                 <CardTitle className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                   System Users
@@ -128,16 +128,16 @@ export function AdminDashboardClient({
                 </div>
                 <div className="text-xs text-muted-foreground flex flex-wrap gap-x-2 gap-y-0.5 pt-1">
                   <span>Cust: <strong className="text-foreground font-semibold">{data.users.customers}</strong></span>
-                  <span>•</span>
+                  <span>â€¢</span>
                   <span>Mech: <strong className="text-foreground font-semibold">{data.users.mechanics}</strong></span>
-                  <span>•</span>
+                  <span>â€¢</span>
                   <span>Admin: <strong className="text-foreground font-semibold">{data.users.admins}</strong></span>
                 </div>
               </CardContent>
             </Card>
 
             {/* Total Service Requests */}
-            <Card className="rounded-2xl border-border bg-card shadow-sm hover:shadow-md transition-shadow">
+            <Card className="rounded-xl border-border bg-card shadow-sm hover:shadow-md transition-shadow">
               <CardHeader className="flex flex-row items-center justify-between pb-2 p-5">
                 <CardTitle className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                   Service Requests
@@ -157,7 +157,7 @@ export function AdminDashboardClient({
             </Card>
 
             {/* Completed Jobs */}
-            <Card className="rounded-2xl border-border bg-card shadow-sm hover:shadow-md transition-shadow">
+            <Card className="rounded-xl border-border bg-card shadow-sm hover:shadow-md transition-shadow">
               <CardHeader className="flex flex-row items-center justify-between pb-2 p-5">
                 <CardTitle className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                   Completed Jobs
@@ -177,7 +177,7 @@ export function AdminDashboardClient({
             </Card>
 
             {/* Total Paid Revenue */}
-            <Card className="rounded-2xl border-border bg-card shadow-sm hover:shadow-md transition-shadow">
+            <Card className="rounded-xl border-border bg-card shadow-sm hover:shadow-md transition-shadow">
               <CardHeader className="flex flex-row items-center justify-between pb-2 p-5">
                 <CardTitle className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                   Paid Revenue
@@ -200,7 +200,7 @@ export function AdminDashboardClient({
           {/* User Role Quick Distribution Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <Link href="/admin/users?role=CUSTOMER">
-              <Card className="rounded-2xl border-border bg-card shadow-sm hover:border-primary/50 transition-all cursor-pointer group">
+              <Card className="rounded-xl border-border bg-card shadow-sm hover:border-primary/50 transition-all cursor-pointer group">
                 <CardContent className="p-4 flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div className="h-10 w-10 rounded-xl bg-blue-500/10 text-blue-600 flex items-center justify-center">
@@ -217,7 +217,7 @@ export function AdminDashboardClient({
             </Link>
 
             <Link href="/admin/users?role=MECHANIC">
-              <Card className="rounded-2xl border-border bg-card shadow-sm hover:border-primary/50 transition-all cursor-pointer group">
+              <Card className="rounded-xl border-border bg-card shadow-sm hover:border-primary/50 transition-all cursor-pointer group">
                 <CardContent className="p-4 flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div className="h-10 w-10 rounded-xl bg-orange-500/10 text-orange-600 flex items-center justify-center">
@@ -234,7 +234,7 @@ export function AdminDashboardClient({
             </Link>
 
             <Link href="/admin/users?role=ADMIN">
-              <Card className="rounded-2xl border-border bg-card shadow-sm hover:border-primary/50 transition-all cursor-pointer group">
+              <Card className="rounded-xl border-border bg-card shadow-sm hover:border-primary/50 transition-all cursor-pointer group">
                 <CardContent className="p-4 flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div className="h-10 w-10 rounded-xl bg-slate-500/10 text-slate-700 dark:text-slate-300 flex items-center justify-center">

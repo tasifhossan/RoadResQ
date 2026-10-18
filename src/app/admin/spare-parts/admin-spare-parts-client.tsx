@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -218,7 +218,7 @@ export function AdminSparePartsClient({
       </PageHeader>
 
       {/* Search Toolbar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-card p-4 rounded-2xl border border-border shadow-sm">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-card p-4 rounded-xl border border-border shadow-sm">
         <SearchInput
           placeholder="Search catalog by name..."
           className="w-full sm:w-80"
@@ -240,7 +240,7 @@ export function AdminSparePartsClient({
 
       {/* Loading Skeleton */}
       {isLoading && !data && (
-        <Card className="rounded-2xl border-border bg-card p-6 shadow-sm">
+        <Card className="rounded-xl border-border bg-card p-6 shadow-sm">
           <div className="space-y-4">
             {Array.from({ length: 5 }).map((_, i) => (
               <Skeleton key={i} className="h-14 w-full rounded-xl" />
@@ -252,7 +252,7 @@ export function AdminSparePartsClient({
       {data && (
         <>
           {spareParts.length === 0 ? (
-            <Card className="rounded-2xl border-border bg-card p-8 shadow-sm">
+            <Card className="rounded-xl border-border bg-card p-8 shadow-sm">
               <EmptyState
                 icon={<Wrench className="h-8 w-8" />}
                 title="No spare parts found"
@@ -262,7 +262,7 @@ export function AdminSparePartsClient({
           ) : (
             <>
               {/* Desktop Table View (sm and above) */}
-              <div className="hidden sm:block rounded-2xl border border-border bg-card overflow-hidden shadow-sm">
+              <div className="hidden sm:block rounded-xl border border-border bg-card overflow-hidden shadow-sm">
                 <Table>
                   <TableHeader>
                     <TableRow className="bg-muted/40 hover:bg-muted/40">
@@ -344,7 +344,7 @@ export function AdminSparePartsClient({
                 {spareParts.map((part) => (
                   <Card
                     key={part.id}
-                    className="rounded-2xl border-border bg-card p-4 shadow-sm space-y-3"
+                    className="rounded-xl border-border bg-card p-4 shadow-sm space-y-3"
                   >
                     <div className="flex items-start justify-between gap-2">
                       <div>
@@ -419,7 +419,7 @@ export function AdminSparePartsClient({
           if (!open) handleCloseFormModal();
         }}
       >
-        <DialogContent className="sm:max-w-md rounded-2xl p-6">
+        <DialogContent className="sm:max-w-md rounded-xl p-6">
           <DialogHeader>
             <DialogTitle className="text-lg font-bold">
               {editingPart ? "Edit Catalog Spare Part" : "Add Catalog Spare Part"}

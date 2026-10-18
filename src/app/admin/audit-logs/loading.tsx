@@ -1,4 +1,4 @@
-import { Skeleton } from "@/components/ui/skeleton";
+﻿import { Skeleton } from "@/components/ui/skeleton";
 
 export default function AdminAuditLogsLoading() {
   return (
@@ -8,7 +8,7 @@ export default function AdminAuditLogsLoading() {
         <Skeleton className="h-10 w-44 rounded-xl" />
         <Skeleton className="h-10 w-44 rounded-xl" />
       </div>
-      <Skeleton className="h-80 w-full rounded-2xl" />
+      <Skeleton className="h-80 w-full rounded-xl" />
     </div>
   );
 }

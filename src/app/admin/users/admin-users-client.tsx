@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -167,7 +167,7 @@ export function AdminUsersClient({
       />
 
       {/* Toolbar & Filters */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 bg-card p-4 rounded-2xl border border-border shadow-sm">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 bg-card p-4 rounded-xl border border-border shadow-sm">
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 flex-1">
           <SearchInput placeholder="Search name or email..." className="w-full sm:w-64" />
           <FilterSelect
@@ -218,7 +218,7 @@ export function AdminUsersClient({
       {/* Loading Skeleton */}
       {isLoading && !data && (
         <div className="space-y-4">
-          <Card className="rounded-2xl border-border bg-card p-6 shadow-sm">
+          <Card className="rounded-xl border-border bg-card p-6 shadow-sm">
             <div className="space-y-4">
               {Array.from({ length: 5 }).map((_, i) => (
                 <Skeleton key={i} className="h-14 w-full rounded-xl" />
@@ -231,7 +231,7 @@ export function AdminUsersClient({
       {data && (
         <>
           {users.length === 0 ? (
-            <Card className="rounded-2xl border-border bg-card p-8 shadow-sm">
+            <Card className="rounded-xl border-border bg-card p-8 shadow-sm">
               <EmptyState
                 icon={<Users className="h-8 w-8" />}
                 title="No users found"
@@ -241,7 +241,7 @@ export function AdminUsersClient({
           ) : (
             <>
               {/* Desktop Table View (sm and above) */}
-              <div className="hidden sm:block rounded-2xl border border-border bg-card overflow-hidden shadow-sm">
+              <div className="hidden sm:block rounded-xl border border-border bg-card overflow-hidden shadow-sm">
                 <Table>
                   <TableHeader>
                     <TableRow className="bg-muted/40 hover:bg-muted/40">
@@ -363,7 +363,7 @@ export function AdminUsersClient({
                   const isDeactivated = Boolean(user.deletedAt);
 
                   return (
-                    <Card key={user.id} className="rounded-2xl border-border bg-card p-4 shadow-sm space-y-3">
+                    <Card key={user.id} className="rounded-xl border-border bg-card p-4 shadow-sm space-y-3">
                       <div className="flex items-start justify-between gap-2">
                         <div className="flex items-center gap-2.5">
                           <div className="h-9 w-9 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-sm">

@@ -1,4 +1,4 @@
-import { Metadata } from "next";
+﻿import { Metadata } from "next";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -38,8 +38,8 @@ export default function AboutPage() {
         </div>
 
         {/* Mission Statement */}
-        <div className="p-8 sm:p-10 rounded-3xl bg-gradient-to-r from-primary/10 via-card to-accent/10 border border-border/80 shadow-xs text-center space-y-4">
-          <div className="mx-auto w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary mb-2">
+        <div className="p-8 sm:p-10 rounded-xl bg-gradient-to-r from-primary/10 via-card to-accent/10 border border-border/80 shadow-xs text-center space-y-4">
+          <div className="mx-auto w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary mb-2">
             <HeartHandshake className="w-6 h-6" />
           </div>
           <h2 className="text-2xl sm:text-3xl font-bold text-foreground">Our Mission</h2>
@@ -50,8 +50,8 @@ export default function AboutPage() {
 
         {/* Problem & Solution Card */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <Card className="rounded-3xl border-border/80 p-6 sm:p-8 shadow-xs space-y-4">
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-destructive/10 text-destructive font-bold">
+          <Card className="rounded-xl border-border/80 p-6 sm:p-8 shadow-xs space-y-4">
+            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-destructive/10 text-destructive font-bold">
               <Zap className="h-6 w-6" />
             </div>
             <h2 className="text-xl font-bold text-foreground">The Roadside Emergency Challenge</h2>
@@ -60,8 +60,8 @@ export default function AboutPage() {
             </p>
           </Card>
 
-          <Card className="rounded-3xl border-border/80 p-6 sm:p-8 shadow-xs space-y-4">
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary font-bold">
+          <Card className="rounded-xl border-border/80 p-6 sm:p-8 shadow-xs space-y-4">
+            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary font-bold">
               <ShieldCheck className="h-6 w-6" />
             </div>
             <h2 className="text-xl font-bold text-foreground">The RoadResQ Solution</h2>
@@ -81,7 +81,7 @@ export default function AboutPage() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <Card className="rounded-2xl border-border/80 p-6 space-y-3 shadow-xs">
+            <Card className="rounded-xl border-border/80 p-6 space-y-3 shadow-xs">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
                 <Clock className="h-5 w-5" />
               </div>
@@ -91,7 +91,7 @@ export default function AboutPage() {
               </p>
             </Card>
 
-            <Card className="rounded-2xl border-border/80 p-6 space-y-3 shadow-xs">
+            <Card className="rounded-xl border-border/80 p-6 space-y-3 shadow-xs">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent/10 text-accent">
                 <Award className="h-5 w-5" />
               </div>
@@ -101,7 +101,7 @@ export default function AboutPage() {
               </p>
             </Card>
 
-            <Card className="rounded-2xl border-border/80 p-6 space-y-3 shadow-xs">
+            <Card className="rounded-xl border-border/80 p-6 space-y-3 shadow-xs">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
                 <ShieldCheck className="h-5 w-5" />
               </div>
@@ -111,7 +111,7 @@ export default function AboutPage() {
               </p>
             </Card>
 
-            <Card className="rounded-2xl border-border/80 p-6 space-y-3 shadow-xs">
+            <Card className="rounded-xl border-border/80 p-6 space-y-3 shadow-xs">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent/10 text-accent">
                 <MapPin className="h-5 w-5" />
               </div>
@@ -124,14 +124,14 @@ export default function AboutPage() {
         </div>
 
         {/* What Sets Us Apart */}
-        <div className="p-8 rounded-3xl border border-border/80 bg-card shadow-xs space-y-6">
+        <div className="p-8 rounded-xl border border-border/80 bg-card shadow-xs space-y-6">
           <div className="flex items-center gap-3 border-b border-border/60 pb-4">
             <Sparkles className="h-6 w-6 text-primary" />
             <h2 className="text-xl sm:text-2xl font-bold text-foreground">Why Drivers Trust RoadResQ</h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="flex items-start gap-3 p-4 rounded-2xl bg-muted/40 border border-border/50">
+            <div className="flex items-start gap-3 p-4 rounded-xl bg-muted/40 border border-border/50">
               <CheckCircle2 className="h-5 w-5 text-primary shrink-0 mt-0.5" />
               <div>
                 <h4 className="font-semibold text-foreground text-sm">24/7 Availability</h4>
@@ -139,7 +139,7 @@ export default function AboutPage() {
               </div>
             </div>
 
-            <div className="flex items-start gap-3 p-4 rounded-2xl bg-muted/40 border border-border/50">
+            <div className="flex items-start gap-3 p-4 rounded-xl bg-muted/40 border border-border/50">
               <CheckCircle2 className="h-5 w-5 text-primary shrink-0 mt-0.5" />
               <div>
                 <h4 className="font-semibold text-foreground text-sm">Multi-Vehicle Support</h4>
@@ -147,7 +147,7 @@ export default function AboutPage() {
               </div>
             </div>
 
-            <div className="flex items-start gap-3 p-4 rounded-2xl bg-muted/40 border border-border/50">
+            <div className="flex items-start gap-3 p-4 rounded-xl bg-muted/40 border border-border/50">
               <CheckCircle2 className="h-5 w-5 text-primary shrink-0 mt-0.5" />
               <div>
                 <h4 className="font-semibold text-foreground text-sm">Seamless Digital Payments</h4>
@@ -155,7 +155,7 @@ export default function AboutPage() {
               </div>
             </div>
 
-            <div className="flex items-start gap-3 p-4 rounded-2xl bg-muted/40 border border-border/50">
+            <div className="flex items-start gap-3 p-4 rounded-xl bg-muted/40 border border-border/50">
               <CheckCircle2 className="h-5 w-5 text-primary shrink-0 mt-0.5" />
               <div>
                 <h4 className="font-semibold text-foreground text-sm">Community Ratings & Reviews</h4>
@@ -166,7 +166,7 @@ export default function AboutPage() {
         </div>
 
         {/* Closing CTA */}
-        <div className="p-8 sm:p-12 rounded-3xl bg-gradient-to-br from-primary/10 via-card to-accent/10 border border-border/80 text-center space-y-6">
+        <div className="p-8 sm:p-12 rounded-xl bg-gradient-to-br from-primary/10 via-card to-accent/10 border border-border/80 text-center space-y-6">
           <Badge className="bg-primary text-primary-foreground hover:bg-primary px-3 py-1 text-xs">
             Roadside Peace of Mind
           </Badge>

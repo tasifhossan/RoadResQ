@@ -1,4 +1,4 @@
-import { Skeleton } from "@/components/ui/skeleton";
+﻿import { Skeleton } from "@/components/ui/skeleton";
 
 export default function AdminSparePartsLoading() {
   return (
@@ -7,7 +7,7 @@ export default function AdminSparePartsLoading() {
         <Skeleton className="h-8 w-48 rounded-lg" />
         <Skeleton className="h-10 w-36 rounded-xl" />
       </div>
-      <Skeleton className="h-80 w-full rounded-2xl" />
+      <Skeleton className="h-80 w-full rounded-xl" />
     </div>
   );
 }

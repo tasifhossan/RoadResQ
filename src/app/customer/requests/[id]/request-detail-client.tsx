@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useRef } from "react";
 import Link from "next/link";
@@ -363,7 +363,7 @@ export function RequestDetailClient({
 
       {/* Upload Failed Warning Banner */}
       {showUploadFailedBanner && (
-        <div className="rounded-2xl border border-orange-500/30 bg-orange-500/10 p-4 flex items-start gap-3">
+        <div className="rounded-xl border border-orange-500/30 bg-orange-500/10 p-4 flex items-start gap-3">
           <AlertCircle className="h-5 w-5 text-orange-600 dark:text-orange-400 shrink-0 mt-0.5" />
           <div className="text-xs sm:text-sm text-orange-800 dark:text-orange-300 space-y-1">
             <p className="font-semibold">Request Created with Missing Photos</p>
@@ -434,7 +434,7 @@ export function RequestDetailClient({
 
       {/* FIND A MECHANIC PANEL (Shown when request can search & assign mechanics) */}
       {canSearchAndAssign && (
-        <Card className="rounded-2xl border-primary/30 bg-primary/5 shadow-sm overflow-hidden">
+        <Card className="rounded-xl border-primary/30 bg-primary/5 shadow-sm overflow-hidden">
           <CardHeader className="pb-3 border-b border-primary/10">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div className="flex items-center gap-2.5">
@@ -478,11 +478,11 @@ export function RequestDetailClient({
           <CardContent className="pt-4 space-y-4">
             {isLoadingNearby ? (
               <div className="space-y-3">
-                <Skeleton className="h-16 w-full rounded-2xl" />
-                <Skeleton className="h-16 w-full rounded-2xl" />
+                <Skeleton className="h-16 w-full rounded-xl" />
+                <Skeleton className="h-16 w-full rounded-xl" />
               </div>
             ) : nearbyMechanics.length === 0 ? (
-              <div className="text-center py-6 px-4 rounded-2xl border border-dashed border-border bg-card/60 space-y-2">
+              <div className="text-center py-6 px-4 rounded-xl border border-dashed border-border bg-card/60 space-y-2">
                 <Navigation className="h-8 w-8 text-muted-foreground mx-auto" />
                 <h4 className="font-semibold text-foreground text-sm">No mechanics found within {radiusKm}km</h4>
                 <p className="text-xs text-muted-foreground max-w-sm mx-auto">
@@ -496,7 +496,7 @@ export function RequestDetailClient({
                   return (
                     <div
                       key={m.id}
-                      className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 rounded-2xl border border-border bg-card shadow-sm hover:border-primary/40 transition-all gap-4"
+                      className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 rounded-xl border border-border bg-card shadow-sm hover:border-primary/40 transition-all gap-4"
                     >
                       <div className="flex items-start gap-3">
                         <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary font-bold">
@@ -555,7 +555,7 @@ export function RequestDetailClient({
 
       {/* Status Transition History Timeline */}
       {statusHistory.length > 0 && (
-        <Card className="rounded-2xl border-border shadow-sm">
+        <Card className="rounded-xl border-border shadow-sm">
           <CardHeader className="pb-3">
             <CardTitle className="text-base font-bold flex items-center gap-2">
               <Clock className="h-4 w-4 text-primary" />
@@ -595,7 +595,7 @@ export function RequestDetailClient({
       {/* Overview Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {/* Vehicle */}
-        <Card className="rounded-2xl border-border shadow-sm">
+        <Card className="rounded-xl border-border shadow-sm">
           <CardHeader className="pb-2">
             <CardTitle className="text-xs font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-2">
               <Car className="h-4 w-4 text-primary" />
@@ -619,7 +619,7 @@ export function RequestDetailClient({
         </Card>
 
         {/* Location */}
-        <Card className="rounded-2xl border-border shadow-sm">
+        <Card className="rounded-xl border-border shadow-sm">
           <CardHeader className="pb-2">
             <CardTitle className="text-xs font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-2">
               <MapPin className="h-4 w-4 text-primary" />
@@ -637,7 +637,7 @@ export function RequestDetailClient({
         </Card>
 
         {/* Assigned Mechanic */}
-        <Card className="rounded-2xl border-border shadow-sm">
+        <Card className="rounded-xl border-border shadow-sm">
           <CardHeader className="pb-2">
             <CardTitle className="text-xs font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-2">
               <User className="h-4 w-4 text-primary" />
@@ -670,7 +670,7 @@ export function RequestDetailClient({
       </div>
 
       {/* Problem Description Card */}
-      <Card className="rounded-2xl border-border shadow-sm">
+      <Card className="rounded-xl border-border shadow-sm">
         <CardHeader className="pb-2">
           <CardTitle className="text-sm font-semibold text-foreground">
             Problem Description
@@ -684,7 +684,7 @@ export function RequestDetailClient({
       </Card>
 
       {/* Attached Damage Photos & Retry Section */}
-      <Card className="rounded-2xl border-border shadow-sm">
+      <Card className="rounded-xl border-border shadow-sm">
         <CardHeader>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -824,7 +824,7 @@ export function RequestDetailClient({
 
       {/* Spare Parts Used */}
       {partsUsed.length > 0 && (
-        <Card className="rounded-2xl border-border shadow-sm">
+        <Card className="rounded-xl border-border shadow-sm">
           <CardHeader className="pb-3">
             <div className="flex items-center gap-2">
               <Package className="h-5 w-5 text-primary" />
@@ -867,7 +867,7 @@ export function RequestDetailClient({
 
       {/* Invoice Summary & Payment Status */}
       {invoice && (
-        <Card className="rounded-2xl border-border shadow-sm overflow-hidden">
+        <Card className="rounded-xl border-border shadow-sm overflow-hidden">
           <CardHeader className="bg-muted/30 border-b border-border">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
@@ -938,7 +938,7 @@ export function RequestDetailClient({
 
       {/* Review Block */}
       {review && (
-        <Card className="rounded-2xl border-border shadow-sm">
+        <Card className="rounded-xl border-border shadow-sm">
           <CardHeader className="pb-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
@@ -968,7 +968,7 @@ export function RequestDetailClient({
 
       {/* Review Dialog */}
       <Dialog open={reviewDialogOpen} onOpenChange={setReviewDialogOpen}>
-        <DialogContent className="sm:max-w-md rounded-2xl p-6">
+        <DialogContent className="sm:max-w-md rounded-xl p-6">
           <DialogHeader>
             <DialogTitle className="text-lg font-bold">Write a Review</DialogTitle>
             <DialogDescription className="text-sm text-muted-foreground pt-1">

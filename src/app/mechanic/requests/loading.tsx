@@ -1,4 +1,4 @@
-import { Skeleton } from "@/components/ui/skeleton";
+﻿import { Skeleton } from "@/components/ui/skeleton";
 
 export default function MechanicRequestsLoading() {
   return (
@@ -9,10 +9,10 @@ export default function MechanicRequestsLoading() {
         <Skeleton className="h-10 w-44 rounded-xl" />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <Skeleton className="h-36 rounded-2xl" />
-        <Skeleton className="h-36 rounded-2xl" />
-        <Skeleton className="h-36 rounded-2xl" />
-        <Skeleton className="h-36 rounded-2xl" />
+        <Skeleton className="h-36 rounded-xl" />
+        <Skeleton className="h-36 rounded-xl" />
+        <Skeleton className="h-36 rounded-xl" />
+        <Skeleton className="h-36 rounded-xl" />
       </div>
     </div>
   );
