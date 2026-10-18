@@ -130,7 +130,7 @@ export function RegisterForm() {
         </div>
         <CardTitle className="text-2xl font-bold tracking-tight">Create Account</CardTitle>
         <CardDescription className="text-muted-foreground text-sm">
-          Join RoadResQ as a Customer or Verified Mechanic
+          Join RoadResQ as a Customer or Mechanic
         </CardDescription>
       </CardHeader>
 

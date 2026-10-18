@@ -140,7 +140,7 @@ export default function ContactPage() {
                 <ShieldCheck className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                 <div>
                   <h4 className="font-bold text-sm text-foreground">Mechanic Onboarding</h4>
-                  <p className="text-xs text-muted-foreground">Interested in joining RoadResQ as a certified service provider? Reach out for partnership inquiries.</p>
+                  <p className="text-xs text-muted-foreground">Interested in joining RoadResQ as a roadside service provider? Reach out for partnership inquiries.</p>
                 </div>
               </div>
 

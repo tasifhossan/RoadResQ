@@ -225,11 +225,10 @@ export function MechanicsClient({ initialData, initialQuery }: MechanicsClientPr
       {/* Page Header */}
       <div className="space-y-2">
         <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-foreground">
-          Explore Certified Mechanics
+          Explore Mechanics
         </h1>
         <p className="text-sm sm:text-base text-muted-foreground max-w-2xl">
-          Connect with trusted, background-checked roadside assistance professionals ready to
-          respond to vehicle emergencies.
+          Browse roadside assistance professionals, review their skills and ratings from completed jobs, and find emergency support.
         </p>
       </div>
 
@@ -550,7 +549,7 @@ export function MechanicsClient({ initialData, initialQuery }: MechanicsClientPr
         <div className="flex flex-wrap items-center gap-2">
           <p className="text-sm text-muted-foreground">
             Showing <strong className="text-foreground font-semibold">{data?.total ?? 0}</strong>{" "}
-            certified mechanic{(data?.total ?? 0) === 1 ? "" : "s"}
+            mechanic{(data?.total ?? 0) === 1 ? "" : "s"}
           </p>
 
           {/* Active chips */}

@@ -87,7 +87,7 @@ export function MechanicCard({ mechanic, className }: MechanicCardProps) {
 
           {/* 2-line clamped bio with consistent height */}
           <p className="text-sm text-muted-foreground line-clamp-2 min-h-[2.5rem] leading-relaxed">
-            {mechanic.bio || "Certified roadside technician ready to assist with emergency vehicle repairs."}
+            {mechanic.bio || "Roadside technician ready to assist with emergency vehicle repairs."}
           </p>
 
           {/* Meta row: Rating, Completed Jobs, Years of Experience, City */}

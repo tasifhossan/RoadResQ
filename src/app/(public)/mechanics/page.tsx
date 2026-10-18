@@ -8,9 +8,9 @@ import { PublicMechanicsResponse } from "@/lib/types/public";
 import { MechanicsClient } from "./mechanics-client";
 
 export const metadata: Metadata = {
-  title: "Find Certified Mechanics | RoadResQ",
+  title: "Mechanics | RoadResQ",
   description:
-    "Explore and connect with verified, top-rated roadside mechanics near you. Filter by skills, ratings, and live availability.",
+    "Explore roadside mechanics, review their skills and ratings from completed jobs, and check live availability.",
 };
 
 interface PageProps {

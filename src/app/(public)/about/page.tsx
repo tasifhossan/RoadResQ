@@ -33,7 +33,7 @@ export default function AboutPage() {
             About RoadResQ
           </h1>
           <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
-            RoadResQ is an on-demand emergency roadside assistance platform designed to keep drivers safe and connected with certified nearby mechanics whenever breakdowns happen.
+            RoadResQ is an on-demand emergency roadside assistance platform designed to keep drivers safe and connected with nearby mechanics whenever breakdowns happen.
           </p>
         </div>
 
@@ -56,7 +56,7 @@ export default function AboutPage() {
             </div>
             <h2 className="text-xl font-bold text-foreground">The Roadside Emergency Challenge</h2>
             <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
-              When a vehicle breaks down unexpectedly, drivers face long waiting times, uncertain arrival estimates, lack of verified technician credentials, and unpredictable repair pricing.
+              When a vehicle breaks down unexpectedly, drivers face long waiting times, uncertain arrival estimates, lack of clear technician credentials, and unpredictable repair pricing.
             </p>
           </Card>
 
@@ -95,9 +95,9 @@ export default function AboutPage() {
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent/10 text-accent">
                 <Award className="h-5 w-5" />
               </div>
-              <h3 className="text-base font-bold text-foreground">Verified Experts</h3>
+              <h3 className="text-base font-bold text-foreground">Experienced Professionals</h3>
               <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
-                All mechanics on RoadResQ are vetted, rated, and reviewed by fellow drivers in your community.
+                Mechanics on RoadResQ are rated and reviewed by fellow drivers in your community from completed jobs.
               </p>
             </Card>
 

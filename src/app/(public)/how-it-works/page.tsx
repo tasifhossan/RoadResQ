@@ -56,7 +56,7 @@ const WORKFLOW_STEPS = [
     icon: Navigation,
     description:
       "The system queries available mechanics by geographical distance in kilometers relative to the breakdown coordinates. The customer can view nearby mechanics' ratings, total completed jobs, and distance.",
-    details: ["Distance calculation in kilometers", "Filters available mechanics by radius", "Displays verified ratings & job counts"],
+    details: ["Distance calculation in kilometers", "Filters available mechanics by radius", "Displays ratings from completed jobs & job counts"],
   },
   {
     step: 4,

@@ -34,21 +34,21 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         ? mechanic.bio.length > 160
           ? `${mechanic.bio.substring(0, 157)}...`
           : mechanic.bio
-        : `View ratings, skills, and availability for certified mechanic ${mechanic.name} on RoadResQ.`;
+        : `View ratings, skills, and availability for mechanic ${mechanic.name} on RoadResQ.`;
 
     return {
-      title: `${mechanic.name} - Certified Mechanic | RoadResQ`,
+      title: `${mechanic.name} | RoadResQ`,
       description,
       openGraph: {
-        title: `${mechanic.name} - Certified Mechanic | RoadResQ`,
+        title: `${mechanic.name} | RoadResQ`,
         description,
         images: isPng && mechanic.avatarUrl ? [mechanic.avatarUrl] : undefined,
       },
     };
   } catch {
     return {
-      title: "Mechanic Profile | RoadResQ",
-      description: "View certified mechanic profile on RoadResQ.",
+      title: "Mechanics | RoadResQ",
+      description: "View mechanic profile on RoadResQ.",
     };
   }
 }
@@ -183,7 +183,7 @@ export default async function MechanicDetailPage({ params }: PageProps) {
             <h2 className="text-lg font-bold text-foreground tracking-tight">Overview</h2>
             <p className="text-sm sm:text-base text-muted-foreground leading-relaxed whitespace-pre-line">
               {mechanic.bio ||
-                "This certified technician has not provided an extended bio yet. They are active on the platform and ready to handle emergency roadside dispatch requests."}
+                "This technician has not provided an extended bio yet. They are active on the platform and ready to handle emergency roadside dispatch requests."}
             </p>
           </section>
 
@@ -253,7 +253,7 @@ export default async function MechanicDetailPage({ params }: PageProps) {
                   Completed Service Jobs
                 </dt>
                 <dd className="font-semibold text-foreground pt-1">
-                  {mechanic.totalJobs} Verified Services
+                  {mechanic.totalJobs} Completed Jobs
                 </dd>
               </div>
             </dl>
@@ -266,8 +266,8 @@ export default async function MechanicDetailPage({ params }: PageProps) {
                 Reviews & Ratings
               </h2>
               <span className="text-xs text-muted-foreground">
-                {mechanic.ratingSummary.count} verified customer review
-                {mechanic.ratingSummary.count === 1 ? "" : "s"}
+                {mechanic.ratingSummary.count} customer review
+                {mechanic.ratingSummary.count === 1 ? "" : "s"} from completed jobs
               </span>
             </div>
 
@@ -394,7 +394,7 @@ export default async function MechanicDetailPage({ params }: PageProps) {
               Similar Mechanics
             </h2>
             <p className="text-sm text-muted-foreground">
-              Other certified technicians specializing in similar roadside emergency services.
+              Other mechanics specializing in similar roadside emergency services.
             </p>
           </div>
 

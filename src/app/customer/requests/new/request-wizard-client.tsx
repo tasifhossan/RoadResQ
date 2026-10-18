@@ -604,9 +604,6 @@ export function RequestWizardClient({ initialVehicles }: RequestWizardClientProp
                   <p className="text-xs text-muted-foreground mt-1">
                     Click to capture your current latitude and longitude automatically.
                   </p>
-                  <p className="text-xs text-muted-foreground font-medium mt-0.5">
-                    Demo mechanics are located in Dhaka.
-                  </p>
                 </div>
                 <div className="flex flex-wrap items-center gap-2 shrink-0">
                   <Button

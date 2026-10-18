@@ -33,8 +33,7 @@ export function SideHelpCard({ className }: SideHelpCardProps) {
           Need roadside help?
         </h3>
         <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
-          A qualified mechanic is automatically assigned based on proximity and vehicle needs
-          after your request is created.
+          After you submit a request, you will see available mechanics near your location and choose one.
         </p>
       </div>
 
@@ -76,7 +75,7 @@ export function SideHelpCard({ className }: SideHelpCardProps) {
       <div className="border-t border-border/60 pt-4 space-y-2 text-xs text-muted-foreground">
         <div className="flex items-center gap-2">
           <ShieldCheck className="size-3.5 text-primary shrink-0" />
-          <span>Verified & background-checked technicians</span>
+          <span>Real customer reviews from completed jobs</span>
         </div>
         <div className="flex items-center gap-2">
           <ShieldCheck className="size-3.5 text-primary shrink-0" />
