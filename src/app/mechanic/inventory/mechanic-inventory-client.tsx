@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -660,6 +660,8 @@ export function MechanicInventoryClient({
                     id="custom-part-name"
                     placeholder="e.g., Heavy Duty Tow Cable 20ft"
                     value={customPartName}
+                    disabled={addMutation.isPending}
+                    aria-invalid={Boolean(addErrors.name)}
                     onChange={(e) => {
                       setCustomPartName(e.target.value);
                       setAddErrors((prev) => ({ ...prev, name: "" }));
@@ -686,6 +688,8 @@ export function MechanicInventoryClient({
                   min="0"
                   placeholder="0.00"
                   value={addPrice}
+                  disabled={addMutation.isPending}
+                  aria-invalid={Boolean(addErrors.price)}
                   onChange={(e) => {
                     setAddPrice(e.target.value);
                     setAddErrors((prev) => ({ ...prev, price: "" }));
@@ -707,6 +711,8 @@ export function MechanicInventoryClient({
                   min="0"
                   placeholder="10"
                   value={addStock}
+                  disabled={addMutation.isPending}
+                  aria-invalid={Boolean(addErrors.stock)}
                   onChange={(e) => {
                     setAddStock(e.target.value);
                     setAddErrors((prev) => ({ ...prev, stock: "" }));
@@ -768,8 +774,10 @@ export function MechanicInventoryClient({
                   }}
                   disabled={
                     editingItem.sparePart.isGlobal ||
-                    !editingItem.sparePart.createdByMechanicId
+                    !editingItem.sparePart.createdByMechanicId ||
+                    updateMutation.isPending
                   }
+                  aria-invalid={Boolean(editErrors.name)}
                   className="rounded-xl"
                 />
                 {editingItem.sparePart.isGlobal && (
@@ -793,6 +801,8 @@ export function MechanicInventoryClient({
                     step="0.01"
                     min="0"
                     value={editPrice}
+                    disabled={updateMutation.isPending}
+                    aria-invalid={Boolean(editErrors.price)}
                     onChange={(e) => {
                       setEditPrice(e.target.value);
                       setEditErrors((prev) => ({ ...prev, price: "" }));
@@ -813,6 +823,8 @@ export function MechanicInventoryClient({
                     type="number"
                     min="0"
                     value={editStock}
+                    disabled={updateMutation.isPending}
+                    aria-invalid={Boolean(editErrors.stock)}
                     onChange={(e) => {
                       setEditStock(e.target.value);
                       setEditErrors((prev) => ({ ...prev, stock: "" }));

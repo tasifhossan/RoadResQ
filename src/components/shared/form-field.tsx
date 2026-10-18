@@ -7,6 +7,7 @@ import {
   FieldValues,
   FieldPath,
   ControllerRenderProps,
+  ControllerFieldState,
 } from "react-hook-form";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
@@ -21,7 +22,10 @@ export interface FormFieldProps<
   description?: string;
   required?: boolean;
   className?: string;
-  children: (field: ControllerRenderProps<TFieldValues, TName>) => React.ReactNode;
+  children: (
+    field: ControllerRenderProps<TFieldValues, TName>,
+    fieldState: ControllerFieldState
+  ) => React.ReactNode;
 }
 
 export function FormField<
@@ -48,7 +52,7 @@ export function FormField<
               {required && <span className="text-destructive ml-1">*</span>}
             </Label>
           )}
-          {children(field)}
+          {children(field, fieldState)}
           {description && !fieldState.error && (
             <p className="text-xs text-muted-foreground">{description}</p>
           )}

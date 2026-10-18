@@ -135,11 +135,13 @@ export function ProfileClient({ initialUser }: ProfileClientProps) {
           <CardContent className="space-y-5 pt-6">
             {/* Full Name Field (Editable) */}
             <FormField control={control} name="name" label="Full Name" required>
-              {(field) => (
+              {(field, fieldState) => (
                 <div className="relative">
                   <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
                   <Input
                     {...field}
+                    disabled={isSubmitting || updateMutation.isPending}
+                    aria-invalid={fieldState.invalid}
                     placeholder="Your full name"
                     className="pl-9 rounded-xl bg-card border-border shadow-sm"
                   />
@@ -165,12 +167,14 @@ export function ProfileClient({ initialUser }: ProfileClientProps) {
 
             {/* Phone Number Field (Editable) */}
             <FormField control={control} name="phone" label="Phone Number" description="Used by mechanics to contact you during service requests.">
-              {(field) => (
+              {(field, fieldState) => (
                 <div className="relative">
                   <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
                   <Input
                     {...field}
                     type="tel"
+                    disabled={isSubmitting || updateMutation.isPending}
+                    aria-invalid={fieldState.invalid}
                     placeholder="e.g. +1234567890"
                     value={field.value || ""}
                     className="pl-9 rounded-xl bg-card border-border shadow-sm font-mono"

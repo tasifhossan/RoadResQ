@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
@@ -655,12 +655,14 @@ export function RequestWizardClient({ initialVehicles }: RequestWizardClientProp
             <form id="step2-form" onSubmit={form2.handleSubmit(handleStep2Submit)} className="space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <FormField control={form2.control} name="lat" label="Latitude" required description="Range: -90.0 to 90.0">
-                  {(field) => (
+                  {(field, fieldState) => (
                     <Input
                       type="number"
                       step="any"
                       placeholder="e.g. 37.774929"
                       value={field.value ?? ""}
+                      disabled={isSubmittingRequest}
+                      aria-invalid={fieldState.invalid}
                       onChange={(e) => {
                         const val = e.target.value === "" ? undefined : parseFloat(e.target.value);
                         field.onChange(val);
@@ -672,12 +674,14 @@ export function RequestWizardClient({ initialVehicles }: RequestWizardClientProp
                 </FormField>
 
                 <FormField control={form2.control} name="lng" label="Longitude" required description="Range: -180.0 to 180.0">
-                  {(field) => (
+                  {(field, fieldState) => (
                     <Input
                       type="number"
                       step="any"
                       placeholder="e.g. -122.419416"
                       value={field.value ?? ""}
+                      disabled={isSubmittingRequest}
+                      aria-invalid={fieldState.invalid}
                       onChange={(e) => {
                         const val = e.target.value === "" ? undefined : parseFloat(e.target.value);
                         field.onChange(val);
@@ -691,11 +695,11 @@ export function RequestWizardClient({ initialVehicles }: RequestWizardClientProp
             </form>
           </CardContent>
           <CardFooter className="flex justify-between border-t border-border pt-4">
-            <Button type="button" variant="outline" onClick={prevStep} className="rounded-xl gap-1">
+            <Button type="button" variant="outline" onClick={prevStep} disabled={isSubmittingRequest} className="rounded-xl gap-1">
               <ChevronLeft className="h-4 w-4" />
               Back
             </Button>
-            <Button type="submit" form="step2-form" className="rounded-xl gap-2">
+            <Button type="submit" form="step2-form" disabled={isSubmittingRequest} className="rounded-xl gap-2">
               Continue to Problem Details
               <ChevronRight className="h-4 w-4" />
             </Button>
@@ -728,11 +732,13 @@ export function RequestWizardClient({ initialVehicles }: RequestWizardClientProp
                 required
                 description="Provide at least 10 characters describing what happened."
               >
-                {(field) => (
+                {(field, fieldState) => (
                   <Textarea
                     {...field}
                     rows={4}
                     placeholder="e.g. Engine started overheating and smoke was coming out from under the hood. Car is parked on the side of the highway."
+                    disabled={isSubmittingRequest}
+                    aria-invalid={fieldState.invalid}
                     onChange={(e) => {
                       field.onChange(e);
                       updateDraft({ description: e.target.value });

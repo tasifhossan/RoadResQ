@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState, useRef } from "react";
 import Link from "next/link";
@@ -103,6 +103,8 @@ export function RequestDetailClient({
   const [reviewDialogOpen, setReviewDialogOpen] = useState(false);
   const [reviewRating, setReviewRating] = useState(5);
   const [reviewComment, setReviewComment] = useState("");
+  const [reviewRatingError, setReviewRatingError] = useState("");
+  const [cancelReasonError, setCancelReasonError] = useState("");
 
   // State for "Find a Mechanic" Panel
   const [radiusKm, setRadiusKm] = useState(10);
@@ -967,7 +969,17 @@ export function RequestDetailClient({
       )}
 
       {/* Review Dialog */}
-      <Dialog open={reviewDialogOpen} onOpenChange={setReviewDialogOpen}>
+      <Dialog
+        open={reviewDialogOpen}
+        onOpenChange={(open) => {
+          setReviewDialogOpen(open);
+          if (!open) {
+            setReviewRating(5);
+            setReviewComment("");
+            setReviewRatingError("");
+          }
+        }}
+      >
         <DialogContent className="sm:max-w-md rounded-xl p-6">
           <DialogHeader>
             <DialogTitle className="text-lg font-bold">Write a Review</DialogTitle>
@@ -979,7 +991,12 @@ export function RequestDetailClient({
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              reviewMutation.mutate({ rating: reviewRating, comment: reviewComment });
+              if (reviewRating < 1 || reviewRating > 5) {
+                setReviewRatingError("Please select a rating between 1 and 5 stars");
+                return;
+              }
+              setReviewRatingError("");
+              reviewMutation.mutate({ rating: reviewRating, comment: reviewComment.trim() || undefined });
             }}
             className="space-y-4 pt-2"
           >
@@ -990,8 +1007,12 @@ export function RequestDetailClient({
                   <button
                     key={star}
                     type="button"
-                    onClick={() => setReviewRating(star)}
-                    className="p-1 transition-transform hover:scale-110 focus:outline-none"
+                    disabled={reviewMutation.isPending}
+                    onClick={() => {
+                      setReviewRating(star);
+                      setReviewRatingError("");
+                    }}
+                    className="p-1 transition-transform hover:scale-110 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
                   >
                     <Star
                       className={`h-8 w-8 ${
@@ -1003,6 +1024,9 @@ export function RequestDetailClient({
                   </button>
                 ))}
               </div>
+              {reviewRatingError && (
+                <p className="text-xs text-destructive font-medium">{reviewRatingError}</p>
+              )}
             </div>
 
             <div className="space-y-2">
@@ -1014,6 +1038,8 @@ export function RequestDetailClient({
                 rows={3}
                 placeholder="Describe how the mechanic performed..."
                 value={reviewComment}
+                disabled={reviewMutation.isPending}
+                aria-invalid={Boolean(reviewRatingError)}
                 onChange={(e) => setReviewComment(e.target.value)}
                 maxLength={500}
                 className="rounded-xl bg-card border-border shadow-sm resize-none"
@@ -1062,7 +1088,10 @@ export function RequestDetailClient({
         open={cancelDialogOpen}
         onOpenChange={(open) => {
           setCancelDialogOpen(open);
-          if (!open) setCancelReason("");
+          if (!open) {
+            setCancelReason("");
+            setCancelReasonError("");
+          }
         }}
         title="Cancel Service Request"
         description="Are you sure you want to cancel this service request? This action cannot be undone."
@@ -1073,9 +1102,12 @@ export function RequestDetailClient({
         onConfirm={() => {
           const res = cancelServiceRequestSchema.safeParse(cancelReason ? { reason: cancelReason } : {});
           if (!res.success) {
-            toast.error(res.error.issues[0]?.message || "Invalid cancellation reason");
+            const msg = res.error.issues[0]?.message || "Invalid cancellation reason";
+            setCancelReasonError(msg);
+            toast.error(msg);
             return;
           }
+          setCancelReasonError("");
           cancelMutation.mutate(res.data.reason);
         }}
       >
@@ -1088,10 +1120,18 @@ export function RequestDetailClient({
             rows={3}
             placeholder="e.g. Found alternative assistance..."
             value={cancelReason}
-            onChange={(e) => setCancelReason(e.target.value)}
+            disabled={cancelMutation.isPending}
+            aria-invalid={Boolean(cancelReasonError)}
+            onChange={(e) => {
+              setCancelReason(e.target.value);
+              setCancelReasonError("");
+            }}
             maxLength={200}
             className="rounded-xl bg-card border-border shadow-sm resize-none text-xs"
           />
+          {cancelReasonError && (
+            <p className="text-xs text-destructive font-medium">{cancelReasonError}</p>
+          )}
           <div className="flex justify-end">
             <span className="text-[10px] text-muted-foreground font-mono">
               {cancelReason.length} / 200

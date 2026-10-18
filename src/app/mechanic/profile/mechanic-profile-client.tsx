@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -185,6 +185,8 @@ export function MechanicProfileClient({
                       <Input
                         id="user-name"
                         value={name}
+                        disabled={updateMutation.isPending}
+                        aria-invalid={Boolean(fieldErrors.name)}
                         onChange={(e) => {
                           setName(e.target.value);
                           setFieldErrors((prev) => ({ ...prev, name: "" }));
@@ -208,11 +210,16 @@ export function MechanicProfileClient({
                       <Input
                         id="user-phone"
                         value={phone}
+                        disabled={updateMutation.isPending}
+                        aria-invalid={Boolean(fieldErrors.phone)}
                         onChange={(e) => setPhone(e.target.value)}
                         placeholder="+880 1700000000"
                         className="pl-9 rounded-xl"
                       />
                     </div>
+                    {fieldErrors.phone && (
+                      <p className="text-xs text-destructive font-medium">{fieldErrors.phone}</p>
+                    )}
                   </div>
 
                   {/* Email (Read-only) */}

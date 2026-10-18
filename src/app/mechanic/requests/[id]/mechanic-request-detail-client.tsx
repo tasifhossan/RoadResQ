@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import Link from "next/link";
@@ -89,6 +89,7 @@ export function MechanicRequestDetailClient({
   // Form state for logging spare parts used
   const [selectedSparePartId, setSelectedSparePartId] = useState<string>("");
   const [selectedQuantity, setSelectedQuantity] = useState<string>("1");
+  const [partError, setPartError] = useState<string | null>(null);
 
   // TanStack Query with 5s polling for non-terminal statuses
   const {
@@ -242,16 +243,25 @@ export function MechanicRequestDetailClient({
     e.preventDefault();
 
     if (!selectedSparePartId) {
+      setPartError("Please select a spare part from your inventory.");
       toast.error("Please select a spare part from your inventory.");
       return;
     }
 
     const qty = parseInt(selectedQuantity, 10);
     if (isNaN(qty) || qty < 1) {
+      setPartError("Quantity must be an integer of at least 1.");
       toast.error("Quantity must be an integer of at least 1.");
       return;
     }
 
+    if (selectedInventoryItem && qty > selectedInventoryItem.stock) {
+      setPartError(`Quantity exceeds available stock (${selectedInventoryItem.stock}).`);
+      toast.error(`Quantity exceeds available stock (${selectedInventoryItem.stock}).`);
+      return;
+    }
+
+    setPartError(null);
     addPartsMutation.mutate({ sparePartId: selectedSparePartId, quantity: qty });
   };
 
@@ -681,10 +691,17 @@ export function MechanicRequestDetailClient({
                     min="1"
                     max={selectedInventoryItem?.stock || 50}
                     value={selectedQuantity}
-                    onChange={(e) => setSelectedQuantity(e.target.value)}
+                    onChange={(e) => {
+                      setSelectedQuantity(e.target.value);
+                      setPartError(null);
+                    }}
                     disabled={addPartsMutation.isPending}
+                    aria-invalid={Boolean(partError)}
                     className="rounded-xl h-9 text-xs bg-card"
                   />
+                  {partError && (
+                    <p className="text-xs text-destructive font-medium">{partError}</p>
+                  )}
                 </div>
 
                 <div className="sm:col-span-3">
@@ -863,7 +880,12 @@ export function MechanicRequestDetailClient({
             min="0"
             placeholder="50.00"
             value={laborCostInput}
-            onChange={(e) => setLaborCostInput(e.target.value)}
+            disabled={isPending}
+            aria-invalid={Boolean(laborCostError)}
+            onChange={(e) => {
+              setLaborCostInput(e.target.value);
+              setLaborCostError(null);
+            }}
             className="rounded-xl"
           />
           {laborCostError && (
@@ -893,7 +915,12 @@ export function MechanicRequestDetailClient({
             maxLength={200}
             placeholder="e.g. Unable to reach customer location"
             value={cancelReasonInput}
-            onChange={(e) => setCancelReasonInput(e.target.value)}
+            disabled={isPending}
+            aria-invalid={Boolean(cancelReasonError)}
+            onChange={(e) => {
+              setCancelReasonInput(e.target.value);
+              setCancelReasonError(null);
+            }}
             className="rounded-xl"
           />
           {cancelReasonError && (

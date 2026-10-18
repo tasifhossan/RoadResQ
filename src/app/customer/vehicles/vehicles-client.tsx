@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
@@ -418,9 +418,11 @@ export function VehiclesClient({
 
           <form onSubmit={handleSubmit(onSubmitForm)} className="space-y-4 pt-2">
             <FormField control={control} name="make" label="Make" required>
-              {(field) => (
+              {(field, fieldState) => (
                 <Input
                   {...field}
+                  disabled={isSubmitting || saveMutation.isPending}
+                  aria-invalid={fieldState.invalid}
                   placeholder="e.g. Toyota, Honda, Ford"
                   className="rounded-xl bg-card border-border shadow-sm"
                 />
@@ -428,9 +430,11 @@ export function VehiclesClient({
             </FormField>
 
             <FormField control={control} name="model" label="Model" required>
-              {(field) => (
+              {(field, fieldState) => (
                 <Input
                   {...field}
+                  disabled={isSubmitting || saveMutation.isPending}
+                  aria-invalid={fieldState.invalid}
                   placeholder="e.g. Camry, Civic, F-150"
                   className="rounded-xl bg-card border-border shadow-sm"
                 />
@@ -438,9 +442,11 @@ export function VehiclesClient({
             </FormField>
 
             <FormField control={control} name="plateNumber" label="Plate Number" required>
-              {(field) => (
+              {(field, fieldState) => (
                 <Input
                   {...field}
+                  disabled={isSubmitting || saveMutation.isPending}
+                  aria-invalid={fieldState.invalid}
                   placeholder="e.g. ABC-1234"
                   className="rounded-xl bg-card border-border shadow-sm font-mono uppercase"
                 />

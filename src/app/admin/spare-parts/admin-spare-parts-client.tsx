@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -433,9 +433,11 @@ export function AdminSparePartsClient({
 
           <form onSubmit={handleSubmit(onSubmitForm)} className="space-y-4 pt-2">
             <FormField control={control} name="name" label="Part Name" required>
-              {(field) => (
+              {(field, fieldState) => (
                 <Input
                   {...field}
+                  disabled={isSubmitting || createMutation.isPending || updateMutation.isPending}
+                  aria-invalid={fieldState.invalid}
                   placeholder="e.g. Brake Pad Kit"
                   className="rounded-xl bg-card border-border"
                 />
