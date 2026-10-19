@@ -155,11 +155,12 @@ export function CustomerPaymentsClient({
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-card p-4 rounded-xl border border-border shadow-sm">
         <div className="flex flex-wrap items-center gap-3">
           <FilterSelect
+            label="Status"
             paramName="status"
             placeholder="All Payment Statuses"
             allLabel="All Payment Statuses"
             options={PAYMENT_STATUS_FILTER_OPTIONS}
-            className="w-full sm:w-52"
+            className="w-full sm:w-56"
           />
         </div>
 

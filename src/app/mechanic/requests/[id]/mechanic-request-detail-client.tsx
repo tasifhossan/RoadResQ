@@ -24,6 +24,9 @@ import {
   Phone,
   Plus,
   Loader2,
+  Search,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 
 import { queryKeys } from "@/lib/api/keys";
@@ -90,6 +93,10 @@ export function MechanicRequestDetailClient({
   const [selectedSparePartId, setSelectedSparePartId] = useState<string>("");
   const [selectedQuantity, setSelectedQuantity] = useState<string>("1");
   const [partError, setPartError] = useState<string | null>(null);
+
+  // Client-side search and pagination for logged spare parts
+  const [partsSearch, setPartsSearch] = useState<string>("");
+  const [partsPage, setPartsPage] = useState<number>(1);
 
   // TanStack Query with 5s polling for non-terminal statuses
   const {
@@ -286,6 +293,22 @@ export function MechanicRequestDetailClient({
   const partsSubtotal = (request.partsUsed || []).reduce(
     (sum, item) => sum + item.quantity * Number(item.priceAtUse),
     0
+  );
+
+  const partsUsedList = request.partsUsed || [];
+  const filteredPartsUsed = partsUsedList.filter((p) => {
+    if (!partsSearch.trim()) return true;
+    const q = partsSearch.toLowerCase();
+    const nameMatch = p.sparePart?.name?.toLowerCase().includes(q);
+    const idMatch = p.sparePartId?.toLowerCase().includes(q);
+    return Boolean(nameMatch || idMatch);
+  });
+  const partsPageSize = 5;
+  const totalPartsPages = Math.ceil(filteredPartsUsed.length / partsPageSize) || 1;
+  const currentPartsPage = Math.min(partsPage, totalPartsPages);
+  const paginatedPartsUsed = filteredPartsUsed.slice(
+    (currentPartsPage - 1) * partsPageSize,
+    currentPartsPage * partsPageSize
   );
 
   // Timeline active step determination
@@ -638,11 +661,17 @@ export function MechanicRequestDetailClient({
 
       {/* Parts Used Section & Log Form */}
       <Card className="rounded-xl border shadow-sm bg-card overflow-hidden">
-        <CardHeader className="bg-muted/30 border-b py-3.5 flex flex-row items-center justify-between">
-          <CardTitle className="text-sm font-bold flex items-center gap-2">
-            <Package className="h-4 w-4 text-primary" />
-            Spare Parts Used
-          </CardTitle>
+        <CardHeader className="bg-muted/30 border-b py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <CardTitle className="text-sm font-bold flex items-center gap-2">
+              <Package className="h-4 w-4 text-primary" />
+              Spare Parts Used ({partsUsedList.length})
+            </CardTitle>
+            <p className="text-xs text-muted-foreground mt-0.5">
+              Parts logged from your inventory for this repair.
+              {partsUsedList.length > 5 ? " (showing 5 per page)" : ""}
+            </p>
+          </div>
           <span className="text-xs font-semibold text-muted-foreground">
             Parts Subtotal: {formatMoney(partsSubtotal)}
           </span>
@@ -740,15 +769,34 @@ export function MechanicRequestDetailClient({
             </p>
           )}
 
+          {/* Search bar for logged parts */}
+          {partsUsedList.length > 0 && (
+            <div className="flex items-center justify-between gap-2">
+              <div className="relative w-full sm:w-64">
+                <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground pointer-events-none" />
+                <Input
+                  placeholder="Search logged parts..."
+                  value={partsSearch}
+                  onChange={(e) => {
+                    setPartsSearch(e.target.value);
+                    setPartsPage(1);
+                  }}
+                  className="pl-8 h-8 text-xs rounded-xl"
+                  aria-label="Search spare parts used"
+                />
+              </div>
+            </div>
+          )}
+
           {/* Logged Parts List */}
-          {request.partsUsed && request.partsUsed.length > 0 ? (
+          {paginatedPartsUsed.length > 0 ? (
             <div className="divide-y border rounded-xl overflow-hidden bg-card">
               <div className="bg-muted/40 p-3 flex justify-between text-xs font-bold text-muted-foreground uppercase tracking-wider">
                 <span>Spare Part Name</span>
                 <span>Qty x Unit Price</span>
                 <span>Line Total</span>
               </div>
-              {request.partsUsed.map((part) => {
+              {paginatedPartsUsed.map((part) => {
                 const unitPrice = Number(part.priceAtUse);
                 const lineTotal = part.quantity * unitPrice;
                 return (
@@ -768,10 +816,60 @@ export function MechanicRequestDetailClient({
                 );
               })}
 
+              {/* Client-side Pagination Footer */}
+              <div className="p-3 bg-muted/10 flex items-center justify-between border-t border-border">
+                <span className="text-xs text-muted-foreground">
+                  Showing {(currentPartsPage - 1) * partsPageSize + 1} to{" "}
+                  {Math.min(currentPartsPage * partsPageSize, filteredPartsUsed.length)} of{" "}
+                  {filteredPartsUsed.length} parts
+                </span>
+
+                <div className="flex items-center gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setPartsPage((p) => Math.max(1, p - 1))}
+                    disabled={currentPartsPage <= 1}
+                    className="h-7 text-xs rounded-lg gap-1"
+                  >
+                    <ChevronLeft className="h-3.5 w-3.5" />
+                    Previous
+                  </Button>
+                  <span className="text-xs font-semibold px-2 text-foreground">
+                    Page {currentPartsPage} of {totalPartsPages}
+                  </span>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setPartsPage((p) => Math.min(totalPartsPages, p + 1))}
+                    disabled={currentPartsPage >= totalPartsPages}
+                    className="h-7 text-xs rounded-lg gap-1"
+                  >
+                    Next
+                    <ChevronRight className="h-3.5 w-3.5" />
+                  </Button>
+                </div>
+              </div>
+
               <div className="p-4 bg-muted/20 flex justify-between items-center text-xs font-bold">
                 <span>Parts Subtotal</span>
                 <span className="text-sm font-extrabold text-primary">{formatMoney(partsSubtotal)}</span>
               </div>
+            </div>
+          ) : partsUsedList.length > 0 ? (
+            <div className="py-6 text-center space-y-2">
+              <p className="text-xs font-semibold text-foreground">No spare parts match your search</p>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => {
+                  setPartsSearch("");
+                  setPartsPage(1);
+                }}
+                className="text-xs text-primary"
+              >
+                Clear Search
+              </Button>
             </div>
           ) : (
             <p className="text-xs text-muted-foreground italic">

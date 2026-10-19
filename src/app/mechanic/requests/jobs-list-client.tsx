@@ -11,7 +11,6 @@ import {
   Calendar,
   MapPin,
   Clock,
-  Filter,
 } from "lucide-react";
 
 import { queryKeys } from "@/lib/api/keys";
@@ -196,29 +195,25 @@ export function JobsListClient({
       {/* Filter and Sort Toolbar */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-card p-4 rounded-xl border shadow-sm">
         <div className="flex flex-wrap items-center gap-3">
-          <div className="flex items-center gap-2 text-xs font-semibold text-muted-foreground">
-            <Filter className="h-4 w-4" />
-            <span>Filter:</span>
-          </div>
-
           <FilterSelect
+            label="Status"
             paramName="status"
             placeholder="All Statuses"
             allLabel="All Statuses"
             options={REQUEST_STATUS_FILTER_OPTIONS}
-            className="w-[170px]"
+            className="w-[180px]"
           />
         </div>
 
         <div className="flex items-center gap-3">
-          <span className="text-xs font-semibold text-muted-foreground">Sort:</span>
           <FilterSelect
+            label="Sort"
             paramName="sortBy"
             placeholder="Sort by"
             defaultValue="createdAt"
             showAllOption={false}
             options={REQUEST_SORT_BY_OPTIONS}
-            className="w-[170px]"
+            className="w-[180px]"
           />
         </div>
       </div>

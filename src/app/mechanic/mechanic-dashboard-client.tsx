@@ -20,6 +20,8 @@ import {
   Calendar,
   AlertCircle,
   Activity,
+  Search,
+  ChevronLeft,
 } from "lucide-react";
 
 import dynamic from "next/dynamic";
@@ -48,6 +50,7 @@ import { StatCard } from "@/components/shared/stat-card";
 import { buttonVariants, Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -88,6 +91,8 @@ export function MechanicDashboardClient({
   const queryClient = useQueryClient();
   const [isLocating, setIsLocating] = useState(false);
   const [acceptingId, setAcceptingId] = useState<string | null>(null);
+  const [invitationSearch, setInvitationSearch] = useState("");
+  const [invitationPage, setInvitationPage] = useState(1);
 
   // 1. User Profile query (auth.me)
   const { data: userData } = useQuery({
@@ -260,6 +265,28 @@ export function MechanicDashboardClient({
 
   // Categorize assigned items into "Needs response" and "Active job"
   const pendingInvitations = assignedItems.filter((req) => req.status === "ASSIGNED");
+
+  // Client-side search and pagination for pending invitations
+  const filteredInvitations = pendingInvitations.filter((req) => {
+    if (!invitationSearch.trim()) return true;
+    const q = invitationSearch.toLowerCase();
+    const descMatch = req.description?.toLowerCase().includes(q);
+    const customerMatch = req.customer?.name?.toLowerCase().includes(q);
+    const vehicleMatch =
+      req.vehicle &&
+      `${req.vehicle.make} ${req.vehicle.model} ${req.vehicle.plateNumber}`
+        .toLowerCase()
+        .includes(q);
+    return Boolean(descMatch || customerMatch || vehicleMatch);
+  });
+
+  const invitationsPageSize = 5;
+  const totalInvitationPages = Math.ceil(filteredInvitations.length / invitationsPageSize) || 1;
+  const currentInvitationPage = Math.min(invitationPage, totalInvitationPages);
+  const paginatedInvitations = filteredInvitations.slice(
+    (currentInvitationPage - 1) * invitationsPageSize,
+    currentInvitationPage * invitationsPageSize
+  );
 
   const activeJob = assignedItems.find((req) =>
     ["EN_ROUTE", "ARRIVED", "IN_PROGRESS"].includes(req.status)
@@ -519,7 +546,7 @@ export function MechanicDashboardClient({
 
       {/* Needs Your Response Section (ASSIGNED status) */}
       <Card className="rounded-xl border shadow-sm overflow-hidden bg-card">
-        <CardHeader className="bg-muted/30 border-b py-4 flex flex-row items-center justify-between">
+        <CardHeader className="bg-muted/30 border-b py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
             <CardTitle className="text-base font-bold flex items-center gap-2">
               <Clock className="h-5 w-5 text-primary" />
@@ -527,7 +554,24 @@ export function MechanicDashboardClient({
             </CardTitle>
             <CardDescription className="text-xs">
               Service requests assigned to you by customers awaiting your acceptance.
+              {pendingInvitations.length > 5 ? " (showing 5 per page)" : ""}
             </CardDescription>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <div className="relative w-full sm:w-48">
+              <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground pointer-events-none" />
+              <Input
+                placeholder="Search requests..."
+                value={invitationSearch}
+                onChange={(e) => {
+                  setInvitationSearch(e.target.value);
+                  setInvitationPage(1);
+                }}
+                className="pl-8 h-8 text-xs rounded-xl"
+                aria-label="Search pending invitations"
+              />
+            </div>
           </div>
         </CardHeader>
 
@@ -537,9 +581,9 @@ export function MechanicDashboardClient({
               <div className="h-16 bg-muted/50 rounded-xl animate-pulse" />
               <div className="h-16 bg-muted/50 rounded-xl animate-pulse" />
             </div>
-          ) : pendingInvitations.length > 0 ? (
+          ) : paginatedInvitations.length > 0 ? (
             <div className="divide-y divide-border">
-              {pendingInvitations.map((req) => (
+              {paginatedInvitations.map((req) => (
                 <div
                   key={req.id}
                   className="p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:bg-muted/20 transition-colors"
@@ -610,6 +654,59 @@ export function MechanicDashboardClient({
                   </div>
                 </div>
               ))}
+
+              {/* Client-side Pagination Footer */}
+              <div className="p-4 sm:px-6 flex items-center justify-between bg-muted/10 border-t border-border">
+                <span className="text-xs text-muted-foreground">
+                  Showing {(currentInvitationPage - 1) * invitationsPageSize + 1} to{" "}
+                  {Math.min(currentInvitationPage * invitationsPageSize, filteredInvitations.length)} of{" "}
+                  {filteredInvitations.length} results
+                </span>
+
+                <div className="flex items-center gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setInvitationPage((p) => Math.max(1, p - 1))}
+                    disabled={currentInvitationPage <= 1}
+                    className="h-7 text-xs rounded-lg gap-1"
+                  >
+                    <ChevronLeft className="h-3.5 w-3.5" />
+                    Previous
+                  </Button>
+                  <span className="text-xs font-semibold px-2 text-foreground">
+                    Page {currentInvitationPage} of {totalInvitationPages}
+                  </span>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setInvitationPage((p) => Math.min(totalInvitationPages, p + 1))}
+                    disabled={currentInvitationPage >= totalInvitationPages}
+                    className="h-7 text-xs rounded-lg gap-1"
+                  >
+                    Next
+                    <ChevronRight className="h-3.5 w-3.5" />
+                  </Button>
+                </div>
+              </div>
+            </div>
+          ) : pendingInvitations.length > 0 ? (
+            <div className="py-10 text-center space-y-2">
+              <p className="text-sm font-semibold text-foreground">No requests match your search</p>
+              <p className="text-xs text-muted-foreground">
+                Try searching with a different term.
+              </p>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => {
+                  setInvitationSearch("");
+                  setInvitationPage(1);
+                }}
+                className="text-xs text-primary"
+              >
+                Clear Search
+              </Button>
             </div>
           ) : (
             <EmptyState

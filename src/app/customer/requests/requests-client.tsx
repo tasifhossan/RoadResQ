@@ -169,6 +169,7 @@ export function CustomerRequestsClient({
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-card p-4 rounded-xl border border-border shadow-sm">
         <div className="flex flex-wrap items-center gap-3">
           <FilterSelect
+            label="Status"
             paramName="status"
             placeholder="All Statuses"
             allLabel="All Statuses"
@@ -177,6 +178,7 @@ export function CustomerRequestsClient({
           />
 
           <FilterSelect
+            label="Sort"
             paramName="sortBy"
             placeholder="Sort by"
             defaultValue="createdAt"
@@ -186,6 +188,7 @@ export function CustomerRequestsClient({
           />
 
           <FilterSelect
+            label="Order"
             paramName="sortOrder"
             placeholder="Order"
             defaultValue="desc"
