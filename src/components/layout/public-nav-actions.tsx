@@ -10,6 +10,8 @@ import { ROLE_HOME_MAP } from "@/lib/auth/constants";
 import { LogOut } from "lucide-react";
 import { queryKeys } from "@/lib/api/keys";
 
+import { ThemeToggle } from "@/components/theme-toggle";
+
 export function PublicNavActions() {
   const router = useRouter();
   const queryClient = useQueryClient();
@@ -30,10 +32,13 @@ export function PublicNavActions() {
   // Fixed-size placeholder while client session is loading to avoid layout shift
   if (isLoading) {
     return (
-      <div
-        className="w-[140px] h-9 bg-muted/60 animate-pulse rounded-xl shrink-0"
-        aria-hidden="true"
-      />
+      <div className="flex items-center gap-3 shrink-0">
+        <ThemeToggle />
+        <div
+          className="w-[140px] h-9 bg-muted/60 animate-pulse rounded-xl shrink-0"
+          aria-hidden="true"
+        />
+      </div>
     );
   }
 
@@ -42,6 +47,7 @@ export function PublicNavActions() {
 
     return (
       <div className="flex items-center gap-3 shrink-0">
+        <ThemeToggle />
         <Link href={dashboardHref}>
           <Button variant="ghost" size="sm" className="font-medium rounded-xl">
             Dashboard
@@ -63,6 +69,7 @@ export function PublicNavActions() {
 
   return (
     <div className="flex items-center gap-3 shrink-0">
+      <ThemeToggle />
       <Link href="/login">
         <Button variant="ghost" size="sm" className="font-medium rounded-xl">
           Login

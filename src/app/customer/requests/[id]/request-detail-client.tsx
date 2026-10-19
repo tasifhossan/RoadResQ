@@ -103,6 +103,8 @@ export function RequestDetailClient({
   const [reviewDialogOpen, setReviewDialogOpen] = useState(false);
   const [reviewRating, setReviewRating] = useState(5);
   const [reviewComment, setReviewComment] = useState("");
+  const [reviewRatingError, setReviewRatingError] = useState("");
+  const [cancelReasonError, setCancelReasonError] = useState("");
 
   // State for "Find a Mechanic" Panel
   const [radiusKm, setRadiusKm] = useState(10);
@@ -363,9 +365,9 @@ export function RequestDetailClient({
 
       {/* Upload Failed Warning Banner */}
       {showUploadFailedBanner && (
-        <div className="rounded-2xl border border-amber-500/30 bg-amber-500/10 p-4 flex items-start gap-3">
-          <AlertCircle className="h-5 w-5 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
-          <div className="text-xs sm:text-sm text-amber-800 dark:text-amber-300 space-y-1">
+        <div className="rounded-xl border border-orange-500/30 bg-orange-500/10 p-4 flex items-start gap-3">
+          <AlertCircle className="h-5 w-5 text-orange-600 dark:text-orange-400 shrink-0 mt-0.5" />
+          <div className="text-xs sm:text-sm text-orange-800 dark:text-orange-300 space-y-1">
             <p className="font-semibold">Request Created with Missing Photos</p>
             <p>
               Your service request was created, but damage photos failed to upload during submission. You can attach damage photos below.
@@ -419,7 +421,7 @@ export function RequestDetailClient({
               type="button"
               onClick={() => initiatePaymentMutation.mutate(invoice.id)}
               disabled={initiatePaymentMutation.isPending}
-              className="rounded-xl gap-2 font-semibold bg-emerald-600 hover:bg-emerald-700 text-white shadow-md"
+              className="rounded-xl gap-2 font-semibold bg-primary hover:bg-primary/90 text-primary-foreground shadow-md"
             >
               {initiatePaymentMutation.isPending ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
@@ -434,7 +436,7 @@ export function RequestDetailClient({
 
       {/* FIND A MECHANIC PANEL (Shown when request can search & assign mechanics) */}
       {canSearchAndAssign && (
-        <Card className="rounded-2xl border-primary/30 bg-primary/5 shadow-sm overflow-hidden">
+        <Card className="rounded-xl border-primary/30 bg-primary/5 shadow-sm overflow-hidden">
           <CardHeader className="pb-3 border-b border-primary/10">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div className="flex items-center gap-2.5">
@@ -478,11 +480,11 @@ export function RequestDetailClient({
           <CardContent className="pt-4 space-y-4">
             {isLoadingNearby ? (
               <div className="space-y-3">
-                <Skeleton className="h-16 w-full rounded-2xl" />
-                <Skeleton className="h-16 w-full rounded-2xl" />
+                <Skeleton className="h-16 w-full rounded-xl" />
+                <Skeleton className="h-16 w-full rounded-xl" />
               </div>
             ) : nearbyMechanics.length === 0 ? (
-              <div className="text-center py-6 px-4 rounded-2xl border border-dashed border-border bg-card/60 space-y-2">
+              <div className="text-center py-6 px-4 rounded-xl border border-dashed border-border bg-card/60 space-y-2">
                 <Navigation className="h-8 w-8 text-muted-foreground mx-auto" />
                 <h4 className="font-semibold text-foreground text-sm">No mechanics found within {radiusKm}km</h4>
                 <p className="text-xs text-muted-foreground max-w-sm mx-auto">
@@ -496,7 +498,7 @@ export function RequestDetailClient({
                   return (
                     <div
                       key={m.id}
-                      className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 rounded-2xl border border-border bg-card shadow-sm hover:border-primary/40 transition-all gap-4"
+                      className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 rounded-xl border border-border bg-card shadow-sm hover:border-primary/40 transition-all gap-4"
                     >
                       <div className="flex items-start gap-3">
                         <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary font-bold">
@@ -509,8 +511,8 @@ export function RequestDetailClient({
                           </div>
 
                           <div className="flex items-center gap-3 text-xs text-muted-foreground flex-wrap">
-                            <span className="flex items-center gap-1 font-semibold text-amber-500">
-                              <Star className="h-3.5 w-3.5 fill-amber-500 text-amber-500" />
+                            <span className="flex items-center gap-1 font-semibold text-orange-700 dark:text-orange-400">
+                              <Star className="h-3.5 w-3.5 fill-orange-600 text-orange-600 dark:fill-orange-400 dark:text-orange-400" />
                               {(m.rating ?? 5.0).toFixed(1)} Rating
                             </span>
                             <span>•</span>
@@ -555,7 +557,7 @@ export function RequestDetailClient({
 
       {/* Status Transition History Timeline */}
       {statusHistory.length > 0 && (
-        <Card className="rounded-2xl border-border shadow-sm">
+        <Card className="rounded-xl border-border shadow-sm">
           <CardHeader className="pb-3">
             <CardTitle className="text-base font-bold flex items-center gap-2">
               <Clock className="h-4 w-4 text-primary" />
@@ -595,7 +597,7 @@ export function RequestDetailClient({
       {/* Overview Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {/* Vehicle */}
-        <Card className="rounded-2xl border-border shadow-sm">
+        <Card className="rounded-xl border-border shadow-sm">
           <CardHeader className="pb-2">
             <CardTitle className="text-xs font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-2">
               <Car className="h-4 w-4 text-primary" />
@@ -619,7 +621,7 @@ export function RequestDetailClient({
         </Card>
 
         {/* Location */}
-        <Card className="rounded-2xl border-border shadow-sm">
+        <Card className="rounded-xl border-border shadow-sm">
           <CardHeader className="pb-2">
             <CardTitle className="text-xs font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-2">
               <MapPin className="h-4 w-4 text-primary" />
@@ -637,7 +639,7 @@ export function RequestDetailClient({
         </Card>
 
         {/* Assigned Mechanic */}
-        <Card className="rounded-2xl border-border shadow-sm">
+        <Card className="rounded-xl border-border shadow-sm">
           <CardHeader className="pb-2">
             <CardTitle className="text-xs font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-2">
               <User className="h-4 w-4 text-primary" />
@@ -650,8 +652,8 @@ export function RequestDetailClient({
                 <p className="font-bold text-foreground text-base">{mechanic.name}</p>
                 {mechanic.mechanicProfile && (
                   <div className="flex items-center gap-2 text-xs text-muted-foreground mt-1">
-                    <span className="flex items-center gap-0.5 font-semibold text-amber-500">
-                      <Star className="h-3.5 w-3.5 fill-amber-500 text-amber-500" />
+                    <span className="flex items-center gap-0.5 font-semibold text-orange-700 dark:text-orange-400">
+                      <Star className="h-3.5 w-3.5 fill-orange-600 text-orange-600 dark:fill-orange-400 dark:text-orange-400" />
                       {mechanic.mechanicProfile.rating.toFixed(1)}
                     </span>
                     <span>•</span>
@@ -670,7 +672,7 @@ export function RequestDetailClient({
       </div>
 
       {/* Problem Description Card */}
-      <Card className="rounded-2xl border-border shadow-sm">
+      <Card className="rounded-xl border-border shadow-sm">
         <CardHeader className="pb-2">
           <CardTitle className="text-sm font-semibold text-foreground">
             Problem Description
@@ -684,7 +686,7 @@ export function RequestDetailClient({
       </Card>
 
       {/* Attached Damage Photos & Retry Section */}
-      <Card className="rounded-2xl border-border shadow-sm">
+      <Card className="rounded-xl border-border shadow-sm">
         <CardHeader>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -824,7 +826,7 @@ export function RequestDetailClient({
 
       {/* Spare Parts Used */}
       {partsUsed.length > 0 && (
-        <Card className="rounded-2xl border-border shadow-sm">
+        <Card className="rounded-xl border-border shadow-sm">
           <CardHeader className="pb-3">
             <div className="flex items-center gap-2">
               <Package className="h-5 w-5 text-primary" />
@@ -867,7 +869,7 @@ export function RequestDetailClient({
 
       {/* Invoice Summary & Payment Status */}
       {invoice && (
-        <Card className="rounded-2xl border-border shadow-sm overflow-hidden">
+        <Card className="rounded-xl border-border shadow-sm overflow-hidden">
           <CardHeader className="bg-muted/30 border-b border-border">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
@@ -899,9 +901,9 @@ export function RequestDetailClient({
 
           {/* Invoice Paid State */}
           {isPaid && (
-            <CardFooter className="bg-emerald-500/10 border-t border-emerald-500/20 p-4 flex items-center justify-between gap-3">
-              <div className="flex items-center gap-2 text-emerald-800 dark:text-emerald-300 text-sm font-medium">
-                <CheckCircle2 className="h-4 w-4 text-emerald-600 shrink-0" />
+            <CardFooter className="bg-blue-500/10 border-t border-blue-500/20 p-4 flex items-center justify-between gap-3">
+              <div className="flex items-center gap-2 text-blue-800 dark:text-blue-300 text-sm font-medium">
+                <CheckCircle2 className="h-4 w-4 text-primary shrink-0" />
                 <span>Invoice is fully paid. Thank you!</span>
               </div>
             </CardFooter>
@@ -909,9 +911,9 @@ export function RequestDetailClient({
 
           {/* Pay Now Footer Button */}
           {canPayInvoice && (
-            <CardFooter className="bg-emerald-500/10 border-t border-emerald-500/20 p-4 flex flex-col sm:flex-row items-center justify-between gap-3">
-              <div className="flex items-center gap-2 text-emerald-800 dark:text-emerald-300 text-sm font-medium">
-                <AlertCircle className="h-4 w-4 text-emerald-600 shrink-0" />
+            <CardFooter className="bg-blue-500/10 border-t border-blue-500/20 p-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+              <div className="flex items-center gap-2 text-blue-800 dark:text-blue-300 text-sm font-medium">
+                <AlertCircle className="h-4 w-4 text-primary shrink-0" />
                 <span>
                   {invoice.payment?.status === "FAILED"
                     ? "Previous payment failed. Click to try again."
@@ -922,7 +924,7 @@ export function RequestDetailClient({
                 type="button"
                 onClick={() => initiatePaymentMutation.mutate(invoice.id)}
                 disabled={initiatePaymentMutation.isPending}
-                className="rounded-xl gap-2 font-semibold bg-emerald-600 hover:bg-emerald-700 text-white shadow-md w-full sm:w-auto"
+                className="rounded-xl gap-2 font-semibold bg-primary hover:bg-primary/90 text-primary-foreground shadow-md w-full sm:w-auto"
               >
                 {initiatePaymentMutation.isPending ? (
                   <Loader2 className="h-4 w-4 animate-spin" />
@@ -938,15 +940,15 @@ export function RequestDetailClient({
 
       {/* Review Block */}
       {review && (
-        <Card className="rounded-2xl border-border shadow-sm">
+        <Card className="rounded-xl border-border shadow-sm">
           <CardHeader className="pb-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <MessageSquare className="h-5 w-5 text-primary" />
                 <CardTitle className="text-lg">Your Review</CardTitle>
               </div>
-              <div className="flex items-center gap-1 font-bold text-amber-500 text-sm">
-                <Star className="h-4 w-4 fill-amber-500 text-amber-500" />
+              <div className="flex items-center gap-1 font-bold text-orange-700 dark:text-orange-400 text-sm">
+                <Star className="h-4 w-4 fill-orange-600 text-orange-600 dark:fill-orange-400 dark:text-orange-400" />
                 <span>{review.rating} / 5</span>
               </div>
             </div>
@@ -967,8 +969,18 @@ export function RequestDetailClient({
       )}
 
       {/* Review Dialog */}
-      <Dialog open={reviewDialogOpen} onOpenChange={setReviewDialogOpen}>
-        <DialogContent className="sm:max-w-md rounded-2xl p-6">
+      <Dialog
+        open={reviewDialogOpen}
+        onOpenChange={(open) => {
+          setReviewDialogOpen(open);
+          if (!open) {
+            setReviewRating(5);
+            setReviewComment("");
+            setReviewRatingError("");
+          }
+        }}
+      >
+        <DialogContent className="sm:max-w-md rounded-xl p-6">
           <DialogHeader>
             <DialogTitle className="text-lg font-bold">Write a Review</DialogTitle>
             <DialogDescription className="text-sm text-muted-foreground pt-1">
@@ -979,7 +991,12 @@ export function RequestDetailClient({
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              reviewMutation.mutate({ rating: reviewRating, comment: reviewComment });
+              if (reviewRating < 1 || reviewRating > 5) {
+                setReviewRatingError("Please select a rating between 1 and 5 stars");
+                return;
+              }
+              setReviewRatingError("");
+              reviewMutation.mutate({ rating: reviewRating, comment: reviewComment.trim() || undefined });
             }}
             className="space-y-4 pt-2"
           >
@@ -990,19 +1007,26 @@ export function RequestDetailClient({
                   <button
                     key={star}
                     type="button"
-                    onClick={() => setReviewRating(star)}
-                    className="p-1 transition-transform hover:scale-110 focus:outline-none"
+                    disabled={reviewMutation.isPending}
+                    onClick={() => {
+                      setReviewRating(star);
+                      setReviewRatingError("");
+                    }}
+                    className="p-1 transition-transform hover:scale-110 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
                   >
                     <Star
                       className={`h-8 w-8 ${
                         star <= reviewRating
-                          ? "fill-amber-400 text-amber-400"
+                          ? "fill-orange-400 text-orange-400"
                           : "text-muted-foreground/40"
                       }`}
                     />
                   </button>
                 ))}
               </div>
+              {reviewRatingError && (
+                <p className="text-xs text-destructive font-medium">{reviewRatingError}</p>
+              )}
             </div>
 
             <div className="space-y-2">
@@ -1014,6 +1038,8 @@ export function RequestDetailClient({
                 rows={3}
                 placeholder="Describe how the mechanic performed..."
                 value={reviewComment}
+                disabled={reviewMutation.isPending}
+                aria-invalid={Boolean(reviewRatingError)}
                 onChange={(e) => setReviewComment(e.target.value)}
                 maxLength={500}
                 className="rounded-xl bg-card border-border shadow-sm resize-none"
@@ -1062,7 +1088,10 @@ export function RequestDetailClient({
         open={cancelDialogOpen}
         onOpenChange={(open) => {
           setCancelDialogOpen(open);
-          if (!open) setCancelReason("");
+          if (!open) {
+            setCancelReason("");
+            setCancelReasonError("");
+          }
         }}
         title="Cancel Service Request"
         description="Are you sure you want to cancel this service request? This action cannot be undone."
@@ -1073,9 +1102,12 @@ export function RequestDetailClient({
         onConfirm={() => {
           const res = cancelServiceRequestSchema.safeParse(cancelReason ? { reason: cancelReason } : {});
           if (!res.success) {
-            toast.error(res.error.issues[0]?.message || "Invalid cancellation reason");
+            const msg = res.error.issues[0]?.message || "Invalid cancellation reason";
+            setCancelReasonError(msg);
+            toast.error(msg);
             return;
           }
+          setCancelReasonError("");
           cancelMutation.mutate(res.data.reason);
         }}
       >
@@ -1088,10 +1120,18 @@ export function RequestDetailClient({
             rows={3}
             placeholder="e.g. Found alternative assistance..."
             value={cancelReason}
-            onChange={(e) => setCancelReason(e.target.value)}
+            disabled={cancelMutation.isPending}
+            aria-invalid={Boolean(cancelReasonError)}
+            onChange={(e) => {
+              setCancelReason(e.target.value);
+              setCancelReasonError("");
+            }}
             maxLength={200}
             className="rounded-xl bg-card border-border shadow-sm resize-none text-xs"
           />
+          {cancelReasonError && (
+            <p className="text-xs text-destructive font-medium">{cancelReasonError}</p>
+          )}
           <div className="flex justify-end">
             <span className="text-[10px] text-muted-foreground font-mono">
               {cancelReason.length} / 200

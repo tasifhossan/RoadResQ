@@ -295,7 +295,7 @@ export function VehiclesClient({
           {/* Mobile View: Cards */}
           <div className="block sm:hidden space-y-4">
             {vehiclesList.map((vehicle) => (
-              <Card key={vehicle.id} className="rounded-2xl border-border shadow-sm overflow-hidden">
+              <Card key={vehicle.id} className="rounded-xl border-border shadow-sm overflow-hidden">
                 <CardHeader className="pb-3 flex flex-row items-start justify-between space-y-0">
                   <div>
                     <CardTitle className="text-base font-semibold">
@@ -336,7 +336,7 @@ export function VehiclesClient({
           </div>
 
           {/* Desktop View: Table */}
-          <div className="hidden sm:block rounded-2xl border border-border bg-card shadow-sm overflow-hidden">
+          <div className="hidden sm:block rounded-xl border border-border bg-card shadow-sm overflow-hidden">
             <Table>
               <TableHeader className="bg-muted/50">
                 <TableRow>
@@ -404,7 +404,7 @@ export function VehiclesClient({
 
       {/* Add / Edit Dialog */}
       <Dialog open={dialogOpen} onOpenChange={handleCloseDialog}>
-        <DialogContent className="sm:max-w-md rounded-2xl p-6">
+        <DialogContent className="sm:max-w-md rounded-xl p-6">
           <DialogHeader>
             <DialogTitle className="text-lg font-bold">
               {editingVehicle ? "Edit Vehicle" : "Add New Vehicle"}
@@ -418,9 +418,11 @@ export function VehiclesClient({
 
           <form onSubmit={handleSubmit(onSubmitForm)} className="space-y-4 pt-2">
             <FormField control={control} name="make" label="Make" required>
-              {(field) => (
+              {(field, fieldState) => (
                 <Input
                   {...field}
+                  disabled={isSubmitting || saveMutation.isPending}
+                  aria-invalid={fieldState.invalid}
                   placeholder="e.g. Toyota, Honda, Ford"
                   className="rounded-xl bg-card border-border shadow-sm"
                 />
@@ -428,9 +430,11 @@ export function VehiclesClient({
             </FormField>
 
             <FormField control={control} name="model" label="Model" required>
-              {(field) => (
+              {(field, fieldState) => (
                 <Input
                   {...field}
+                  disabled={isSubmitting || saveMutation.isPending}
+                  aria-invalid={fieldState.invalid}
                   placeholder="e.g. Camry, Civic, F-150"
                   className="rounded-xl bg-card border-border shadow-sm"
                 />
@@ -438,9 +442,11 @@ export function VehiclesClient({
             </FormField>
 
             <FormField control={control} name="plateNumber" label="Plate Number" required>
-              {(field) => (
+              {(field, fieldState) => (
                 <Input
                   {...field}
+                  disabled={isSubmitting || saveMutation.isPending}
+                  aria-invalid={fieldState.invalid}
                   placeholder="e.g. ABC-1234"
                   className="rounded-xl bg-card border-border shadow-sm font-mono uppercase"
                 />
@@ -494,7 +500,7 @@ function VehiclesSkeleton() {
       {/* Mobile Skeleton Cards */}
       <div className="block sm:hidden space-y-4">
         {[1, 2, 3].map((i) => (
-          <Card key={i} className="rounded-2xl border-border p-4 space-y-3">
+          <Card key={i} className="rounded-xl border-border p-4 space-y-3">
             <Skeleton className="h-5 w-1/2 rounded-md" />
             <Skeleton className="h-4 w-1/3 rounded-md" />
             <Skeleton className="h-8 w-full rounded-xl" />
@@ -503,7 +509,7 @@ function VehiclesSkeleton() {
       </div>
 
       {/* Desktop Skeleton Table */}
-      <div className="hidden sm:block rounded-2xl border border-border bg-card p-4 space-y-3">
+      <div className="hidden sm:block rounded-xl border border-border bg-card p-4 space-y-3">
         <Skeleton className="h-10 w-full rounded-xl" />
         {[1, 2, 3, 4].map((i) => (
           <Skeleton key={i} className="h-12 w-full rounded-xl" />

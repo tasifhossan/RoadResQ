@@ -37,7 +37,7 @@ export function MechanicEarningsChart({ monthly }: MechanicEarningsChartProps) {
   const isChartAllZero = chartData.every((m) => m.labor === 0 && m.parts === 0);
 
   return (
-    <Card className="rounded-2xl border-border bg-card p-6 shadow-sm space-y-4">
+    <Card className="rounded-xl border-border bg-card p-6 shadow-sm space-y-4">
       <div>
         <CardTitle className="text-lg font-bold">6-Month Earnings Breakdown</CardTitle>
         <CardDescription className="text-xs text-muted-foreground">
@@ -58,7 +58,7 @@ export function MechanicEarningsChart({ monthly }: MechanicEarningsChartProps) {
           aria-label="Stacked Bar Chart showing 6-month earnings breakdown for labor and parts"
           className="h-80 w-full pt-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-xl"
         >
-          <ResponsiveContainer width="100%" height="100%">
+          <ResponsiveContainer width="100%" height={280} minWidth={0}>
             <BarChart data={chartData} margin={{ top: 10, right: 10, left: 10, bottom: 20 }}>
               <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
               <XAxis
@@ -79,11 +79,14 @@ export function MechanicEarningsChart({ monthly }: MechanicEarningsChartProps) {
                 ]}
                 labelFormatter={(lbl) => `Month: ${String(lbl ?? "")}`}
                 contentStyle={{
-                  backgroundColor: "var(--background)",
-                  borderColor: "var(--border)",
+                  backgroundColor: "hsl(var(--card))",
+                  borderColor: "hsl(var(--border))",
                   borderRadius: "0.75rem",
-                  boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+                  boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+                  color: "hsl(var(--card-foreground))",
                 }}
+                itemStyle={{ color: "hsl(var(--card-foreground))" }}
+                labelStyle={{ color: "hsl(var(--card-foreground))", fontWeight: 600 }}
               />
               <Legend
                 wrapperStyle={{ paddingTop: "10px" }}
@@ -93,10 +96,34 @@ export function MechanicEarningsChart({ monthly }: MechanicEarningsChartProps) {
                   </span>
                 )}
               />
-              <Bar dataKey="labor" stackId="a" fill="#2563eb" radius={[0, 0, 4, 4]} />
-              <Bar dataKey="parts" stackId="a" fill="#10b981" radius={[4, 4, 0, 0]} />
+              <Bar
+                dataKey="labor"
+                stackId="a"
+                fill="#2563eb"
+                radius={[0, 0, 4, 4]}
+                isAnimationActive={false}
+              />
+              <Bar
+                dataKey="parts"
+                stackId="a"
+                fill="#ea580c"
+                radius={[4, 4, 0, 0]}
+                isAnimationActive={false}
+              />
             </BarChart>
           </ResponsiveContainer>
+
+          {/* Screen Reader Accessible Summary */}
+          <div className="sr-only">
+            <p>Monthly earnings breakdown for labor and spare parts over the last 6 months:</p>
+            <ul>
+              {chartData.map((d) => (
+                <li key={d.month}>
+                  {d.month}: Labor {formatMoney(d.labor)}, Parts {formatMoney(d.parts)}, Total {formatMoney(d.total)} across {d.jobs} jobs
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       )}
     </Card>

@@ -8,6 +8,7 @@ import {
   AlertTriangle,
   Box,
   Check,
+  CheckCircle2,
   Loader2,
   Package,
   Pencil,
@@ -315,7 +316,7 @@ export function MechanicInventoryClient({
       </PageHeader>
 
       {/* Filter and Search Bar */}
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-card p-4 rounded-2xl border border-border shadow-sm">
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-card p-4 rounded-xl border border-border shadow-sm">
         <SearchInput
           placeholder="Search by part name..."
           paramName="search"
@@ -329,7 +330,7 @@ export function MechanicInventoryClient({
             onClick={handleToggleLowStock}
             className="rounded-xl gap-2 text-xs sm:text-sm font-medium"
           >
-            <AlertTriangle className="h-4 w-4 text-amber-500" />
+            <AlertTriangle className="h-4 w-4 text-orange-600 dark:text-orange-400" />
             {queryParams.lowStock ? "Showing Low Stock" : "Filter Low Stock"}
           </Button>
         </div>
@@ -349,7 +350,7 @@ export function MechanicInventoryClient({
       {/* Skeleton loading state */}
       {isLoading && !data && (
         <div className="space-y-4">
-          <div className="rounded-2xl border border-border bg-card p-4 space-y-3">
+          <div className="rounded-xl border border-border bg-card p-4 space-y-3">
             {Array.from({ length: 5 }).map((_, i) => (
               <Skeleton key={i} className="h-12 w-full rounded-xl" />
             ))}
@@ -388,7 +389,7 @@ export function MechanicInventoryClient({
           ) : (
             <>
               {/* Desktop Table View */}
-              <div className="hidden md:block rounded-2xl border border-border bg-card overflow-hidden shadow-sm">
+              <div className="hidden md:block rounded-xl border border-border bg-card overflow-hidden shadow-sm">
                 <Table>
                   <TableHeader>
                     <TableRow className="bg-muted/40 hover:bg-muted/40">
@@ -435,7 +436,7 @@ export function MechanicInventoryClient({
                             {isLowStock ? (
                               <Badge
                                 variant="outline"
-                                className="bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20 font-medium text-xs rounded-full px-2.5 py-0.5"
+                                className="bg-orange-500/10 text-orange-700 dark:text-orange-400 border-orange-500/20 font-medium text-xs rounded-full px-2.5 py-0.5"
                               >
                                 <AlertTriangle className="h-3 w-3 mr-1 shrink-0" />
                                 Low Stock
@@ -443,8 +444,9 @@ export function MechanicInventoryClient({
                             ) : (
                               <Badge
                                 variant="outline"
-                                className="bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20 font-medium text-xs rounded-full px-2.5 py-0.5"
+                                className="bg-primary/10 text-primary border-primary/20 font-medium text-xs rounded-full px-2.5 py-0.5"
                               >
+                                <CheckCircle2 className="h-3 w-3 mr-1 shrink-0" />
                                 In Stock
                               </Badge>
                             )}
@@ -484,7 +486,7 @@ export function MechanicInventoryClient({
                   const isLowStock = item.stock <= LOW_STOCK_THRESHOLD;
 
                   return (
-                    <Card key={item.id} className="rounded-2xl border-border shadow-sm">
+                    <Card key={item.id} className="rounded-xl border-border shadow-sm">
                       <CardHeader className="p-4 pb-2">
                         <div className="flex items-start justify-between gap-2">
                           <div className="space-y-1">
@@ -499,7 +501,7 @@ export function MechanicInventoryClient({
                           {isLowStock ? (
                             <Badge
                               variant="outline"
-                              className="bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20 font-medium text-xs rounded-full"
+                              className="bg-orange-500/10 text-orange-700 dark:text-orange-400 border-orange-500/20 font-medium text-xs rounded-full"
                             >
                               <AlertTriangle className="h-3 w-3 mr-1 shrink-0" />
                               Low Stock
@@ -507,8 +509,9 @@ export function MechanicInventoryClient({
                           ) : (
                             <Badge
                               variant="outline"
-                              className="bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20 font-medium text-xs rounded-full"
+                              className="bg-primary/10 text-primary border-primary/20 font-medium text-xs rounded-full"
                             >
+                              <CheckCircle2 className="h-3 w-3 mr-1 shrink-0" />
                               In Stock
                             </Badge>
                           )}
@@ -564,7 +567,7 @@ export function MechanicInventoryClient({
 
       {/* Add Inventory Item Dialog */}
       <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
-        <DialogContent className="sm:max-w-lg rounded-2xl p-6">
+        <DialogContent className="sm:max-w-lg rounded-xl p-6">
           <DialogHeader>
             <DialogTitle className="text-xl font-bold">Add Spare Part to Inventory</DialogTitle>
             <DialogDescription className="text-sm text-muted-foreground">
@@ -657,6 +660,8 @@ export function MechanicInventoryClient({
                     id="custom-part-name"
                     placeholder="e.g., Heavy Duty Tow Cable 20ft"
                     value={customPartName}
+                    disabled={addMutation.isPending}
+                    aria-invalid={Boolean(addErrors.name)}
                     onChange={(e) => {
                       setCustomPartName(e.target.value);
                       setAddErrors((prev) => ({ ...prev, name: "" }));
@@ -683,6 +688,8 @@ export function MechanicInventoryClient({
                   min="0"
                   placeholder="0.00"
                   value={addPrice}
+                  disabled={addMutation.isPending}
+                  aria-invalid={Boolean(addErrors.price)}
                   onChange={(e) => {
                     setAddPrice(e.target.value);
                     setAddErrors((prev) => ({ ...prev, price: "" }));
@@ -704,6 +711,8 @@ export function MechanicInventoryClient({
                   min="0"
                   placeholder="10"
                   value={addStock}
+                  disabled={addMutation.isPending}
+                  aria-invalid={Boolean(addErrors.stock)}
                   onChange={(e) => {
                     setAddStock(e.target.value);
                     setAddErrors((prev) => ({ ...prev, stock: "" }));
@@ -741,7 +750,7 @@ export function MechanicInventoryClient({
 
       {/* Edit Inventory Item Dialog */}
       <Dialog open={Boolean(editingItem)} onOpenChange={(open) => !open && setEditingItem(null)}>
-        <DialogContent className="sm:max-w-md rounded-2xl p-6">
+        <DialogContent className="sm:max-w-md rounded-xl p-6">
           <DialogHeader>
             <DialogTitle className="text-xl font-bold">Edit Inventory Item</DialogTitle>
             <DialogDescription className="text-sm text-muted-foreground">
@@ -765,8 +774,10 @@ export function MechanicInventoryClient({
                   }}
                   disabled={
                     editingItem.sparePart.isGlobal ||
-                    !editingItem.sparePart.createdByMechanicId
+                    !editingItem.sparePart.createdByMechanicId ||
+                    updateMutation.isPending
                   }
+                  aria-invalid={Boolean(editErrors.name)}
                   className="rounded-xl"
                 />
                 {editingItem.sparePart.isGlobal && (
@@ -790,6 +801,8 @@ export function MechanicInventoryClient({
                     step="0.01"
                     min="0"
                     value={editPrice}
+                    disabled={updateMutation.isPending}
+                    aria-invalid={Boolean(editErrors.price)}
                     onChange={(e) => {
                       setEditPrice(e.target.value);
                       setEditErrors((prev) => ({ ...prev, price: "" }));
@@ -810,6 +823,8 @@ export function MechanicInventoryClient({
                     type="number"
                     min="0"
                     value={editStock}
+                    disabled={updateMutation.isPending}
+                    aria-invalid={Boolean(editErrors.stock)}
                     onChange={(e) => {
                       setEditStock(e.target.value);
                       setEditErrors((prev) => ({ ...prev, stock: "" }));

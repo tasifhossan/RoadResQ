@@ -79,7 +79,7 @@ export function AccordionItem({ children, className }: AccordionItemProps) {
   return (
     <div
       className={cn(
-        "rounded-2xl border border-border/80 bg-card transition-all overflow-hidden shadow-xs",
+        "rounded-xl border border-border/80 bg-card transition-all overflow-hidden shadow-xs",
         className
       )}
     >
@@ -111,7 +111,7 @@ export function AccordionTrigger({ children, className }: AccordionTriggerProps)
       aria-controls={contentId}
       onClick={toggle}
       className={cn(
-        "flex w-full items-center justify-between p-5 sm:p-6 text-left font-semibold text-foreground text-base transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-2xl",
+        "flex w-full items-center justify-between p-5 sm:p-6 text-left font-semibold text-foreground text-base transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-xl",
         className
       )}
     >

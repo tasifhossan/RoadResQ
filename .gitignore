@@ -40,6 +40,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-
-
-
+# generated agent rules
+AGENTS.md
+CLAUDE.md

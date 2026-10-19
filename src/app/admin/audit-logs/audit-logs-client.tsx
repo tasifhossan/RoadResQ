@@ -203,11 +203,12 @@ export function AuditLogsClient({
       />
 
       {/* Filters Toolbar */}
-      <div className="space-y-3 bg-card p-4 rounded-2xl border border-border shadow-sm">
+      <div className="space-y-3 bg-card p-4 rounded-xl border border-border shadow-sm">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 flex-1">
             <FilterSelect
               paramName="entityType"
+              label="Entity"
               placeholder="Entity Type"
               allLabel="All Entities"
               options={AUDIT_ENTITY_TYPE_FILTER_OPTIONS}
@@ -215,6 +216,7 @@ export function AuditLogsClient({
             />
             <FilterSelect
               paramName="action"
+              label="Action"
               placeholder="Action"
               allLabel="All Actions"
               options={AUDIT_ACTION_FILTER_OPTIONS}
@@ -261,7 +263,7 @@ export function AuditLogsClient({
 
         {/* Invalid Date Range Warning */}
         {isDateRangeInvalid && (
-          <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-700 dark:text-rose-400 text-xs flex items-center gap-2">
+          <div className="p-3 rounded-xl bg-destructive/10 border border-destructive/20 text-destructive text-xs flex items-center gap-2">
             <AlertTriangle className="h-4 w-4 shrink-0" />
             <span>
               <strong>Invalid Date Range:</strong> &apos;From&apos; date cannot be after &apos;To&apos; date. Please adjust filter dates.
@@ -283,7 +285,7 @@ export function AuditLogsClient({
 
       {/* Loading Skeleton */}
       {isLoading && !data && (
-        <Card className="rounded-2xl border-border bg-card p-6 shadow-sm">
+        <Card className="rounded-xl border-border bg-card p-6 shadow-sm">
           <div className="space-y-4">
             {Array.from({ length: 5 }).map((_, i) => (
               <Skeleton key={i} className="h-14 w-full rounded-xl" />
@@ -295,7 +297,7 @@ export function AuditLogsClient({
       {data && (
         <>
           {logs.length === 0 ? (
-            <Card className="rounded-2xl border-border bg-card p-8 shadow-sm">
+            <Card className="rounded-xl border-border bg-card p-8 shadow-sm">
               <EmptyState
                 icon={<FileText className="h-8 w-8" />}
                 title="No audit logs found"
@@ -305,7 +307,7 @@ export function AuditLogsClient({
           ) : (
             <>
               {/* Desktop Table View (sm and above) */}
-              <div className="hidden sm:block rounded-2xl border border-border bg-card overflow-hidden shadow-sm">
+              <div className="hidden sm:block rounded-xl border border-border bg-card overflow-hidden shadow-sm">
                 <Table>
                   <TableHeader>
                     <TableRow className="bg-muted/40 hover:bg-muted/40">
@@ -413,7 +415,7 @@ export function AuditLogsClient({
                   <Card
                     key={log.id}
                     onClick={() => setSelectedMobileLog(log)}
-                    className="rounded-2xl border-border bg-card p-4 shadow-sm space-y-3 cursor-pointer hover:border-primary/50 transition-all"
+                    className="rounded-xl border-border bg-card p-4 shadow-sm space-y-3 cursor-pointer hover:border-primary/50 transition-all"
                   >
                     <div className="flex items-start justify-between gap-2">
                       <Badge variant="outline" className="font-mono text-[11px] rounded-full bg-primary/10 text-primary border-primary/20 font-semibold">
@@ -466,7 +468,7 @@ export function AuditLogsClient({
           if (!open) setSelectedMobileLog(null);
         }}
       >
-        <DialogContent className="sm:max-w-md rounded-2xl p-6 max-h-[85vh] overflow-y-auto">
+        <DialogContent className="sm:max-w-md rounded-xl p-6 max-h-[85vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="text-lg font-bold flex items-center gap-2">
               <FileText className="h-5 w-5 text-primary" />

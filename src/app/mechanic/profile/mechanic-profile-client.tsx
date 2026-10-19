@@ -5,8 +5,10 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import {
   Award,
+  Briefcase,
   CheckCircle2,
   Clock,
+  Eye,
   Loader2,
   Mail,
   MapPin,
@@ -25,6 +27,7 @@ import { UrlPagination } from "@/components/shared/url-pagination";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
@@ -33,13 +36,17 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { queryKeys } from "@/lib/api/keys";
-import { Paginated } from "@/lib/api/types";
+import { Availability, Paginated } from "@/lib/api/types";
 import { UserProfile } from "@/lib/auth/session";
 import { toastApiError } from "@/lib/errors";
 import { formatDate } from "@/lib/format";
 import { GetMechanicReviewsQueryInput, Review } from "@/lib/types/reviews";
+import { PublicMechanicListItem } from "@/lib/types/public";
+import { updateUserSchema } from "@/lib/validations/users";
 import { getMeApi, updateMeApi } from "@/lib/api/endpoints/users";
 import { getMechanicReviewsApi } from "@/lib/api/endpoints/reviews";
+import { MechanicCard } from "@/components/mechanics/mechanic-card";
+import { cn } from "@/lib/utils";
 
 interface MechanicProfileClientProps {
   initialUser: UserProfile | null;
@@ -78,6 +85,13 @@ export function MechanicProfileClient({
   // Form State prefilled from user
   const [name, setName] = useState(user?.name ?? "");
   const [phone, setPhone] = useState(user?.phone ?? "");
+  const [bio, setBio] = useState(mechanicProfile?.bio ?? "");
+  const [city, setCity] = useState(mechanicProfile?.city ?? "");
+  const [yearsExperience, setYearsExperience] = useState(
+    mechanicProfile?.yearsExperience !== null && mechanicProfile?.yearsExperience !== undefined
+      ? String(mechanicProfile.yearsExperience)
+      : ""
+  );
   const [fieldErrors, setFieldErrors] = useState<{ [key: string]: string }>({});
 
   // Sync state if user data loads after initial mount
@@ -86,6 +100,13 @@ export function MechanicProfileClient({
     setPrevUserId(user?.id);
     setName(user?.name ?? "");
     setPhone(user?.phone ?? "");
+    setBio(user?.mechanicProfile?.bio ?? "");
+    setCity(user?.mechanicProfile?.city ?? "");
+    setYearsExperience(
+      user?.mechanicProfile?.yearsExperience !== null && user?.mechanicProfile?.yearsExperience !== undefined
+        ? String(user.mechanicProfile.yearsExperience)
+        : ""
+    );
   }
 
   // Mechanic Reviews Query
@@ -113,8 +134,36 @@ export function MechanicProfileClient({
     e.preventDefault();
     const errors: { [key: string]: string } = {};
 
-    if (!name.trim() || name.trim().length < 2) {
-      errors.name = "Name must be at least 2 characters";
+    let parsedExp: number | null = null;
+    if (yearsExperience.trim() !== "") {
+      const num = Number(yearsExperience.trim());
+      if (!Number.isInteger(num) || num < 0) {
+        errors.yearsExperience = "Years of experience must be a non-negative integer";
+      } else {
+        parsedExp = num;
+      }
+    }
+
+    if (bio.length > 400) {
+      errors.bio = "Bio must be at most 400 characters";
+    }
+
+    const payload = {
+      name: name.trim() || undefined,
+      phone: phone.trim() || undefined,
+      bio: bio.trim() || null,
+      city: city.trim() || null,
+      yearsExperience: parsedExp,
+    };
+
+    const parseResult = updateUserSchema.safeParse(payload);
+    if (!parseResult.success) {
+      for (const issue of parseResult.error.issues) {
+        const field = issue.path[0];
+        if (typeof field === "string") {
+          errors[field] = issue.message;
+        }
+      }
     }
 
     if (Object.keys(errors).length > 0) {
@@ -123,14 +172,30 @@ export function MechanicProfileClient({
     }
 
     setFieldErrors({});
-    updateMutation.mutate({
-      name: name.trim(),
-      phone: phone.trim() || undefined,
-    });
+    updateMutation.mutate(payload);
   };
 
   const reviews = reviewsData?.items ?? [];
   const reviewsMeta = reviewsData?.meta;
+
+  // Live preview mechanic card data
+  const parsedExpForPreview =
+    yearsExperience.trim() !== "" && !isNaN(Number(yearsExperience)) && Number(yearsExperience) >= 0
+      ? parseInt(yearsExperience.trim(), 10)
+      : null;
+
+  const previewMechanic: PublicMechanicListItem = {
+    id: user?.id ?? "preview-mechanic",
+    name: name.trim() || user?.name || "Mechanic Name",
+    avatarUrl: null,
+    bio: bio.trim() || null,
+    city: city.trim() || null,
+    skills: mechanicProfile?.skills || [],
+    rating: mechanicProfile?.rating || 0,
+    totalJobs: mechanicProfile?.totalJobs || 0,
+    yearsExperience: parsedExpForPreview,
+    availability: (mechanicProfile?.availability as Availability) || "AVAILABLE",
+  };
 
   return (
     <div className="space-y-6 pb-12">
@@ -153,23 +218,23 @@ export function MechanicProfileClient({
       {/* Loading state */}
       {isUserLoading && !user && (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <Skeleton className="h-96 lg:col-span-2 rounded-2xl" />
-          <Skeleton className="h-96 rounded-2xl" />
+          <Skeleton className="h-96 lg:col-span-2 rounded-xl" />
+          <Skeleton className="h-96 rounded-xl" />
         </div>
       )}
 
       {user && (
         <div className="space-y-8">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* Account Details Form (Editable Name & Phone) */}
-            <Card className="lg:col-span-2 rounded-2xl border-border bg-card shadow-sm p-6 space-y-4">
+            {/* Account & Profile Edit Form */}
+            <Card className="lg:col-span-2 rounded-xl border-border bg-card shadow-sm p-6 space-y-4">
               <div>
                 <CardTitle className="text-xl font-bold flex items-center gap-2">
                   <UserIcon className="h-5 w-5 text-primary" />
-                  Account Information
+                  Account & Professional Details
                 </CardTitle>
                 <CardDescription className="text-xs text-muted-foreground pt-1">
-                  Update your personal name and contact phone number. Email and role are fixed.
+                  Update your contact details, service area, experience, and public bio. Changes reflect live in the preview card.
                 </CardDescription>
               </div>
 
@@ -185,6 +250,8 @@ export function MechanicProfileClient({
                       <Input
                         id="user-name"
                         value={name}
+                        disabled={updateMutation.isPending}
+                        aria-invalid={Boolean(fieldErrors.name)}
                         onChange={(e) => {
                           setName(e.target.value);
                           setFieldErrors((prev) => ({ ...prev, name: "" }));
@@ -208,11 +275,110 @@ export function MechanicProfileClient({
                       <Input
                         id="user-phone"
                         value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
+                        disabled={updateMutation.isPending}
+                        aria-invalid={Boolean(fieldErrors.phone)}
+                        onChange={(e) => {
+                          setPhone(e.target.value);
+                          setFieldErrors((prev) => ({ ...prev, phone: "" }));
+                        }}
                         placeholder="+880 1700000000"
                         className="pl-9 rounded-xl"
                       />
                     </div>
+                    {fieldErrors.phone && (
+                      <p className="text-xs text-destructive font-medium">{fieldErrors.phone}</p>
+                    )}
+                  </div>
+
+                  {/* City */}
+                  <div className="space-y-1.5">
+                    <Label htmlFor="mechanic-city" className="text-xs font-semibold">
+                      Operating City
+                    </Label>
+                    <div className="relative">
+                      <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
+                      <Input
+                        id="mechanic-city"
+                        value={city}
+                        disabled={updateMutation.isPending}
+                        aria-invalid={Boolean(fieldErrors.city)}
+                        onChange={(e) => {
+                          setCity(e.target.value);
+                          setFieldErrors((prev) => ({ ...prev, city: "" }));
+                        }}
+                        placeholder="e.g. Dhaka"
+                        className="pl-9 rounded-xl"
+                      />
+                    </div>
+                    {fieldErrors.city && (
+                      <p className="text-xs text-destructive font-medium">{fieldErrors.city}</p>
+                    )}
+                  </div>
+
+                  {/* Years of Experience */}
+                  <div className="space-y-1.5">
+                    <Label htmlFor="mechanic-exp" className="text-xs font-semibold">
+                      Years of Experience
+                    </Label>
+                    <div className="relative">
+                      <Briefcase className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
+                      <Input
+                        id="mechanic-exp"
+                        type="number"
+                        min="0"
+                        step="1"
+                        value={yearsExperience}
+                        disabled={updateMutation.isPending}
+                        aria-invalid={Boolean(fieldErrors.yearsExperience)}
+                        onChange={(e) => {
+                          setYearsExperience(e.target.value);
+                          setFieldErrors((prev) => ({ ...prev, yearsExperience: "" }));
+                        }}
+                        placeholder="e.g. 5"
+                        className="pl-9 rounded-xl"
+                      />
+                    </div>
+                    {fieldErrors.yearsExperience && (
+                      <p className="text-xs text-destructive font-medium">{fieldErrors.yearsExperience}</p>
+                    )}
+                  </div>
+
+                  {/* Professional Bio */}
+                  <div className="space-y-1.5 sm:col-span-2">
+                    <div className="flex items-center justify-between">
+                      <Label htmlFor="mechanic-bio" className="text-xs font-semibold">
+                        Professional Bio
+                      </Label>
+                      <span
+                        className={cn(
+                          "text-[11px] font-mono",
+                          bio.length > 400 ? "text-destructive font-bold" : "text-muted-foreground"
+                        )}
+                      >
+                        {bio.length}/400
+                      </span>
+                    </div>
+                    <Textarea
+                      id="mechanic-bio"
+                      rows={3}
+                      maxLength={400}
+                      value={bio}
+                      disabled={updateMutation.isPending}
+                      aria-invalid={Boolean(fieldErrors.bio)}
+                      onChange={(e) => {
+                        setBio(e.target.value);
+                        setFieldErrors((prev) => ({ ...prev, bio: "" }));
+                      }}
+                      placeholder="Briefly describe your mechanic expertise, specializations, and roadside service background..."
+                      className="rounded-xl resize-none"
+                    />
+                    {fieldErrors.bio ? (
+                      <p className="text-xs text-destructive font-medium">{fieldErrors.bio}</p>
+                    ) : (
+                      <p className="text-[11px] text-muted-foreground">
+                        Max 400 characters. This bio is highlighted on your public profile card.
+                      </p>
+                    )}
                   </div>
 
                   {/* Email (Read-only) */}
@@ -263,20 +429,37 @@ export function MechanicProfileClient({
               </form>
             </Card>
 
-            {/* Read-Only Mechanic Profile Metrics */}
-            <Card className="rounded-2xl border-border bg-card shadow-sm p-6 space-y-4">
-              <div>
-                <CardTitle className="text-xl font-bold flex items-center gap-2">
-                  <Wrench className="h-5 w-5 text-primary" />
-                  Professional Profile
-                </CardTitle>
-                <CardDescription className="text-xs text-muted-foreground pt-1">
-                  Read-only mechanic credentials and ratings.
-                </CardDescription>
+            {/* Right Column: Live Preview & Professional Metrics */}
+            <div className="space-y-6">
+              {/* Live Preview of Public Card */}
+              <div className="space-y-2">
+                <div className="flex items-center justify-between px-1">
+                  <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
+                    <Eye className="h-3.5 w-3.5 text-primary" /> Live Public Card Preview
+                  </span>
+                  <Badge variant="outline" className="text-[10px] uppercase font-semibold text-primary border-primary/20 bg-primary/5">
+                    Live Preview
+                  </Badge>
+                </div>
+                <div className="w-full">
+                  <MechanicCard mechanic={previewMechanic} />
+                </div>
               </div>
 
-              {mechanicProfile ? (
-                <div className="space-y-4 pt-2 text-sm">
+              {/* Read-Only Mechanic Profile Metrics */}
+              <Card className="rounded-xl border-border bg-card shadow-sm p-6 space-y-4">
+                <div>
+                  <CardTitle className="text-xl font-bold flex items-center gap-2">
+                    <Wrench className="h-5 w-5 text-primary" />
+                    Professional Status
+                  </CardTitle>
+                  <CardDescription className="text-xs text-muted-foreground pt-1">
+                    Live platform rating, activity, and verified skills.
+                  </CardDescription>
+                </div>
+
+                {mechanicProfile ? (
+                  <div className="space-y-4 pt-2 text-sm">
                   {/* Availability */}
                   <div className="flex items-center justify-between py-2 border-b border-border">
                     <span className="text-xs text-muted-foreground flex items-center gap-1.5">
@@ -286,10 +469,10 @@ export function MechanicProfileClient({
                       variant="outline"
                       className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${
                         mechanicProfile.availability === "AVAILABLE"
-                          ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20"
+                          ? "bg-blue-500/10 text-blue-700 dark:text-blue-400 border-blue-500/20"
                           : mechanicProfile.availability === "BUSY"
-                          ? "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20"
-                          : "bg-muted text-muted-foreground"
+                          ? "bg-orange-500/10 text-orange-700 dark:text-orange-400 border-orange-500/20"
+                          : "bg-muted text-muted-foreground border-border"
                       }`}
                     >
                       {mechanicProfile.availability}
@@ -299,7 +482,7 @@ export function MechanicProfileClient({
                   {/* Rating */}
                   <div className="flex items-center justify-between py-2 border-b border-border">
                     <span className="text-xs text-muted-foreground flex items-center gap-1.5">
-                      <Star className="h-3.5 w-3.5 text-yellow-500 fill-yellow-500" /> Overall Rating
+                      <Star className="h-3.5 w-3.5 text-orange-600 fill-orange-600 dark:text-orange-400 dark:fill-orange-400" /> Overall Rating
                     </span>
                     <span className="font-bold text-foreground">
                       {mechanicProfile.rating.toFixed(1)} / 5.0
@@ -309,7 +492,7 @@ export function MechanicProfileClient({
                   {/* Completed Jobs */}
                   <div className="flex items-center justify-between py-2 border-b border-border">
                     <span className="text-xs text-muted-foreground flex items-center gap-1.5">
-                      <CheckCircle2 className="h-3.5 w-3.5 text-purple-500" /> Total Jobs Completed
+                      <CheckCircle2 className="h-3.5 w-3.5 text-primary" /> Total Jobs Completed
                     </span>
                     <span className="font-bold text-foreground">
                       {mechanicProfile.totalJobs}
@@ -320,7 +503,7 @@ export function MechanicProfileClient({
                   {(mechanicProfile.currentLat !== undefined && mechanicProfile.currentLat !== null) && (
                     <div className="flex items-center justify-between py-2 border-b border-border">
                       <span className="text-xs text-muted-foreground flex items-center gap-1.5">
-                        <MapPin className="h-3.5 w-3.5 text-red-500" /> Last Known Location
+                        <MapPin className="h-3.5 w-3.5 text-red-600 dark:text-red-400" /> Last Known Location
                       </span>
                       <span className="font-mono text-xs text-foreground">
                         {mechanicProfile.currentLat.toFixed(4)}, {mechanicProfile.currentLng?.toFixed(4)}
@@ -359,9 +542,10 @@ export function MechanicProfileClient({
               )}
             </Card>
           </div>
+        </div>
 
-          {/* "My Reviews" Section */}
-          <Card className="rounded-2xl border-border bg-card p-6 shadow-sm space-y-6">
+        {/* "My Reviews" Section */}
+          <Card className="rounded-xl border-border bg-card p-6 shadow-sm space-y-6">
             <div>
               <CardTitle className="text-xl font-bold flex items-center gap-2">
                 <MessageSquare className="h-5 w-5 text-primary" />
@@ -401,8 +585,8 @@ export function MechanicProfileClient({
                             {formatDate(rev.createdAt)}
                           </p>
                         </div>
-                        <div className="flex items-center gap-1 bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 px-2 py-0.5 rounded-full text-xs font-bold">
-                          <Star className="h-3 w-3 fill-yellow-500 text-yellow-500" />
+                        <div className="flex items-center gap-1 bg-orange-500/10 text-orange-700 dark:text-orange-400 px-2 py-0.5 rounded-full text-xs font-bold">
+                          <Star className="h-3 w-3 fill-orange-600 text-orange-600 dark:fill-orange-400 dark:text-orange-400" />
                           {rev.rating}.0
                         </div>
                       </div>

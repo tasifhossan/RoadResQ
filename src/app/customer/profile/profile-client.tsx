@@ -94,9 +94,9 @@ export function ProfileClient({ initialUser }: ProfileClientProps) {
 
   if (isLoading && !currentUser) {
     return (
-      <div className="space-y-6 max-w-2xl mx-auto">
+      <div className="space-y-6 max-w-3xl mx-auto w-full">
         <PageHeader title="Profile Settings" description="View and update your personal details." />
-        <Card className="rounded-2xl p-6">
+        <Card className="rounded-xl p-6">
           <div className="space-y-4">
             <div className="h-6 w-1/3 bg-muted rounded-md animate-pulse" />
             <div className="h-10 w-full bg-muted rounded-xl animate-pulse" />
@@ -108,17 +108,17 @@ export function ProfileClient({ initialUser }: ProfileClientProps) {
   }
 
   return (
-    <div className="space-y-6 max-w-2xl mx-auto">
+    <div className="space-y-6 max-w-3xl mx-auto w-full">
       {/* Page Header */}
       <PageHeader
         title="Profile Settings"
         description="View and update your personal profile details."
       />
 
-      <Card className="rounded-2xl border-border shadow-sm overflow-hidden">
+      <Card className="rounded-xl border-border shadow-sm overflow-hidden">
         <CardHeader className="bg-muted/30 border-b border-border">
           <div className="flex items-center gap-3">
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary font-bold text-lg">
+            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary font-bold text-lg">
               {currentUser?.name?.charAt(0).toUpperCase() || "U"}
             </div>
             <div>
@@ -135,11 +135,13 @@ export function ProfileClient({ initialUser }: ProfileClientProps) {
           <CardContent className="space-y-5 pt-6">
             {/* Full Name Field (Editable) */}
             <FormField control={control} name="name" label="Full Name" required>
-              {(field) => (
+              {(field, fieldState) => (
                 <div className="relative">
                   <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
                   <Input
                     {...field}
+                    disabled={isSubmitting || updateMutation.isPending}
+                    aria-invalid={fieldState.invalid}
                     placeholder="Your full name"
                     className="pl-9 rounded-xl bg-card border-border shadow-sm"
                   />
@@ -165,12 +167,14 @@ export function ProfileClient({ initialUser }: ProfileClientProps) {
 
             {/* Phone Number Field (Editable) */}
             <FormField control={control} name="phone" label="Phone Number" description="Used by mechanics to contact you during service requests.">
-              {(field) => (
+              {(field, fieldState) => (
                 <div className="relative">
                   <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
                   <Input
                     {...field}
                     type="tel"
+                    disabled={isSubmitting || updateMutation.isPending}
+                    aria-invalid={fieldState.invalid}
                     placeholder="e.g. +1234567890"
                     value={field.value || ""}
                     className="pl-9 rounded-xl bg-card border-border shadow-sm font-mono"

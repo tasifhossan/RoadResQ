@@ -24,6 +24,9 @@ import {
   Phone,
   Plus,
   Loader2,
+  Search,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 
 import { queryKeys } from "@/lib/api/keys";
@@ -89,6 +92,11 @@ export function MechanicRequestDetailClient({
   // Form state for logging spare parts used
   const [selectedSparePartId, setSelectedSparePartId] = useState<string>("");
   const [selectedQuantity, setSelectedQuantity] = useState<string>("1");
+  const [partError, setPartError] = useState<string | null>(null);
+
+  // Client-side search and pagination for logged spare parts
+  const [partsSearch, setPartsSearch] = useState<string>("");
+  const [partsPage, setPartsPage] = useState<number>(1);
 
   // TanStack Query with 5s polling for non-terminal statuses
   const {
@@ -242,16 +250,25 @@ export function MechanicRequestDetailClient({
     e.preventDefault();
 
     if (!selectedSparePartId) {
+      setPartError("Please select a spare part from your inventory.");
       toast.error("Please select a spare part from your inventory.");
       return;
     }
 
     const qty = parseInt(selectedQuantity, 10);
     if (isNaN(qty) || qty < 1) {
+      setPartError("Quantity must be an integer of at least 1.");
       toast.error("Quantity must be an integer of at least 1.");
       return;
     }
 
+    if (selectedInventoryItem && qty > selectedInventoryItem.stock) {
+      setPartError(`Quantity exceeds available stock (${selectedInventoryItem.stock}).`);
+      toast.error(`Quantity exceeds available stock (${selectedInventoryItem.stock}).`);
+      return;
+    }
+
+    setPartError(null);
     addPartsMutation.mutate({ sparePartId: selectedSparePartId, quantity: qty });
   };
 
@@ -276,6 +293,22 @@ export function MechanicRequestDetailClient({
   const partsSubtotal = (request.partsUsed || []).reduce(
     (sum, item) => sum + item.quantity * Number(item.priceAtUse),
     0
+  );
+
+  const partsUsedList = request.partsUsed || [];
+  const filteredPartsUsed = partsUsedList.filter((p) => {
+    if (!partsSearch.trim()) return true;
+    const q = partsSearch.toLowerCase();
+    const nameMatch = p.sparePart?.name?.toLowerCase().includes(q);
+    const idMatch = p.sparePartId?.toLowerCase().includes(q);
+    return Boolean(nameMatch || idMatch);
+  });
+  const partsPageSize = 5;
+  const totalPartsPages = Math.ceil(filteredPartsUsed.length / partsPageSize) || 1;
+  const currentPartsPage = Math.min(partsPage, totalPartsPages);
+  const paginatedPartsUsed = filteredPartsUsed.slice(
+    (currentPartsPage - 1) * partsPageSize,
+    currentPartsPage * partsPageSize
   );
 
   // Timeline active step determination
@@ -381,7 +414,7 @@ export function MechanicRequestDetailClient({
                     setLaborCostError(null);
                     setActiveAction("COMPLETED");
                   }}
-                  className="rounded-xl gap-2 font-bold shadow-sm bg-emerald-600 hover:bg-emerald-700 text-white"
+                  className="rounded-xl gap-2 font-bold shadow-sm bg-primary hover:bg-primary/90 text-primary-foreground"
                 >
                   <CheckCircle2 className="h-4 w-4" />
                   Complete Job
@@ -405,7 +438,7 @@ export function MechanicRequestDetailClient({
       </div>
 
       {/* Status Timeline */}
-      <Card className="rounded-2xl border shadow-sm bg-card overflow-hidden">
+      <Card className="rounded-xl border shadow-sm bg-card overflow-hidden">
         <CardHeader className="bg-muted/30 border-b py-3.5">
           <CardTitle className="text-sm font-bold flex items-center gap-2">
             <ShieldCheck className="h-4 w-4 text-primary" />
@@ -414,7 +447,7 @@ export function MechanicRequestDetailClient({
         </CardHeader>
         <CardContent className="p-6">
           {isCancelled ? (
-            <div className="p-4 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-700 dark:text-rose-400 flex items-center gap-3 text-sm font-semibold">
+            <div className="p-4 rounded-xl bg-destructive/10 border border-destructive/20 text-destructive flex items-center gap-3 text-sm font-semibold">
               <XCircle className="h-5 w-5 shrink-0" />
               This service request was cancelled.
             </div>
@@ -461,7 +494,7 @@ export function MechanicRequestDetailClient({
       {/* Customer & Vehicle Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Customer Card */}
-        <Card className="rounded-2xl border shadow-sm">
+        <Card className="rounded-xl border shadow-sm">
           <CardHeader className="bg-muted/30 border-b py-3.5">
             <CardTitle className="text-sm font-bold flex items-center gap-2">
               <User className="h-4 w-4 text-primary" />
@@ -501,7 +534,7 @@ export function MechanicRequestDetailClient({
         </Card>
 
         {/* Vehicle Card */}
-        <Card className="rounded-2xl border shadow-sm">
+        <Card className="rounded-xl border shadow-sm">
           <CardHeader className="bg-muted/30 border-b py-3.5">
             <CardTitle className="text-sm font-bold flex items-center gap-2">
               <Car className="h-4 w-4 text-primary" />
@@ -534,7 +567,7 @@ export function MechanicRequestDetailClient({
       {/* Problem Description & Location */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Issue Overview (2 cols) */}
-        <Card className="md:col-span-2 rounded-2xl border shadow-sm">
+        <Card className="md:col-span-2 rounded-xl border shadow-sm">
           <CardHeader className="bg-muted/30 border-b py-3.5">
             <div className="flex items-center justify-between">
               <CardTitle className="text-sm font-bold flex items-center gap-2">
@@ -556,7 +589,7 @@ export function MechanicRequestDetailClient({
         </Card>
 
         {/* Location Card (1 col) */}
-        <Card className="rounded-2xl border shadow-sm">
+        <Card className="rounded-xl border shadow-sm">
           <CardHeader className="bg-muted/30 border-b py-3.5">
             <CardTitle className="text-sm font-bold flex items-center gap-2">
               <MapPin className="h-4 w-4 text-primary" />
@@ -587,7 +620,7 @@ export function MechanicRequestDetailClient({
       </div>
 
       {/* Damage Photos Gallery */}
-      <Card className="rounded-2xl border shadow-sm">
+      <Card className="rounded-xl border shadow-sm">
         <CardHeader className="bg-muted/30 border-b py-3.5">
           <CardTitle className="text-sm font-bold flex items-center gap-2">
             <FileText className="h-4 w-4 text-primary" />
@@ -627,12 +660,18 @@ export function MechanicRequestDetailClient({
       </Card>
 
       {/* Parts Used Section & Log Form */}
-      <Card className="rounded-2xl border shadow-sm bg-card overflow-hidden">
-        <CardHeader className="bg-muted/30 border-b py-3.5 flex flex-row items-center justify-between">
-          <CardTitle className="text-sm font-bold flex items-center gap-2">
-            <Package className="h-4 w-4 text-primary" />
-            Spare Parts Used
-          </CardTitle>
+      <Card className="rounded-xl border shadow-sm bg-card overflow-hidden">
+        <CardHeader className="bg-muted/30 border-b py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <CardTitle className="text-sm font-bold flex items-center gap-2">
+              <Package className="h-4 w-4 text-primary" />
+              Spare Parts Used ({partsUsedList.length})
+            </CardTitle>
+            <p className="text-xs text-muted-foreground mt-0.5">
+              Parts logged from your inventory for this repair.
+              {partsUsedList.length > 5 ? " (showing 5 per page)" : ""}
+            </p>
+          </div>
           <span className="text-xs font-semibold text-muted-foreground">
             Parts Subtotal: {formatMoney(partsSubtotal)}
           </span>
@@ -681,10 +720,17 @@ export function MechanicRequestDetailClient({
                     min="1"
                     max={selectedInventoryItem?.stock || 50}
                     value={selectedQuantity}
-                    onChange={(e) => setSelectedQuantity(e.target.value)}
+                    onChange={(e) => {
+                      setSelectedQuantity(e.target.value);
+                      setPartError(null);
+                    }}
                     disabled={addPartsMutation.isPending}
+                    aria-invalid={Boolean(partError)}
                     className="rounded-xl h-9 text-xs bg-card"
                   />
+                  {partError && (
+                    <p className="text-xs text-destructive font-medium">{partError}</p>
+                  )}
                 </div>
 
                 <div className="sm:col-span-3">
@@ -713,7 +759,7 @@ export function MechanicRequestDetailClient({
               {selectedInventoryItem && (
                 <div className="flex items-center justify-between text-xs text-muted-foreground pt-1 border-t border-border/40">
                   <span>Price at use: <strong className="text-foreground">{formatMoney(selectedInventoryItem.price)}</strong></span>
-                  <span>Available stock: <strong className={cn(selectedInventoryItem.stock > 0 ? "text-emerald-600 dark:text-emerald-400" : "text-destructive")}>{selectedInventoryItem.stock} items</strong></span>
+                  <span>Available stock: <strong className={cn(selectedInventoryItem.stock > 0 ? "text-primary" : "text-destructive")}>{selectedInventoryItem.stock} items</strong></span>
                 </div>
               )}
             </form>
@@ -723,15 +769,34 @@ export function MechanicRequestDetailClient({
             </p>
           )}
 
+          {/* Search bar for logged parts */}
+          {partsUsedList.length > 0 && (
+            <div className="flex items-center justify-between gap-2">
+              <div className="relative w-full sm:w-64">
+                <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground pointer-events-none" />
+                <Input
+                  placeholder="Search logged parts..."
+                  value={partsSearch}
+                  onChange={(e) => {
+                    setPartsSearch(e.target.value);
+                    setPartsPage(1);
+                  }}
+                  className="pl-8 h-8 text-xs rounded-xl"
+                  aria-label="Search spare parts used"
+                />
+              </div>
+            </div>
+          )}
+
           {/* Logged Parts List */}
-          {request.partsUsed && request.partsUsed.length > 0 ? (
+          {paginatedPartsUsed.length > 0 ? (
             <div className="divide-y border rounded-xl overflow-hidden bg-card">
               <div className="bg-muted/40 p-3 flex justify-between text-xs font-bold text-muted-foreground uppercase tracking-wider">
                 <span>Spare Part Name</span>
                 <span>Qty x Unit Price</span>
                 <span>Line Total</span>
               </div>
-              {request.partsUsed.map((part) => {
+              {paginatedPartsUsed.map((part) => {
                 const unitPrice = Number(part.priceAtUse);
                 const lineTotal = part.quantity * unitPrice;
                 return (
@@ -751,10 +816,60 @@ export function MechanicRequestDetailClient({
                 );
               })}
 
+              {/* Client-side Pagination Footer */}
+              <div className="p-3 bg-muted/10 flex items-center justify-between border-t border-border">
+                <span className="text-xs text-muted-foreground">
+                  Showing {(currentPartsPage - 1) * partsPageSize + 1} to{" "}
+                  {Math.min(currentPartsPage * partsPageSize, filteredPartsUsed.length)} of{" "}
+                  {filteredPartsUsed.length} parts
+                </span>
+
+                <div className="flex items-center gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setPartsPage((p) => Math.max(1, p - 1))}
+                    disabled={currentPartsPage <= 1}
+                    className="h-7 text-xs rounded-lg gap-1"
+                  >
+                    <ChevronLeft className="h-3.5 w-3.5" />
+                    Previous
+                  </Button>
+                  <span className="text-xs font-semibold px-2 text-foreground">
+                    Page {currentPartsPage} of {totalPartsPages}
+                  </span>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setPartsPage((p) => Math.min(totalPartsPages, p + 1))}
+                    disabled={currentPartsPage >= totalPartsPages}
+                    className="h-7 text-xs rounded-lg gap-1"
+                  >
+                    Next
+                    <ChevronRight className="h-3.5 w-3.5" />
+                  </Button>
+                </div>
+              </div>
+
               <div className="p-4 bg-muted/20 flex justify-between items-center text-xs font-bold">
                 <span>Parts Subtotal</span>
                 <span className="text-sm font-extrabold text-primary">{formatMoney(partsSubtotal)}</span>
               </div>
+            </div>
+          ) : partsUsedList.length > 0 ? (
+            <div className="py-6 text-center space-y-2">
+              <p className="text-xs font-semibold text-foreground">No spare parts match your search</p>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => {
+                  setPartsSearch("");
+                  setPartsPage(1);
+                }}
+                className="text-xs text-primary"
+              >
+                Clear Search
+              </Button>
             </div>
           ) : (
             <p className="text-xs text-muted-foreground italic">
@@ -766,10 +881,10 @@ export function MechanicRequestDetailClient({
 
       {/* Invoice & Payment Summary (Shown if Invoice Exists or Job Completed) */}
       {request.invoice && (
-        <Card className="rounded-2xl border shadow-sm bg-card overflow-hidden">
+        <Card className="rounded-xl border shadow-sm bg-card overflow-hidden">
           <CardHeader className="bg-muted/30 border-b py-3.5 flex flex-row items-center justify-between">
             <CardTitle className="text-sm font-bold flex items-center gap-2">
-              <CreditCard className="h-4 w-4 text-emerald-600" />
+              <CreditCard className="h-4 w-4 text-primary" />
               Auto-Generated Invoice & Payment Summary
             </CardTitle>
             <StatusBadge status={request.invoice.status} />
@@ -790,15 +905,15 @@ export function MechanicRequestDetailClient({
               </div>
               <div>
                 <span className="text-muted-foreground block font-medium">Grand Total Amount</span>
-                <span className="text-base font-extrabold text-emerald-600 dark:text-emerald-400">
+                <span className="text-base font-extrabold text-primary">
                   {formatMoney(request.invoice.totalAmount ?? request.invoice.totalCost ?? request.invoice.total ?? request.invoice.laborCost)}
                 </span>
               </div>
             </div>
 
             {request.invoice.payment && (
-              <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-xs space-y-1">
-                <p className="font-bold text-emerald-700 dark:text-emerald-400 flex items-center gap-1.5">
+              <div className="p-4 rounded-xl bg-blue-500/10 border border-blue-500/20 text-xs space-y-1">
+                <p className="font-bold text-blue-700 dark:text-blue-400 flex items-center gap-1.5">
                   <DollarSign className="h-4 w-4" />
                   Payment {request.invoice.payment.status} via {request.invoice.payment.gateway}
                 </p>
@@ -863,7 +978,12 @@ export function MechanicRequestDetailClient({
             min="0"
             placeholder="50.00"
             value={laborCostInput}
-            onChange={(e) => setLaborCostInput(e.target.value)}
+            disabled={isPending}
+            aria-invalid={Boolean(laborCostError)}
+            onChange={(e) => {
+              setLaborCostInput(e.target.value);
+              setLaborCostError(null);
+            }}
             className="rounded-xl"
           />
           {laborCostError && (
@@ -893,7 +1013,12 @@ export function MechanicRequestDetailClient({
             maxLength={200}
             placeholder="e.g. Unable to reach customer location"
             value={cancelReasonInput}
-            onChange={(e) => setCancelReasonInput(e.target.value)}
+            disabled={isPending}
+            aria-invalid={Boolean(cancelReasonError)}
+            onChange={(e) => {
+              setCancelReasonInput(e.target.value);
+              setCancelReasonError(null);
+            }}
             className="rounded-xl"
           />
           {cancelReasonError && (

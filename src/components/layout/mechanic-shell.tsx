@@ -3,15 +3,16 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { UserMenu } from "@/components/layout/user-menu";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { LayoutDashboard, Wrench, Package, DollarSign, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const mechanicNavItems = [
-  { label: "Dashboard", href: "/mechanic", icon: LayoutDashboard },
-  { label: "Jobs", href: "/mechanic/requests", icon: Wrench },
-  { label: "Inventory", href: "/mechanic/inventory", icon: Package },
-  { label: "Earnings", href: "/mechanic/earnings", icon: DollarSign },
-  { label: "Profile", href: "/mechanic/profile", icon: User },
+  { label: "Dashboard", shortLabel: "Home", href: "/mechanic", icon: LayoutDashboard },
+  { label: "Jobs", shortLabel: "Jobs", href: "/mechanic/requests", icon: Wrench },
+  { label: "Inventory", shortLabel: "Stock", href: "/mechanic/inventory", icon: Package },
+  { label: "Earnings", shortLabel: "Earnings", href: "/mechanic/earnings", icon: DollarSign },
+  { label: "Profile", shortLabel: "Profile", href: "/mechanic/profile", icon: User },
 ];
 
 export function MechanicShell({ children }: { children: React.ReactNode }) {
@@ -61,7 +62,8 @@ export function MechanicShell({ children }: { children: React.ReactNode }) {
               RoadResQ
             </Link>
           </div>
-          <div className="ml-auto">
+          <div className="ml-auto flex items-center gap-3">
+            <ThemeToggle />
             <UserMenu defaultName="Mechanic User" defaultRole="MECHANIC" />
           </div>
         </header>
@@ -71,7 +73,7 @@ export function MechanicShell({ children }: { children: React.ReactNode }) {
       </div>
 
       {/* Mobile Bottom Navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 z-40 flex h-16 items-center justify-around border-t bg-card/95 backdrop-blur-md md:hidden px-2">
+      <nav className="fixed bottom-0 left-0 right-0 z-40 flex h-16 items-center justify-around border-t bg-card/95 backdrop-blur-md md:hidden px-1">
         {mechanicNavItems.map((item) => {
           const Icon = item.icon;
           const isActive =
@@ -81,13 +83,14 @@ export function MechanicShell({ children }: { children: React.ReactNode }) {
             <Link
               key={item.href}
               href={item.href}
+              aria-label={item.label}
               className={cn(
                 "flex flex-col items-center justify-center gap-1 flex-1 py-1 text-[10px] font-medium transition-colors",
                 isActive ? "text-primary font-bold" : "text-muted-foreground hover:text-foreground"
               )}
             >
               <Icon className={cn("h-5 w-5", isActive && "stroke-[2.5px]")} />
-              <span className="truncate max-w-[64px]">{item.label}</span>
+              <span className="truncate max-w-[56px] text-center">{item.shortLabel}</span>
             </Link>
           );
         })}

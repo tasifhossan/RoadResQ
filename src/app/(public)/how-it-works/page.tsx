@@ -55,8 +55,8 @@ const WORKFLOW_STEPS = [
     roleVariant: "CUSTOMER" as const,
     icon: Navigation,
     description:
-      "The system queries available mechanics by geographical distance in kilometers relative to the breakdown coordinates. The customer can view nearby mechanics' ratings, total completed jobs, and distance.",
-    details: ["Distance calculation in kilometers", "Filters available mechanics by radius", "Displays verified ratings & job counts"],
+      "The customer chooses the search radius (5 to 50 km) and selects a mechanic from the nearby list based on rating and distance. A mechanic's job count is the number of COMPLETED requests, and ratings come from reviews left on completed jobs.",
+    details: ["Customer chooses search radius (5 to 50 km)", "Selects mechanic from nearby list", "Ratings from completed jobs & COMPLETED request count"],
   },
   {
     step: 4,
@@ -115,8 +115,8 @@ const WORKFLOW_STEPS = [
     roleVariant: "CUSTOMER" as const,
     icon: Star,
     description:
-      "After completing payment, the customer submits a 1-to-5 star rating and optional review text. The backend recalculates the mechanic's overall rating average and increments their completed jobs total.",
-    details: ["1 to 5 star rating submission", "Optional feedback text", "Dynamically updates mechanic profile stats"],
+      "After completing payment, the customer submits a 1-to-5 star rating and optional review text. Ratings come from reviews left on completed jobs.",
+    details: ["1 to 5 star rating submission", "Optional feedback text", "Updates mechanic rating average from completed jobs"],
   },
 ];
 
@@ -149,10 +149,10 @@ export default function HowItWorksPage() {
             {WORKFLOW_STEPS.map((item) => {
               const Icon = item.icon;
               return (
-                <Card key={item.step} className="rounded-2xl border-border/80 shadow-xs overflow-hidden transition-all hover:border-primary/40">
+                <Card key={item.step} className="rounded-xl border-border/80 shadow-xs overflow-hidden transition-all hover:border-primary/40">
                   <div className="p-6 sm:p-8 flex flex-col md:flex-row gap-6 items-start">
                     <div className="flex items-center gap-4 shrink-0">
-                      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary text-primary-foreground font-extrabold text-lg shadow-sm">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary text-primary-foreground font-extrabold text-lg shadow-sm">
                         0{item.step}
                       </div>
                       <div className="md:hidden">
@@ -192,7 +192,7 @@ export default function HowItWorksPage() {
         </div>
 
         {/* Closing CTA */}
-        <div className="p-8 sm:p-12 rounded-3xl bg-gradient-to-br from-primary/10 via-card to-accent/10 border border-border/80 text-center space-y-6">
+        <div className="p-8 sm:p-12 rounded-xl bg-gradient-to-br from-primary/10 via-card to-accent/10 border border-border/80 text-center space-y-6">
           <Badge className="bg-primary text-primary-foreground hover:bg-primary px-3 py-1 text-xs">
             Interactive Rescue Demo
           </Badge>

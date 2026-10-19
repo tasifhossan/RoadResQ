@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { ROLES } from "@/lib/api/types";
+import { PAYMENT_STATUSES, REQUEST_PRIORITIES, REQUEST_STATUSES, ROLES } from "@/lib/api/types";
 
 export const updateUserRoleSchema = z
   .object({
@@ -45,8 +45,41 @@ export const getAuditLogsQuerySchema = z
 
 export type GetAuditLogsQueryInput = z.infer<typeof getAuditLogsQuerySchema>;
 
+export const getServiceRequestsQuerySchema = z
+  .object({
+    page: z.coerce.number().int().min(1).optional().default(1),
+    limit: z.coerce.number().int().min(1).max(50).optional().default(10),
+    status: z.enum(REQUEST_STATUSES).optional(),
+    priority: z.enum(REQUEST_PRIORITIES).optional(),
+    search: z.string().optional(),
+    from: z.string().optional(),
+    to: z.string().optional(),
+    sortBy: z.enum(["createdAt", "updatedAt"]).optional().default("createdAt"),
+    sortOrder: z.enum(["asc", "desc"]).optional().default("desc"),
+  })
+  .strict();
+
+export type GetServiceRequestsQueryInput = z.infer<typeof getServiceRequestsQuerySchema>;
+
+export const getPaymentsQuerySchema = z
+  .object({
+    page: z.coerce.number().int().min(1).optional().default(1),
+    limit: z.coerce.number().int().min(1).max(50).optional().default(10),
+    status: z.enum(PAYMENT_STATUSES).optional(),
+    from: z.string().optional(),
+    to: z.string().optional(),
+    sortBy: z.enum(["createdAt", "amount"]).optional().default("createdAt"),
+    sortOrder: z.enum(["asc", "desc"]).optional().default("desc"),
+  })
+  .strict();
+
+export type GetPaymentsQueryInput = z.infer<typeof getPaymentsQuerySchema>;
+
 export const AdminValidation = {
   updateUserRoleSchema,
   getUsersQuerySchema,
   getAuditLogsQuerySchema,
+  getServiceRequestsQuerySchema,
+  getPaymentsQuerySchema,
 };
+

@@ -8,7 +8,7 @@ export default function AdminAuditLogsLoading() {
         <Skeleton className="h-10 w-44 rounded-xl" />
         <Skeleton className="h-10 w-44 rounded-xl" />
       </div>
-      <Skeleton className="h-80 w-full rounded-2xl" />
+      <Skeleton className="h-80 w-full rounded-xl" />
     </div>
   );
 }

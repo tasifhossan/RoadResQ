@@ -167,39 +167,45 @@ export function AdminUsersClient({
       />
 
       {/* Toolbar & Filters */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 bg-card p-4 rounded-2xl border border-border shadow-sm">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 bg-card p-4 rounded-xl border border-border shadow-sm">
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 flex-1">
           <SearchInput placeholder="Search name or email..." className="w-full sm:w-64" />
           <FilterSelect
             paramName="role"
+            label="Role"
             placeholder="Filter Role"
             allLabel="All Roles"
             options={ROLE_FILTER_OPTIONS}
+            className="w-full sm:w-44"
           />
           <FilterSelect
             paramName="isActive"
+            label="Status"
             placeholder="Filter Status"
             allLabel="All Statuses"
             options={USER_ACTIVE_FILTER_OPTIONS}
+            className="w-full sm:w-44"
           />
         </div>
 
         <div className="flex items-center gap-2 pt-2 md:pt-0 border-t md:border-t-0 border-border">
           <FilterSelect
             paramName="sortBy"
+            label="Sort"
             placeholder="Sort By"
             defaultValue="createdAt"
             showAllOption={false}
             options={USER_SORT_BY_OPTIONS}
-            className="w-36"
+            className="w-40"
           />
           <FilterSelect
             paramName="sortOrder"
+            label="Order"
             placeholder="Order"
             defaultValue="desc"
             showAllOption={false}
             options={USER_SORT_ORDER_OPTIONS}
-            className="w-32"
+            className="w-36"
           />
         </div>
       </div>
@@ -218,7 +224,7 @@ export function AdminUsersClient({
       {/* Loading Skeleton */}
       {isLoading && !data && (
         <div className="space-y-4">
-          <Card className="rounded-2xl border-border bg-card p-6 shadow-sm">
+          <Card className="rounded-xl border-border bg-card p-6 shadow-sm">
             <div className="space-y-4">
               {Array.from({ length: 5 }).map((_, i) => (
                 <Skeleton key={i} className="h-14 w-full rounded-xl" />
@@ -231,7 +237,7 @@ export function AdminUsersClient({
       {data && (
         <>
           {users.length === 0 ? (
-            <Card className="rounded-2xl border-border bg-card p-8 shadow-sm">
+            <Card className="rounded-xl border-border bg-card p-8 shadow-sm">
               <EmptyState
                 icon={<Users className="h-8 w-8" />}
                 title="No users found"
@@ -241,7 +247,7 @@ export function AdminUsersClient({
           ) : (
             <>
               {/* Desktop Table View (sm and above) */}
-              <div className="hidden sm:block rounded-2xl border border-border bg-card overflow-hidden shadow-sm">
+              <div className="hidden sm:block rounded-xl border border-border bg-card overflow-hidden shadow-sm">
                 <Table>
                   <TableHeader>
                     <TableRow className="bg-muted/40 hover:bg-muted/40">
@@ -296,12 +302,12 @@ export function AdminUsersClient({
 
                           <TableCell>
                             {isDeactivated ? (
-                              <Badge variant="outline" className="bg-rose-500/10 text-rose-700 border-rose-500/30 dark:text-rose-400 gap-1 font-medium text-xs rounded-full">
+                              <Badge variant="outline" className="bg-destructive/10 text-destructive border-destructive/20 gap-1 font-medium text-xs rounded-full">
                                 <XCircle className="h-3 w-3" />
                                 Deactivated
                               </Badge>
                             ) : (
-                              <Badge variant="outline" className="bg-emerald-500/10 text-emerald-700 border-emerald-500/30 dark:text-emerald-400 gap-1 font-medium text-xs rounded-full">
+                              <Badge variant="outline" className="bg-primary/10 text-primary border-primary/20 gap-1 font-medium text-xs rounded-full">
                                 <CheckCircle2 className="h-3 w-3" />
                                 Active
                               </Badge>
@@ -332,7 +338,7 @@ export function AdminUsersClient({
                                 <DropdownMenuItem
                                   onClick={() => setDeactivateUserTarget(user)}
                                   disabled={isSelf && !isDeactivated}
-                                  className={user.deletedAt ? "text-xs font-medium cursor-pointer text-emerald-600 dark:text-emerald-400 gap-2" : "text-xs font-medium cursor-pointer text-destructive gap-2"}
+                                  className={user.deletedAt ? "text-xs font-medium cursor-pointer text-primary gap-2" : "text-xs font-medium cursor-pointer text-destructive gap-2"}
                                 >
                                   {user.deletedAt ? (
                                     <>
@@ -363,7 +369,7 @@ export function AdminUsersClient({
                   const isDeactivated = Boolean(user.deletedAt);
 
                   return (
-                    <Card key={user.id} className="rounded-2xl border-border bg-card p-4 shadow-sm space-y-3">
+                    <Card key={user.id} className="rounded-xl border-border bg-card p-4 shadow-sm space-y-3">
                       <div className="flex items-start justify-between gap-2">
                         <div className="flex items-center gap-2.5">
                           <div className="h-9 w-9 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-sm">
@@ -397,7 +403,7 @@ export function AdminUsersClient({
                             <DropdownMenuItem
                               onClick={() => setDeactivateUserTarget(user)}
                               disabled={isSelf && !isDeactivated}
-                              className={user.deletedAt ? "text-xs font-medium cursor-pointer text-emerald-600 gap-2" : "text-xs font-medium cursor-pointer text-destructive gap-2"}
+                              className={user.deletedAt ? "text-xs font-medium cursor-pointer text-primary gap-2" : "text-xs font-medium cursor-pointer text-destructive gap-2"}
                             >
                               {user.deletedAt ? (
                                 <>
@@ -418,11 +424,11 @@ export function AdminUsersClient({
                       <div className="flex flex-wrap items-center gap-2 pt-1">
                         <StatusBadge status={user.role} />
                         {isDeactivated ? (
-                          <Badge variant="outline" className="bg-rose-500/10 text-rose-700 border-rose-500/30 text-xs rounded-full">
+                          <Badge variant="outline" className="bg-destructive/10 text-destructive border-destructive/20 text-xs rounded-full">
                             Deactivated
                           </Badge>
                         ) : (
-                          <Badge variant="outline" className="bg-emerald-500/10 text-emerald-700 border-emerald-500/30 text-xs rounded-full">
+                          <Badge variant="outline" className="bg-primary/10 text-primary border-primary/20 text-xs rounded-full">
                             Active
                           </Badge>
                         )}
@@ -484,7 +490,7 @@ export function AdminUsersClient({
           </div>
 
           {roleUser?.role === "MECHANIC" && selectedRole !== "MECHANIC" && (
-            <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-700 dark:text-amber-400 text-xs flex items-start gap-2">
+            <div className="p-3 rounded-xl bg-orange-500/10 border border-orange-500/20 text-orange-700 dark:text-orange-400 text-xs flex items-start gap-2">
               <AlertTriangle className="h-4 w-4 shrink-0 mt-0.5" />
               <span>
                 <strong>Mechanic Demotion Notice:</strong> Demoting a mechanic currently assigned to active jobs will be rejected by the backend.
@@ -512,7 +518,7 @@ export function AdminUsersClient({
         onConfirm={handleConfirmDeactivation}
       >
         {deactivateUserTarget?.role === "MECHANIC" && !deactivateUserTarget?.deletedAt && (
-          <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-700 dark:text-rose-400 text-xs flex items-start gap-2 mt-2">
+          <div className="p-3 rounded-xl bg-destructive/10 border border-destructive/20 text-destructive text-xs flex items-start gap-2 mt-2">
             <AlertTriangle className="h-4 w-4 shrink-0 mt-0.5" />
             <span>
               Deactivating a mechanic with active roadside jobs will be rejected by the backend until active jobs are finished.

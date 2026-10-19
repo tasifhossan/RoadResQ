@@ -66,7 +66,7 @@ export default function ContactPage() {
 
         {/* Support Channels Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <Card className="rounded-2xl border-border/80 p-6 space-y-3 shadow-xs">
+          <Card className="rounded-xl border-border/80 p-6 space-y-3 shadow-xs">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
               <PhoneCall className="h-5 w-5" />
             </div>
@@ -77,7 +77,7 @@ export default function ContactPage() {
             <p className="text-sm font-semibold text-primary">+8801770328816</p>
           </Card>
 
-          <Card className="rounded-2xl border-border/80 p-6 space-y-3 shadow-xs">
+          <Card className="rounded-xl border-border/80 p-6 space-y-3 shadow-xs">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent/10 text-accent">
               <Mail className="h-5 w-5" />
             </div>
@@ -90,19 +90,19 @@ export default function ContactPage() {
             </p>
           </Card>
 
-          <Card className="rounded-2xl border-border/80 p-6 space-y-3 shadow-xs">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+          <Card className="rounded-xl border-border/80 p-6 space-y-3 shadow-xs">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
               <Clock className="h-5 w-5" />
             </div>
             <h3 className="text-base font-bold text-foreground">Operating Hours</h3>
             <p className="text-xs text-muted-foreground leading-relaxed">
               Roadside Emergency Dispatch
             </p>
-            <p className="text-sm font-semibold text-emerald-600 dark:text-emerald-400">24/7 Every Day</p>
+            <p className="text-sm font-semibold text-primary">24/7 Every Day</p>
           </Card>
 
-          <Card className="rounded-2xl border-border/80 p-6 space-y-3 shadow-xs">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-purple-500/10 text-purple-600 dark:text-purple-400">
+          <Card className="rounded-xl border-border/80 p-6 space-y-3 shadow-xs">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-orange-500/10 text-orange-600 dark:text-orange-400">
               <MapPin className="h-5 w-5" />
             </div>
             <h3 className="text-base font-bold text-foreground">Headquarters</h3>
@@ -128,7 +128,7 @@ export default function ContactPage() {
             </div>
 
             <div className="space-y-4 pt-2">
-              <div className="flex items-start gap-3 p-4 rounded-2xl bg-card border border-border/70">
+              <div className="flex items-start gap-3 p-4 rounded-xl bg-card border border-border/70">
                 <Headphones className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                 <div>
                   <h4 className="font-bold text-sm text-foreground">Live Customer Support</h4>
@@ -136,15 +136,15 @@ export default function ContactPage() {
                 </div>
               </div>
 
-              <div className="flex items-start gap-3 p-4 rounded-2xl bg-card border border-border/70">
+              <div className="flex items-start gap-3 p-4 rounded-xl bg-card border border-border/70">
                 <ShieldCheck className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                 <div>
                   <h4 className="font-bold text-sm text-foreground">Mechanic Onboarding</h4>
-                  <p className="text-xs text-muted-foreground">Interested in joining RoadResQ as a certified service provider? Reach out for partnership inquiries.</p>
+                  <p className="text-xs text-muted-foreground">Interested in joining RoadResQ as a roadside service provider? Reach out for partnership inquiries.</p>
                 </div>
               </div>
 
-              <div className="flex items-start gap-3 p-4 rounded-2xl bg-card border border-border/70">
+              <div className="flex items-start gap-3 p-4 rounded-xl bg-card border border-border/70">
                 <HelpCircle className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                 <div>
                   <h4 className="font-bold text-sm text-foreground">Need Quick Answers?</h4>
@@ -157,10 +157,10 @@ export default function ContactPage() {
           </div>
 
           {/* Right Form Panel */}
-          <Card className="lg:col-span-7 rounded-3xl border-border/80 p-6 sm:p-8 shadow-xs">
+          <Card className="lg:col-span-7 rounded-xl border-border/80 p-6 sm:p-8 shadow-xs">
             {submitted ? (
               <div className="text-center py-12 space-y-4">
-                <div className="mx-auto w-14 h-14 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
+                <div className="mx-auto w-14 h-14 rounded-full bg-primary/10 text-primary flex items-center justify-center">
                   <CheckCircle2 className="w-8 h-8" />
                 </div>
                 <h3 className="text-2xl font-bold text-foreground">Message Sent Successfully!</h3>

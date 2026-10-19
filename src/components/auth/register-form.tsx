@@ -130,7 +130,7 @@ export function RegisterForm() {
         </div>
         <CardTitle className="text-2xl font-bold tracking-tight">Create Account</CardTitle>
         <CardDescription className="text-muted-foreground text-sm">
-          Join RoadResQ as a Customer or Verified Mechanic
+          Join RoadResQ as a Customer or Mechanic
         </CardDescription>
       </CardHeader>
 
@@ -165,7 +165,7 @@ export function RegisterForm() {
                     : "border-border/60 hover:border-border text-muted-foreground bg-card"
                 }`}
               >
-                <Wrench className="w-5 h-5 mb-1 text-amber-500" />
+                <Wrench className="w-5 h-5 mb-1 text-orange-600 dark:text-orange-400" />
                 <span className="text-xs">Mechanic</span>
                 <span className="text-[10px] text-muted-foreground font-normal">Provide repairs</span>
               </button>

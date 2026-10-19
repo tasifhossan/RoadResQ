@@ -18,6 +18,7 @@ const ALLOWED_FIRST_SEGMENTS = new Set([
   "payments",
   "reviews",
   "admin",
+  "public",
 ]);
 
 const MAX_BODY_SIZE = 4 * 1024 * 1024; // 4MB
@@ -43,6 +44,16 @@ async function handleBffRequest(request: NextRequest, { params }: RouteParams) {
       { status: 404 }
     );
   }
+
+  // Public endpoint is only allowed for GET requests
+  if (pathSegments[0] === "public" && request.method !== "GET") {
+    return NextResponse.json(
+      { success: false, message: "Method not allowed for public endpoint" },
+      { status: 405 }
+    );
+  }
+
+  const isPublicGet = pathSegments[0] === "public" && request.method === "GET";
 
   // 2. CSRF check for non-GET methods
   if (request.method !== "GET") {
@@ -97,30 +108,35 @@ async function handleBffRequest(request: NextRequest, { params }: RouteParams) {
   }
 
   // 4. Token & Session checking / pre-flight refresh
-  const cookieStore = await cookies();
-  let accessToken = cookieStore.get(COOKIE_ACCESS_TOKEN)?.value;
-  const refreshToken = cookieStore.get(COOKIE_REFRESH_TOKEN)?.value;
+  let accessToken: string | undefined;
+  let refreshToken: string | undefined;
 
-  const nowSeconds = Math.floor(Date.now() / 1000);
-  let isAccessExpiredOrMissing = !accessToken;
+  if (!isPublicGet) {
+    const cookieStore = await cookies();
+    accessToken = cookieStore.get(COOKIE_ACCESS_TOKEN)?.value;
+    refreshToken = cookieStore.get(COOKIE_REFRESH_TOKEN)?.value;
 
-  if (accessToken) {
-    const decoded = decodeJwt(accessToken);
-    if (!decoded || decoded.exp <= nowSeconds + 5) {
-      isAccessExpiredOrMissing = true;
+    const nowSeconds = Math.floor(Date.now() / 1000);
+    let isAccessExpiredOrMissing = !accessToken;
+
+    if (accessToken) {
+      const decoded = decodeJwt(accessToken);
+      if (!decoded || decoded.exp <= nowSeconds + 5) {
+        isAccessExpiredOrMissing = true;
+      }
     }
-  }
 
-  if (isAccessExpiredOrMissing && refreshToken) {
-    try {
-      const newTokens = await refreshSession(refreshToken);
-      accessToken = newTokens.accessToken;
-    } catch {
-      await clearAuthCookies();
-      return NextResponse.json(
-        { success: false, message: "Unauthorized. Session expired." },
-        { status: 401 }
-      );
+    if (isAccessExpiredOrMissing && refreshToken) {
+      try {
+        const newTokens = await refreshSession(refreshToken);
+        accessToken = newTokens.accessToken;
+      } catch {
+        await clearAuthCookies();
+        return NextResponse.json(
+          { success: false, message: "Unauthorized. Session expired." },
+          { status: 401 }
+        );
+      }
     }
   }
 
@@ -157,7 +173,7 @@ async function handleBffRequest(request: NextRequest, { params }: RouteParams) {
   });
 
   // 7. Backend 401 single-flight retry
-  if (backendRes.status === 401 && refreshToken) {
+  if (!isPublicGet && backendRes.status === 401 && refreshToken) {
     try {
       const refreshedTokens = await refreshSession(refreshToken);
       forwardHeaders["Authorization"] = `Bearer ${refreshedTokens.accessToken}`;

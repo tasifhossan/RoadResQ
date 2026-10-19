@@ -46,9 +46,9 @@ export async function proxy(request: NextRequest) {
   const session = currentAccess ? decodeJwt(currentAccess) : null;
 
   // Protected & Auth route checks
-  const isCustomerRoute = pathname.startsWith("/customer");
-  const isMechanicRoute = pathname.startsWith("/mechanic");
-  const isAdminRoute = pathname.startsWith("/admin");
+  const isCustomerRoute = pathname === "/customer" || pathname.startsWith("/customer/");
+  const isMechanicRoute = pathname === "/mechanic" || pathname.startsWith("/mechanic/");
+  const isAdminRoute = pathname === "/admin" || pathname.startsWith("/admin/");
   const isProtectedRoute = isCustomerRoute || isMechanicRoute || isAdminRoute;
   const isAuthRoute = pathname === "/login" || pathname === "/register";
 

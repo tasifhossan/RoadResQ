@@ -36,23 +36,23 @@ export default async function PaymentCancelPage({
 
     return (
       <div className="container max-w-xl mx-auto py-12 px-4 flex justify-center items-center min-h-[70vh]">
-        <Card className="w-full text-center shadow-lg border-slate-200 dark:border-slate-800">
+        <Card className="w-full text-center shadow-lg border-border bg-card">
           <CardHeader className="flex flex-col items-center pb-2">
-            <div className="w-16 h-16 rounded-full bg-amber-100 dark:bg-amber-900/40 flex items-center justify-center mb-4 text-amber-600 dark:text-amber-400">
+            <div className="w-16 h-16 rounded-full bg-destructive/10 flex items-center justify-center mb-4 text-destructive">
               <AlertTriangle className="w-10 h-10" />
             </div>
-            <CardTitle className="text-2xl font-bold text-slate-900 dark:text-slate-50">
+            <CardTitle className="text-2xl font-bold text-foreground">
               Payment Session Cancelled
             </CardTitle>
-            <CardDescription className="text-slate-600 dark:text-slate-400 mt-1">
+            <CardDescription className="text-muted-foreground mt-1">
               Payment session was cancelled. Please log in to view your request status and retry payment.
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-3 py-4 text-sm text-slate-600 dark:text-slate-300">
+          <CardContent className="space-y-3 py-4 text-sm text-muted-foreground">
             {requestId && (
-              <div className="bg-slate-50 dark:bg-slate-800/50 p-3 rounded-lg flex items-center justify-between text-xs">
-                <span className="text-slate-500 font-medium">Request Reference</span>
-                <span className="font-mono text-slate-700 dark:text-slate-200">{requestId}</span>
+              <div className="bg-muted p-3 rounded-lg flex items-center justify-between text-xs">
+                <span className="text-muted-foreground font-medium">Request Reference</span>
+                <span className="font-mono text-foreground">{requestId}</span>
               </div>
             )}
           </CardContent>
@@ -72,15 +72,15 @@ export default async function PaymentCancelPage({
 
   return (
     <div className="container max-w-xl mx-auto py-12 px-4 flex justify-center items-center min-h-[70vh]">
-      <Card className="w-full text-center shadow-lg border-amber-100 dark:border-amber-950">
+      <Card className="w-full text-center shadow-lg border-border bg-card">
         <CardHeader className="flex flex-col items-center pb-2">
-          <div className="w-16 h-16 rounded-full bg-amber-100 dark:bg-amber-900/40 flex items-center justify-center mb-4 text-amber-600 dark:text-amber-400">
+          <div className="w-16 h-16 rounded-full bg-destructive/10 flex items-center justify-center mb-4 text-destructive">
             <AlertTriangle className="w-10 h-10" />
           </div>
-          <CardTitle className="text-2xl font-bold text-slate-900 dark:text-slate-50">
+          <CardTitle className="text-2xl font-bold text-foreground">
             Payment Cancelled
           </CardTitle>
-          <CardDescription className="text-slate-600 dark:text-slate-400 mt-1">
+          <CardDescription className="text-muted-foreground mt-1">
             You have cancelled the payment session. No charges were made to your account.
           </CardDescription>
         </CardHeader>

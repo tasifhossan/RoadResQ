@@ -19,15 +19,16 @@ import { EmptyState } from "@/components/shared/empty-state";
 import { formatDate, formatMoney } from "@/lib/format";
 import { DashboardStats } from "@/lib/types/admin";
 
+// STN-7 3-color palette: Brand blue, Accent orange, Destructive red, and neutrals
 const statusConfig: Record<string, { label: string; color: string }> = {
-  PENDING: { label: "Pending", color: "#f59e0b" },
-  SEARCHING: { label: "Searching", color: "#3b82f6" },
-  ASSIGNED: { label: "Assigned", color: "#6366f1" },
-  EN_ROUTE: { label: "En Route", color: "#0ea5e9" },
-  ARRIVED: { label: "Arrived", color: "#06b6d4" },
-  IN_PROGRESS: { label: "In Progress", color: "#8b5cf6" },
-  COMPLETED: { label: "Completed", color: "#10b981" },
-  CANCELLED: { label: "Cancelled", color: "#f43f5e" },
+  PENDING: { label: "Pending", color: "#94a3b8" }, // neutral slate
+  SEARCHING: { label: "Searching", color: "#64748b" }, // neutral darker slate
+  ASSIGNED: { label: "Assigned", color: "#60a5fa" }, // lighter brand blue
+  EN_ROUTE: { label: "En Route", color: "#3b82f6" }, // medium brand blue
+  ARRIVED: { label: "Arrived", color: "#1d4ed8" }, // deep brand blue
+  IN_PROGRESS: { label: "In Progress", color: "#ea580c" }, // accent orange
+  COMPLETED: { label: "Completed", color: "#1e40af" }, // solid primary blue
+  CANCELLED: { label: "Cancelled", color: "#dc2626" }, // destructive red
 };
 
 interface AdminDashboardChartsProps {
@@ -73,7 +74,7 @@ export function AdminDashboardCharts({ data }: AdminDashboardChartsProps) {
       {/* Charts Row 1: Requests by Status & Requests Over Time */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Chart 1: Requests by Status */}
-        <Card className="rounded-2xl border-border bg-card p-6 shadow-sm flex flex-col justify-between">
+        <Card className="rounded-xl border-border bg-card p-6 shadow-sm flex flex-col justify-between">
           <div>
             <CardTitle className="text-base font-bold flex items-center gap-2">
               <BarChart3 className="h-5 w-5 text-primary" />
@@ -122,11 +123,14 @@ export function AdminDashboardCharts({ data }: AdminDashboardChartsProps) {
                       formatter={(val) => [val, "Requests"]}
                       labelFormatter={(lbl) => `Status: ${String(lbl ?? "")}`}
                       contentStyle={{
-                        backgroundColor: "var(--background)",
+                        backgroundColor: "var(--card)",
                         borderColor: "var(--border)",
                         borderRadius: "0.75rem",
-                        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+                        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+                        color: "var(--card-foreground)",
                       }}
+                      itemStyle={{ color: "var(--card-foreground)" }}
+                      labelStyle={{ color: "var(--card-foreground)", fontWeight: 600 }}
                     />
                     <Bar dataKey="count" radius={[6, 6, 0, 0]}>
                       {byStatusData.map((entry, index) => (
@@ -141,7 +145,7 @@ export function AdminDashboardCharts({ data }: AdminDashboardChartsProps) {
         </Card>
 
         {/* Chart 2: Requests Over Time (Last 14 Days) */}
-        <Card className="rounded-2xl border-border bg-card p-6 shadow-sm flex flex-col justify-between">
+        <Card className="rounded-xl border-border bg-card p-6 shadow-sm flex flex-col justify-between">
           <div>
             <CardTitle className="text-base font-bold flex items-center gap-2">
               <Calendar className="h-5 w-5 text-primary" />
@@ -198,11 +202,14 @@ export function AdminDashboardCharts({ data }: AdminDashboardChartsProps) {
                         `Date: ${formatDate(typeof lbl === "string" || typeof lbl === "number" ? lbl : String(lbl || ""))}`
                       }
                       contentStyle={{
-                        backgroundColor: "var(--background)",
+                        backgroundColor: "var(--card)",
                         borderColor: "var(--border)",
                         borderRadius: "0.75rem",
-                        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+                        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+                        color: "var(--card-foreground)",
                       }}
+                      itemStyle={{ color: "var(--card-foreground)" }}
+                      labelStyle={{ color: "var(--card-foreground)", fontWeight: 600 }}
                     />
                     <Area
                       type="monotone"
@@ -221,10 +228,10 @@ export function AdminDashboardCharts({ data }: AdminDashboardChartsProps) {
       </div>
 
       {/* Chart 3: Revenue by Month (Last 6 Months) */}
-      <Card className="rounded-2xl border-border bg-card p-6 shadow-sm">
+      <Card className="rounded-xl border-border bg-card p-6 shadow-sm">
         <div>
           <CardTitle className="text-base font-bold flex items-center gap-2">
-            <DollarSign className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+            <DollarSign className="h-5 w-5 text-primary" />
             Revenue by Month (Last 6 Months)
           </CardTitle>
           <CardDescription className="text-xs text-muted-foreground mt-0.5">
@@ -270,13 +277,16 @@ export function AdminDashboardCharts({ data }: AdminDashboardChartsProps) {
                     ]}
                     labelFormatter={(lbl) => `Month: ${String(lbl ?? "")}`}
                     contentStyle={{
-                      backgroundColor: "var(--background)",
+                      backgroundColor: "var(--card)",
                       borderColor: "var(--border)",
                       borderRadius: "0.75rem",
-                      boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+                      boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+                      color: "var(--card-foreground)",
                     }}
+                    itemStyle={{ color: "var(--card-foreground)" }}
+                    labelStyle={{ color: "var(--card-foreground)", fontWeight: 600 }}
                   />
-                  <Bar dataKey="amount" fill="#10b981" radius={[6, 6, 0, 0]} />
+                  <Bar dataKey="amount" fill="var(--color-chart-1, #2563eb)" radius={[6, 6, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>

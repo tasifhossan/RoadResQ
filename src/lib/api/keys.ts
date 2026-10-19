@@ -10,6 +10,7 @@ export const queryKeys = {
   users: {
     all: (filters?: Record<string, unknown>) => ["users", filters] as const,
     detail: (id: string) => ["users", id] as const,
+    summary: () => ["users", "me", "summary"] as const,
   },
   vehicles: {
     all: () => ["vehicles"] as const,
@@ -43,5 +44,14 @@ export const queryKeys = {
   admin: {
     stats: () => ["admin", "dashboard-stats"] as const,
     auditLogs: (filters?: Record<string, unknown>) => ["admin", "audit-logs", filters] as const,
+    serviceRequests: (filters?: Record<string, unknown>) =>
+      ["admin", "service-requests", filters] as const,
+    payments: (filters?: Record<string, unknown>) => ["admin", "payments", filters] as const,
+  },
+  public: {
+    mechanics: (filters?: Record<string, unknown>) => ["public", "mechanics", filters] as const,
+    mechanic: (id: string) => ["public", "mechanic", id] as const,
+    stats: () => ["public", "stats"] as const,
+    reviews: (filters?: Record<string, unknown>) => ["public", "reviews", filters] as const,
   },
 } as const;

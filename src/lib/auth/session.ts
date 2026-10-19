@@ -32,6 +32,9 @@ export interface UserProfile {
     availability: string;
     rating: number;
     totalJobs: number;
+    bio?: string | null;
+    city?: string | null;
+    yearsExperience?: number | null;
   } | null;
 }
 

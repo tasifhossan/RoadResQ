@@ -2,15 +2,22 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function CustomerVehiclesLoading() {
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <Skeleton className="h-8 w-48 rounded-lg" />
+    <div className="space-y-6 w-full">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div className="space-y-1">
+          <Skeleton className="h-8 w-48 rounded-md" />
+          <Skeleton className="h-4 w-72 rounded-md" />
+        </div>
         <Skeleton className="h-10 w-36 rounded-xl" />
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <Skeleton className="h-44 rounded-2xl" />
-        <Skeleton className="h-44 rounded-2xl" />
-        <Skeleton className="h-44 rounded-2xl" />
+
+      <div className="flex flex-col sm:flex-row gap-3">
+        <Skeleton className="h-10 w-full sm:max-w-md rounded-xl" />
+        <Skeleton className="h-10 w-28 rounded-xl" />
+      </div>
+
+      <div className="rounded-xl border border-border bg-card p-4 shadow-sm">
+        <Skeleton className="h-64 w-full rounded-lg" />
       </div>
     </div>
   );
