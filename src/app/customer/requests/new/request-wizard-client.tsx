@@ -631,6 +631,10 @@ export function RequestWizardClient({ initialVehicles }: RequestWizardClientProp
                 </div>
               </div>
 
+              <p className="text-xs text-muted-foreground">
+                Demo environment: the demo mechanic is located in Dhaka. Use the demo location to see them.
+              </p>
+
               {geoError && (
                 <div className="flex items-start gap-2 text-xs text-destructive bg-destructive/10 p-3 rounded-xl border border-destructive/20 mt-2">
                   <AlertCircle className="h-4 w-4 shrink-0 mt-0.5" />
