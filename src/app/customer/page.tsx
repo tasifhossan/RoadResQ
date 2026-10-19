@@ -4,7 +4,8 @@ import { requireRole, UserProfile } from "@/lib/auth/session";
 import { Paginated } from "@/lib/api/types";
 import { Vehicle } from "@/lib/types/vehicles";
 import { ServiceRequest } from "@/lib/types/service-requests";
-import { getMeServer } from "@/lib/api/endpoints/users.server";
+import { CustomerSummaryData } from "@/lib/types/users";
+import { getMeServer, getMySummaryServer } from "@/lib/api/endpoints/users.server";
 import { getMyVehiclesServer } from "@/lib/api/endpoints/vehicles.server";
 import { getMyServiceRequestsServer } from "@/lib/api/endpoints/service-requests.server";
 import { DashboardClient } from "./dashboard-client";
@@ -18,12 +19,14 @@ export default async function CustomerDashboardPage() {
   let initialUser: UserProfile | null = null;
   let initialVehicles: Paginated<Vehicle> | null = null;
   let initialRequests: Paginated<ServiceRequest> | null = null;
+  let initialSummary: CustomerSummaryData | null = null;
 
   if (token) {
     const results = await Promise.allSettled([
       getMeServer(token),
       getMyVehiclesServer(token, { limit: 1 }),
       getMyServiceRequestsServer(token, { limit: 10, sortBy: "createdAt", sortOrder: "desc" }),
+      getMySummaryServer(token),
     ]);
 
     if (results[0].status === "fulfilled") {
@@ -35,6 +38,9 @@ export default async function CustomerDashboardPage() {
     if (results[2].status === "fulfilled") {
       initialRequests = results[2].value;
     }
+    if (results[3].status === "fulfilled") {
+      initialSummary = results[3].value;
+    }
   }
 
   return (
@@ -42,6 +48,7 @@ export default async function CustomerDashboardPage() {
       initialUser={initialUser}
       initialVehicles={initialVehicles}
       initialRequests={initialRequests}
+      initialSummary={initialSummary}
     />
   );
 }

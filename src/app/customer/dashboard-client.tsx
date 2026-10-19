@@ -13,32 +13,67 @@ import {
   Calendar,
 } from "lucide-react";
 
+import dynamic from "next/dynamic";
 import { queryKeys } from "@/lib/api/keys";
 import { Paginated } from "@/lib/api/types";
 import { UserProfile } from "@/lib/auth/session";
 import { Vehicle } from "@/lib/types/vehicles";
 import { ServiceRequest } from "@/lib/types/service-requests";
+import { CustomerSummaryData } from "@/lib/types/users";
 import { getMyVehiclesApi } from "@/lib/api/endpoints/vehicles";
 import { getMyServiceRequestsApi } from "@/lib/api/endpoints/service-requests";
+import { getMySummaryApi } from "@/lib/api/endpoints/users";
 
 import { PageHeader } from "@/components/shared/page-header";
 import { StatusBadge } from "@/components/shared/status-badge";
 import { EmptyState } from "@/components/shared/empty-state";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
+
+const CustomerSummaryCharts = dynamic(
+  () =>
+    import("@/components/customer/customer-summary-charts").then(
+      (mod) => mod.CustomerSummaryCharts
+    ),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <Card className="h-80 rounded-xl border-border bg-card p-6 shadow-sm flex flex-col justify-between">
+          <Skeleton className="h-6 w-48 rounded-lg" />
+          <Skeleton className="h-56 w-full rounded-xl" />
+        </Card>
+        <Card className="h-80 rounded-xl border-border bg-card p-6 shadow-sm flex flex-col justify-between">
+          <Skeleton className="h-6 w-48 rounded-lg" />
+          <Skeleton className="h-56 w-full rounded-xl" />
+        </Card>
+      </div>
+    ),
+  }
+);
 
 interface DashboardClientProps {
   initialUser: UserProfile | null;
   initialVehicles: Paginated<Vehicle> | null;
   initialRequests: Paginated<ServiceRequest> | null;
+  initialSummary: CustomerSummaryData | null;
 }
 
 export function DashboardClient({
   initialUser,
   initialVehicles,
   initialRequests,
+  initialSummary,
 }: DashboardClientProps) {
+  // TanStack Query for customer summary data
+  const { data: summaryData } = useQuery({
+    queryKey: queryKeys.users.summary(),
+    queryFn: () => getMySummaryApi(),
+    initialData: initialSummary ?? undefined,
+  });
+
   // TanStack Query for vehicles (to keep vehicle count updated)
   const { data: vehiclesData } = useQuery({
     queryKey: queryKeys.vehicles.list({ limit: 1 }),
@@ -208,6 +243,11 @@ export function DashboardClient({
           </div>
         </Card>
       </div>
+
+      {/* Summary Charts: Requests by Status Donut & Monthly Spend Bar */}
+      {(summaryData || initialSummary) && (
+        <CustomerSummaryCharts summary={(summaryData || initialSummary)!} />
+      )}
 
       {/* Recent Requests List Card (Top 5) */}
       <Card className="rounded-xl border-border shadow-sm overflow-hidden">
