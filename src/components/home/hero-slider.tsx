@@ -198,7 +198,7 @@ export function HeroSlider() {
             <ChevronLeft className="h-4 w-4" />
           </button>
 
-          <div className="flex items-center gap-1.5 px-1">
+          <div className="flex items-center gap-1">
             {SLIDES.map((slide, idx) => (
               <button
                 key={slide.id}
@@ -206,13 +206,17 @@ export function HeroSlider() {
                 onClick={() => setCurrentSlide(idx)}
                 aria-label={`Go to slide ${idx + 1}`}
                 aria-current={currentSlide === idx ? "true" : undefined}
-                className={cn(
-                  "h-2 rounded-full transition-all duration-300",
-                  currentSlide === idx
-                    ? "w-6 bg-primary"
-                    : "w-2 bg-muted-foreground/30 hover:bg-muted-foreground/60"
-                )}
-              />
+                className="h-7 min-w-[24px] flex items-center justify-center px-1 rounded-full cursor-pointer"
+              >
+                <span
+                  className={cn(
+                    "h-2 rounded-full transition-all duration-300 block",
+                    currentSlide === idx
+                      ? "w-6 bg-primary"
+                      : "w-2 bg-muted-foreground/30 hover:bg-muted-foreground/60"
+                  )}
+                />
+              </button>
             ))}
           </div>
 

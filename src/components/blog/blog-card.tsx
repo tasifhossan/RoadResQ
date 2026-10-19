@@ -15,11 +15,11 @@ export interface BlogCardProps {
 export function getCategoryBadgeClasses(category: BlogCategory) {
   switch (category) {
     case "Emergency":
-      return "border-red-500/30 bg-red-500/10 text-red-600 dark:text-red-400";
+      return "border-red-500/30 bg-red-500/5 text-red-700 dark:text-red-400";
     case "Safety":
-      return "border-orange-500/30 bg-orange-500/10 text-orange-700 dark:text-orange-400";
+      return "border-orange-500/30 bg-orange-500/5 text-orange-700 dark:text-orange-400";
     case "Maintenance":
-      return "border-blue-500/30 bg-blue-500/10 text-blue-700 dark:text-blue-400";
+      return "border-blue-500/30 bg-blue-500/5 text-blue-700 dark:text-blue-400";
     default:
       return "border-border bg-muted text-muted-foreground";
   }

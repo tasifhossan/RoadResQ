@@ -95,9 +95,9 @@ export function PublicFooter() {
 
           {/* Column 2: Explore */}
           <div className="space-y-3">
-            <h4 className="text-xs font-semibold uppercase tracking-wider text-foreground">
+            <p className="text-xs font-semibold uppercase tracking-wider text-foreground">
               Explore
-            </h4>
+            </p>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>
                 <Link href="/mechanics" className="hover:text-foreground transition-colors">
@@ -124,9 +124,9 @@ export function PublicFooter() {
 
           {/* Column 3: Company */}
           <div className="space-y-3">
-            <h4 className="text-xs font-semibold uppercase tracking-wider text-foreground">
+            <p className="text-xs font-semibold uppercase tracking-wider text-foreground">
               Company
-            </h4>
+            </p>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>
                 <Link href="/about" className="hover:text-foreground transition-colors">
@@ -148,9 +148,9 @@ export function PublicFooter() {
 
           {/* Column 4: Legal & Contact */}
           <div className="space-y-3">
-            <h4 className="text-xs font-semibold uppercase tracking-wider text-foreground">
+            <p className="text-xs font-semibold uppercase tracking-wider text-foreground">
               Legal & Contact
-            </h4>
+            </p>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>
                 <Link href="/privacy" className="hover:text-foreground transition-colors">
