@@ -5,14 +5,28 @@ import { usePathname } from "next/navigation";
 import { useUIStore } from "@/stores/ui-store";
 import { UserMenu } from "@/components/layout/user-menu";
 import { Button } from "@/components/ui/button";
-import { LayoutDashboard, Users, Wrench, FileText, PanelLeftClose, PanelLeftOpen, Menu } from "lucide-react";
+import {
+  LayoutDashboard,
+  ClipboardList,
+  Users,
+  CreditCard,
+  Wrench,
+  FileText,
+  User,
+  PanelLeftClose,
+  PanelLeftOpen,
+  Menu,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const adminNavItems = [
   { label: "Dashboard", href: "/admin", icon: LayoutDashboard },
+  { label: "Requests", href: "/admin/requests", icon: ClipboardList },
   { label: "Users", href: "/admin/users", icon: Users },
+  { label: "Payments", href: "/admin/payments", icon: CreditCard },
   { label: "Spare parts", href: "/admin/spare-parts", icon: Wrench },
   { label: "Audit logs", href: "/admin/audit-logs", icon: FileText },
+  { label: "Profile", href: "/admin/profile", icon: User },
 ];
 
 import { ThemeToggle } from "@/components/theme-toggle";

@@ -1,42 +1,36 @@
 import { Metadata } from "next";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { User, ArrowLeft } from "lucide-react";
+import { cookies } from "next/headers";
+import { COOKIE_ACCESS_TOKEN } from "@/lib/auth/constants";
+import { requireRole, UserProfile } from "@/lib/auth/session";
+import { getMeServer } from "@/lib/api/endpoints/users.server";
+import { getErrorMessage } from "@/lib/errors";
+import { AdminProfileClient } from "./admin-profile-client";
 
 export const metadata: Metadata = {
   title: "Admin Profile | RoadResQ",
   description: "Administrator profile settings and account information.",
 };
 
-export default function AdminProfilePage() {
-  return (
-    <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight text-foreground">Admin Profile</h1>
-          <p className="text-sm text-muted-foreground mt-1">
-            Administrator account profile settings and session security.
-          </p>
-        </div>
-        <Link href="/admin">
-          <Button variant="outline" size="sm" className="rounded-xl gap-2">
-            <ArrowLeft className="h-4 w-4" />
-            Back to Dashboard
-          </Button>
-        </Link>
-      </div>
+export default async function AdminProfilePage() {
+  // 1. Enforce authentication & ADMIN role scoping
+  await requireRole("ADMIN");
 
-      <div className="rounded-xl border border-border bg-card p-6 sm:p-8 space-y-4 max-w-xl">
-        <div className="flex items-center gap-4">
-          <div className="h-12 w-12 rounded-full bg-primary/10 text-primary flex items-center justify-center">
-            <User className="h-6 w-6" />
-          </div>
-          <div>
-            <h2 className="text-lg font-semibold text-foreground">Administrator</h2>
-            <p className="text-xs text-muted-foreground">Full system access & platform governance</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+  // 2. Retrieve session access token from cookies
+  const cookieStore = await cookies();
+  const token = cookieStore.get(COOKIE_ACCESS_TOKEN)?.value;
+
+  let initialUser: UserProfile | null = null;
+  let initialError: string | null = null;
+
+  // 3. Server fetch current authenticated user profile
+  if (token) {
+    try {
+      const res = await getMeServer(token);
+      initialUser = res.user;
+    } catch (err) {
+      initialError = getErrorMessage(err);
+    }
+  }
+
+  return <AdminProfileClient initialUser={initialUser} initialError={initialError} />;
 }
