@@ -22,6 +22,7 @@ import {
   Activity,
 } from "lucide-react";
 
+import dynamic from "next/dynamic";
 import { queryKeys } from "@/lib/api/keys";
 import { Paginated } from "@/lib/api/types";
 import { UserProfile } from "@/lib/auth/session";
@@ -46,6 +47,7 @@ import { ErrorState } from "@/components/shared/error-state";
 import { StatCard } from "@/components/shared/stat-card";
 import { buttonVariants, Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Select,
   SelectContent,
@@ -54,6 +56,23 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
+
+const MechanicEarningsChart = dynamic(
+  () =>
+    import("@/components/mechanic/mechanic-earnings-chart").then(
+      (mod) => mod.MechanicEarningsChart
+    ),
+  {
+    ssr: false,
+    loading: () => (
+      <Card className="rounded-xl border-border bg-card p-6 shadow-sm space-y-4">
+        <Skeleton className="h-6 w-56 rounded-lg" />
+        <Skeleton className="h-4 w-72 rounded-lg" />
+        <Skeleton className="h-80 w-full rounded-xl" />
+      </Card>
+    ),
+  }
+);
 
 interface MechanicDashboardClientProps {
   initialUser: UserProfile | null;
@@ -351,6 +370,11 @@ export function MechanicDashboardClient({
           icon={<DollarSign className="h-5 w-5 text-primary" />}
         />
       </div>
+
+      {/* 6-Month Labor and Parts Earnings Breakdown Chart */}
+      <MechanicEarningsChart
+        monthly={earningsData?.monthly || initialEarnings?.monthly || []}
+      />
 
       {/* Location Card */}
       <Card className="rounded-xl border shadow-sm overflow-hidden bg-card">
