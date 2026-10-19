@@ -1,10 +1,12 @@
 import { apiFetch } from "@/lib/api/client";
 import { Paginated } from "@/lib/api/types";
 import {
+  AdminServiceRequestItem,
   AdminUserItem,
   AuditLogItem,
   DashboardStats,
   GetAuditLogsQueryInput,
+  GetServiceRequestsQueryInput,
   GetUsersQueryInput,
   UpdateUserRoleInput,
 } from "@/lib/types/admin";
@@ -46,3 +48,10 @@ export async function getAuditLogsApi(
 ): Promise<Paginated<AuditLogItem>> {
   return apiFetch<Paginated<AuditLogItem>>("admin/audit-logs", { query });
 }
+
+export async function getServiceRequestsApi(
+  query?: GetServiceRequestsQueryInput
+): Promise<Paginated<AdminServiceRequestItem>> {
+  return apiFetch<Paginated<AdminServiceRequestItem>>("admin/service-requests", { query });
+}
+

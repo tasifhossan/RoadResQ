@@ -1,40 +1,80 @@
 import { Metadata } from "next";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { ShieldCheck, ArrowLeft } from "lucide-react";
+import { cookies } from "next/headers";
+import { COOKIE_ACCESS_TOKEN } from "@/lib/auth/constants";
+import { requireRole } from "@/lib/auth/session";
+import { Paginated, RequestPriority, RequestStatus } from "@/lib/api/types";
+import { AdminServiceRequestItem, GetServiceRequestsQueryInput } from "@/lib/types/admin";
+import { getServiceRequestsQuerySchema } from "@/lib/validations/admin";
+import { getServiceRequestsServer } from "@/lib/api/endpoints/admin.server";
+import { getErrorMessage } from "@/lib/errors";
+import { AdminRequestsClient } from "./admin-requests-client";
 
 export const metadata: Metadata = {
   title: "Service Requests | Admin | RoadResQ",
   description: "Platform-wide service request management for RoadResQ administrators.",
 };
 
-export default function AdminRequestsPage() {
-  return (
-    <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight text-foreground">Service Requests</h1>
-          <p className="text-sm text-muted-foreground mt-1">
-            Overview and status monitoring for all platform roadside emergency requests.
-          </p>
-        </div>
-        <Link href="/admin">
-          <Button variant="outline" size="sm" className="rounded-xl gap-2">
-            <ArrowLeft className="h-4 w-4" />
-            Back to Dashboard
-          </Button>
-        </Link>
-      </div>
+interface AdminRequestsPageProps {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}
 
-      <div className="rounded-xl border border-border bg-card p-8 text-center space-y-4">
-        <div className="h-12 w-12 rounded-xl bg-primary/10 text-primary mx-auto flex items-center justify-center">
-          <ShieldCheck className="h-6 w-6" />
-        </div>
-        <h2 className="text-lg font-semibold text-foreground">All Requests Monitor</h2>
-        <p className="text-sm text-muted-foreground max-w-md mx-auto">
-          Live request oversight and filtering interface. Administrative actions for active dispatches are managed here.
-        </p>
-      </div>
-    </div>
+export default async function AdminRequestsPage({ searchParams }: AdminRequestsPageProps) {
+  // 1. Enforce authentication & ADMIN role scoping
+  await requireRole("ADMIN");
+
+  // 2. Read and parse searchParams using Zod schema
+  const resolvedParams = await searchParams;
+
+  const rawQuery = {
+    page: resolvedParams.page ? Number(resolvedParams.page) : undefined,
+    limit: resolvedParams.limit ? Number(resolvedParams.limit) : undefined,
+    status:
+      typeof resolvedParams.status === "string"
+        ? (resolvedParams.status as RequestStatus)
+        : undefined,
+    priority:
+      typeof resolvedParams.priority === "string"
+        ? (resolvedParams.priority as RequestPriority)
+        : undefined,
+    search: typeof resolvedParams.search === "string" ? resolvedParams.search : undefined,
+    from: typeof resolvedParams.from === "string" ? resolvedParams.from : undefined,
+    to: typeof resolvedParams.to === "string" ? resolvedParams.to : undefined,
+    sortBy:
+      resolvedParams.sortBy === "createdAt" || resolvedParams.sortBy === "updatedAt"
+        ? resolvedParams.sortBy
+        : undefined,
+    sortOrder:
+      resolvedParams.sortOrder === "asc" || resolvedParams.sortOrder === "desc"
+        ? resolvedParams.sortOrder
+        : undefined,
+  };
+
+  const parsedQuery = getServiceRequestsQuerySchema.safeParse(rawQuery);
+  const queryParams: GetServiceRequestsQueryInput = parsedQuery.success
+    ? parsedQuery.data
+    : { page: 1, limit: 10 };
+
+  // 3. Retrieve session access token from cookies
+  const cookieStore = await cookies();
+  const token = cookieStore.get(COOKIE_ACCESS_TOKEN)?.value;
+
+  let initialData: Paginated<AdminServiceRequestItem> | null = null;
+  let initialError: string | null = null;
+
+  // 4. Server fetch initial data
+  if (token) {
+    try {
+      initialData = await getServiceRequestsServer(token, queryParams);
+    } catch (err) {
+      initialError = getErrorMessage(err);
+    }
+  }
+
+  return (
+    <AdminRequestsClient
+      initialData={initialData}
+      initialError={initialError}
+      queryParams={queryParams}
+    />
   );
 }

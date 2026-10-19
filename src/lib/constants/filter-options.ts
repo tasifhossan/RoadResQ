@@ -2,6 +2,8 @@ import { FilterOption } from "@/components/shared/filter-select";
 import {
   RequestStatus,
   REQUEST_STATUSES,
+  RequestPriority,
+  REQUEST_PRIORITIES,
   PaymentStatus,
   PAYMENT_STATUSES,
   Role,
@@ -24,6 +26,22 @@ export const REQUEST_STATUS_FILTER_OPTIONS: FilterOption[] = REQUEST_STATUSES.ma
   label: REQUEST_STATUS_LABELS[status],
   value: status,
 }));
+
+// Friendly labels typed against RequestPriority enum so invalid keys fail tsc
+const REQUEST_PRIORITY_LABELS: Record<RequestPriority, string> = {
+  LOW: "Low",
+  NORMAL: "Normal",
+  HIGH: "High",
+  EMERGENCY: "Emergency",
+};
+
+export const REQUEST_PRIORITY_FILTER_OPTIONS: FilterOption[] = REQUEST_PRIORITIES.map(
+  (priority) => ({
+    label: REQUEST_PRIORITY_LABELS[priority],
+    value: priority,
+  })
+);
+
 
 // Friendly labels typed against PaymentStatus enum so invalid keys fail tsc
 const PAYMENT_STATUS_LABELS: Record<PaymentStatus, string> = {

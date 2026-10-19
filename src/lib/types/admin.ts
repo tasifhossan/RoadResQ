@@ -1,4 +1,4 @@
-import { Role } from "@/lib/api/types";
+import { RequestPriority, RequestStatus, Role } from "@/lib/api/types";
 
 export interface DashboardStats {
   users: {
@@ -84,3 +84,36 @@ export interface GetAuditLogsQueryInput extends Record<string, unknown> {
   from?: string;
   to?: string;
 }
+
+export interface AdminServiceRequestItem {
+  id: string;
+  status: RequestStatus;
+  priority: RequestPriority;
+  createdAt: string;
+  customer: {
+    id: string;
+    name: string;
+  };
+  mechanic: {
+    id: string;
+    name: string;
+  } | null;
+  vehicle: {
+    make: string;
+    model: string;
+    plateNumber: string;
+  } | null;
+}
+
+export interface GetServiceRequestsQueryInput extends Record<string, unknown> {
+  page?: number;
+  limit?: number;
+  status?: RequestStatus;
+  priority?: RequestPriority;
+  search?: string;
+  from?: string;
+  to?: string;
+  sortBy?: "createdAt" | "updatedAt";
+  sortOrder?: "asc" | "desc";
+}
+

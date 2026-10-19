@@ -2,10 +2,12 @@ import "server-only";
 import { serverFetch } from "@/lib/api/server";
 import { Paginated } from "@/lib/api/types";
 import {
+  AdminServiceRequestItem,
   AdminUserItem,
   AuditLogItem,
   DashboardStats,
   GetAuditLogsQueryInput,
+  GetServiceRequestsQueryInput,
   GetUsersQueryInput,
 } from "@/lib/types/admin";
 
@@ -34,3 +36,14 @@ export async function getAuditLogsServer(
     query,
   });
 }
+
+export async function getServiceRequestsServer(
+  token: string,
+  query?: GetServiceRequestsQueryInput
+): Promise<Paginated<AdminServiceRequestItem>> {
+  return serverFetch<Paginated<AdminServiceRequestItem>>("admin/service-requests", {
+    token,
+    query,
+  });
+}
+
