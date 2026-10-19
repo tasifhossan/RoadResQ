@@ -2,11 +2,13 @@ import "server-only";
 import { serverFetch } from "@/lib/api/server";
 import { Paginated } from "@/lib/api/types";
 import {
+  AdminPaymentItem,
   AdminServiceRequestItem,
   AdminUserItem,
   AuditLogItem,
   DashboardStats,
   GetAuditLogsQueryInput,
+  GetPaymentsQueryInput,
   GetServiceRequestsQueryInput,
   GetUsersQueryInput,
 } from "@/lib/types/admin";
@@ -42,6 +44,16 @@ export async function getServiceRequestsServer(
   query?: GetServiceRequestsQueryInput
 ): Promise<Paginated<AdminServiceRequestItem>> {
   return serverFetch<Paginated<AdminServiceRequestItem>>("admin/service-requests", {
+    token,
+    query,
+  });
+}
+
+export async function getPaymentsServer(
+  token: string,
+  query?: GetPaymentsQueryInput
+): Promise<Paginated<AdminPaymentItem>> {
+  return serverFetch<Paginated<AdminPaymentItem>>("admin/payments", {
     token,
     query,
   });

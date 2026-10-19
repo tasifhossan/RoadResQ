@@ -1,11 +1,13 @@
 import { apiFetch } from "@/lib/api/client";
 import { Paginated } from "@/lib/api/types";
 import {
+  AdminPaymentItem,
   AdminServiceRequestItem,
   AdminUserItem,
   AuditLogItem,
   DashboardStats,
   GetAuditLogsQueryInput,
+  GetPaymentsQueryInput,
   GetServiceRequestsQueryInput,
   GetUsersQueryInput,
   UpdateUserRoleInput,
@@ -53,5 +55,11 @@ export async function getServiceRequestsApi(
   query?: GetServiceRequestsQueryInput
 ): Promise<Paginated<AdminServiceRequestItem>> {
   return apiFetch<Paginated<AdminServiceRequestItem>>("admin/service-requests", { query });
+}
+
+export async function getPaymentsApi(
+  query?: GetPaymentsQueryInput
+): Promise<Paginated<AdminPaymentItem>> {
+  return apiFetch<Paginated<AdminPaymentItem>>("admin/payments", { query });
 }
 

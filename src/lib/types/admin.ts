@@ -1,4 +1,4 @@
-import { RequestPriority, RequestStatus, Role } from "@/lib/api/types";
+import { PaymentStatus, RequestPriority, RequestStatus, Role } from "@/lib/api/types";
 
 export interface DashboardStats {
   users: {
@@ -114,6 +114,34 @@ export interface GetServiceRequestsQueryInput extends Record<string, unknown> {
   from?: string;
   to?: string;
   sortBy?: "createdAt" | "updatedAt";
+  sortOrder?: "asc" | "desc";
+}
+
+export interface AdminPaymentItem {
+  id: string;
+  amount: number | string;
+  status: PaymentStatus;
+  paidAt: string | null;
+  createdAt: string;
+  invoice: {
+    id: string;
+    total: number | string;
+  };
+  serviceRequest: {
+    id: string;
+  };
+  customer: {
+    name: string;
+  };
+}
+
+export interface GetPaymentsQueryInput extends Record<string, unknown> {
+  page?: number;
+  limit?: number;
+  status?: PaymentStatus;
+  from?: string;
+  to?: string;
+  sortBy?: "createdAt" | "amount";
   sortOrder?: "asc" | "desc";
 }
 

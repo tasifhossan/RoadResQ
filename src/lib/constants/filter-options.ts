@@ -96,6 +96,17 @@ export const USER_SORT_ORDER_OPTIONS: FilterOption[] = [
   { label: "Ascending", value: "asc" },
 ];
 
+// Payment list sort options
+export const PAYMENT_SORT_BY_OPTIONS: FilterOption[] = [
+  { label: "Date Created", value: "createdAt" },
+  { label: "Amount", value: "amount" },
+];
+
+export const PAYMENT_SORT_ORDER_OPTIONS: FilterOption[] = [
+  { label: "Descending", value: "desc" },
+  { label: "Ascending", value: "asc" },
+];
+
 /**
  * Audit Log Entity Types
  * Derived from backend AuditLog creation sites:
