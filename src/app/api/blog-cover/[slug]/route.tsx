@@ -1,15 +1,20 @@
 import { ImageResponse } from "next/og";
-import { NextRequest } from "next/server";
-import { getBlogPostBySlug } from "@/content/blog/posts";
+import { getAllBlogPosts, getBlogPostBySlug } from "@/content/blog/posts";
 
-export const runtime = "edge";
+export const dynamic = "force-static";
+
+export function generateStaticParams() {
+  return getAllBlogPosts().map((post) => ({
+    slug: post.slug,
+  }));
+}
 
 interface RouteProps {
   params: Promise<{ slug: string }>;
 }
 
 export async function GET(
-  _request: NextRequest,
+  _request: Request,
   { params }: RouteProps
 ): Promise<Response> {
   const { slug } = await params;
@@ -159,6 +164,9 @@ export async function GET(
     {
       width: 1200,
       height: 630,
+      headers: {
+        "Cache-Control": "public, max-age=31536000, immutable",
+      },
     }
   );
 }

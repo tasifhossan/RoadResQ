@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 export interface BlogCardProps {
   post: BlogPost;
   className?: string;
+  priority?: boolean;
 }
 
 export function getCategoryBadgeClasses(category: BlogCategory) {
@@ -24,7 +25,7 @@ export function getCategoryBadgeClasses(category: BlogCategory) {
   }
 }
 
-export function BlogCard({ post, className }: BlogCardProps) {
+export function BlogCard({ post, className, priority = false }: BlogCardProps) {
   const formattedDate = new Date(post.publishedAt).toLocaleDateString("en-US", {
     month: "short",
     day: "numeric",
@@ -47,7 +48,8 @@ export function BlogCard({ post, className }: BlogCardProps) {
             alt={post.title}
             fill
             unoptimized
-            loading="eager"
+            priority={priority}
+            loading={priority ? "eager" : "lazy"}
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             className="object-cover transition-transform duration-300 group-hover:scale-105"
           />
