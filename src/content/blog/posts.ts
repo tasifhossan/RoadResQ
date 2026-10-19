@@ -188,14 +188,14 @@ export const BLOG_POSTS: BlogPost[] = [
       {
         heading: "The Critical Danger of Hydrostatic Lock",
         paragraphs: [
-          "The most catastrophic mechanical risk during a water crossing is hydrostatic lock, commonly known as hydrolock. In internal combustion engines, air is drawn through an intake snorkel typically positioned behind the front bumper or wheel well. Because water cannot be compressed like an air-fuel mixture, any water sucked into the cylinders halts piston travel instantaneously, shattering connecting rods and cracking the engine block.",
+          "The most serious mechanical risk during a water crossing is hydrostatic lock, commonly known as hydrolock. In internal combustion engines, air is drawn through an intake snorkel typically positioned behind the front bumper or wheel well. Because water cannot be compressed like an air-fuel mixture, any water sucked into the cylinders halts piston travel instantaneously, shattering connecting rods and cracking the engine block.",
           "If your vehicle stalls while traversing standing water, resist the natural urge to turn the key or press the start button. Attempting to crank an engine with water inside the combustion chambers will guarantee complete mechanical destruction. Leave the ignition switched off, turn on your hazard lights, and prioritize safe evacuation or assistance.",
         ],
       },
       {
         heading: "Driving Technique for Unavoidable Shallow Water",
         paragraphs: [
-          "If water is verified to be shallow, below the wheel hub, and you have no viable turning space or detour, proceed with deliberate caution. Select the lowest available gear: first gear in a manual transmission or manual mode in an automatic. This keeps the engine revving higher while vehicle speed remains low.",
+          "If water is confirmed to be shallow, below the wheel hub, and you have no viable turning space or detour, proceed with deliberate caution. Select the lowest available gear: first gear in a manual transmission or manual mode in an automatic. This keeps the engine revving higher while vehicle speed remains low.",
           "Maintain a steady, continuous throttle to create a small bow wave ahead of your front bumper. This wave depresses the water level directly inside the engine bay. Never accelerate sharply, as sudden surging pushes water over the hood and directly toward the air intake. Avoid tailgating other vehicles, and never cross while oncoming heavy trucks or buses are creating large conflicting wakes.",
         ],
       },
@@ -261,7 +261,7 @@ export const BLOG_POSTS: BlogPost[] = [
       {
         heading: "Mandatory Documentation and Route Verification",
         paragraphs: [
-          "Before setting off, organize your legal vehicular documentation. In Bangladesh, drivers must carry their original valid driving license, motor vehicle registration certificate, updated tax token, valid fitness certificate, and route permit where applicable.",
+          "Before setting off, organize your legal vehicular documentation. In Bangladesh, carry the vehicle and driver documents required for your vehicle type and route (commonly the driving licence, registration certificate, tax token and fitness certificate).",
           "Verify expiration dates well in advance to prevent administrative complications during highway police checkpoints. Finally, review your planned travel corridor, noting active road work, bypass bridges, toll plaza requirements, and designated rest areas.",
         ],
       },
@@ -300,7 +300,7 @@ export const BLOG_POSTS: BlogPost[] = [
         heading: "Identify Accurate Vehicle Specifications",
         paragraphs: [
           "Knowing the specific details of your automobile allows the emergency response team to prepare correct equipment. State the exact make, model, model year, and exterior color of your car, along with your official license plate registration number.",
-          "Inform the dispatcher whether the vehicle is equipped with a manual, automatic, or continuously variable transmission, and whether it is front-wheel, rear-wheel, or all-wheel drive. Drivetrain configuration is essential if flatbed towing is needed, as towing an all-wheel-drive vehicle with driven wheels touching the pavement will cause catastrophic transmission damage.",
+          "Inform the dispatcher whether the vehicle is equipped with a manual, automatic, or continuously variable transmission, and whether it is front-wheel, rear-wheel, or all-wheel drive. Drivetrain configuration is essential if flatbed towing is needed, as towing an all-wheel-drive vehicle with driven wheels touching the pavement will cause serious transmission damage.",
         ],
       },
       {
