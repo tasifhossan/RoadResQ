@@ -11,9 +11,11 @@ const envSchema = z.object({
     .url("NEXT_PUBLIC_SITE_URL must be a valid URL")
     .default("http://localhost:3000"),
   NEXT_PUBLIC_CONTACT_EMAIL: z
-    .string()
-    .email("NEXT_PUBLIC_CONTACT_EMAIL must be a valid email")
-    .optional(),
+    .preprocess((val) => (typeof val === "string" && val.trim() === "" ? undefined : val),
+      z.string().email("NEXT_PUBLIC_CONTACT_EMAIL must be a valid email").optional()),
+  NEXT_PUBLIC_LINKEDIN_URL: z
+    .preprocess((val) => (typeof val === "string" && val.trim() === "" ? undefined : val),
+      z.string().url("NEXT_PUBLIC_LINKEDIN_URL must be a valid URL").optional()),
 });
 
 const _env = envSchema.safeParse({
@@ -21,6 +23,7 @@ const _env = envSchema.safeParse({
   DEMO_PASSWORD: process.env.DEMO_PASSWORD,
   NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
   NEXT_PUBLIC_CONTACT_EMAIL: process.env.NEXT_PUBLIC_CONTACT_EMAIL,
+  NEXT_PUBLIC_LINKEDIN_URL: process.env.NEXT_PUBLIC_LINKEDIN_URL,
 });
 
 if (!_env.success) {

@@ -13,8 +13,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { StatusBadge } from "@/components/shared/status-badge";
-import { LogOut, User as UserIcon } from "lucide-react";
+import { LogOut, User as UserIcon, LayoutDashboard } from "lucide-react";
 import { Role } from "@/lib/api/types";
+import { ROLE_HOME_MAP } from "@/lib/auth/constants";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 export interface UserMenuProps {
@@ -36,6 +37,14 @@ export function UserMenu({ defaultName = "User", defaultRole = "CUSTOMER" }: Use
     .join("")
     .substring(0, 2)
     .toUpperCase();
+
+  const dashboardHref = ROLE_HOME_MAP[role] || "/";
+  const profileHref =
+    role === "ADMIN"
+      ? "/admin/profile"
+      : role === "MECHANIC"
+      ? "/mechanic/profile"
+      : "/customer/profile";
 
   const handleLogout = async () => {
     try {
@@ -72,8 +81,18 @@ export function UserMenu({ defaultName = "User", defaultRole = "CUSTOMER" }: Use
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem className="rounded-lg cursor-pointer text-muted-foreground">
-          <UserIcon className="mr-2 h-4 w-4" />
+        <DropdownMenuItem
+          onClick={() => router.push(dashboardHref)}
+          className="rounded-lg cursor-pointer text-foreground"
+        >
+          <LayoutDashboard className="mr-2 h-4 w-4 text-muted-foreground" />
+          <span>Dashboard</span>
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => router.push(profileHref)}
+          className="rounded-lg cursor-pointer text-foreground"
+        >
+          <UserIcon className="mr-2 h-4 w-4 text-muted-foreground" />
           <span>Profile</span>
         </DropdownMenuItem>
         <DropdownMenuSeparator />

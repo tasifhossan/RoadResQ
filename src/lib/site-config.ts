@@ -12,6 +12,7 @@ export const siteConfig = {
     backendRepo: "https://github.com/tasifhossan/RoadResQ-backend",
     frontendRepo: "https://github.com/tasifhossan/RoadResQ",
     portfolio: "https://tasif-portfolio.vercel.app",
+    linkedin: env.NEXT_PUBLIC_LINKEDIN_URL || null,
     issues: "https://github.com/tasifhossan/RoadResQ/issues",
     apiDocs: "https://road-res-q-backend.vercel.app/api/v1",
   },
