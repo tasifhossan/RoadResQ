@@ -1,6 +1,6 @@
 # RoadResQ Frontend
 
-The web application frontend for **RoadResQ** — an on-demand roadside assistance platform connecting stranded motorists with nearby verified mechanics.
+The web application frontend for **RoadResQ** — an on-demand roadside assistance platform connecting stranded motorists with nearby mechanics.
 
 ## Tech Stack
 
@@ -25,8 +25,9 @@ Configure environment variables in `.env.local` (validated via `src/lib/env.ts` 
 | `BACKEND_URL` | Runtime (Server-only) | Optional (has fallback) | Target URL for backend REST API proxy calls | `https://road-res-q-backend.vercel.app/api/v1` |
 | `DEMO_PASSWORD` | Runtime (Server-only) | Optional | Password for demo role logins on auth endpoints | `DemoPassword123!` |
 | `NEXT_PUBLIC_SITE_URL` | Build-time (Public) | Optional (has fallback) | Canonical base URL for SEO metadata & sitemap generation | `http://localhost:3000` |
-| `NEXT_PUBLIC_CONTACT_EMAIL` | Build-time (Public) | Optional | Contact email address for contact page mailto link | `developer@example.com` |
-| `NEXT_PUBLIC_LINKEDIN_URL` | Build-time (Public) | Optional | LinkedIn profile URL for footer social link | `https://linkedin.com/in/tasifhossan` |
+| `NEXT_PUBLIC_CONTACT_EMAIL` | Build-time (Public) | Optional | Contact email address for contact page mailto link | None (empty by default) |
+| `NEXT_PUBLIC_LINKEDIN_URL` | Build-time (Public) | Optional | LinkedIn profile URL for footer social link | None (empty by default) |
+| `NEXT_PUBLIC_DEVELOPER_NAME` | Build-time (Public) | Optional | Developer or entity name displayed on privacy policy | None (falls back to "the RoadResQ developer") |
 
 ## Available Scripts
 

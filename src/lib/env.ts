@@ -16,6 +16,9 @@ const envSchema = z.object({
   NEXT_PUBLIC_LINKEDIN_URL: z
     .preprocess((val) => (typeof val === "string" && val.trim() === "" ? undefined : val),
       z.string().url("NEXT_PUBLIC_LINKEDIN_URL must be a valid URL").optional()),
+  NEXT_PUBLIC_DEVELOPER_NAME: z
+    .preprocess((val) => (typeof val === "string" && val.trim() === "" ? undefined : val),
+      z.string().optional()),
 });
 
 const _env = envSchema.safeParse({
@@ -24,6 +27,7 @@ const _env = envSchema.safeParse({
   NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
   NEXT_PUBLIC_CONTACT_EMAIL: process.env.NEXT_PUBLIC_CONTACT_EMAIL,
   NEXT_PUBLIC_LINKEDIN_URL: process.env.NEXT_PUBLIC_LINKEDIN_URL,
+  NEXT_PUBLIC_DEVELOPER_NAME: process.env.NEXT_PUBLIC_DEVELOPER_NAME,
 });
 
 if (!_env.success) {

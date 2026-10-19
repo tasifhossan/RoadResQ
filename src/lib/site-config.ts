@@ -6,6 +6,7 @@ export const siteConfig = {
   description:
     "Full-stack emergency roadside assistance platform connecting stranded motorists with nearby mechanics, real-time status updates, transparent invoices, and SSLCommerz test payments.",
   url: env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
+  developerName: env.NEXT_PUBLIC_DEVELOPER_NAME || null,
   contactEmail: env.NEXT_PUBLIC_CONTACT_EMAIL || null,
   links: {
     githubProfile: "https://github.com/tasifhossan",

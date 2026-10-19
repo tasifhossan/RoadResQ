@@ -25,7 +25,7 @@ const SECTIONS: PrivacySection[] = [
     title: "1. Demonstration Platform Context",
     icon: Shield,
     content: [
-      "RoadResQ is an engineering and portfolio demonstration platform developed and maintained by independent developer Tasif Hossan. It is designed to demonstrate real-time geolocation matching, dispatch lifecycles, and test-mode payment flows.",
+      `RoadResQ is an engineering and portfolio demonstration platform ${siteConfig.developerName ? `operated by ${siteConfig.developerName}` : "operated by the RoadResQ developer"}. It is designed to demonstrate real-time geolocation matching, dispatch lifecycles, and test-mode payment flows.`,
       "The platform operates strictly in an evaluation capacity. While it replicates genuine production workflows, it is not an incorporated commercial entity. Personal information is handled with careful safeguards, but users should avoid uploading proprietary, sensitive, or high-risk private information.",
     ],
   },
@@ -109,7 +109,7 @@ const SECTIONS: PrivacySection[] = [
     icon: Mail,
     content: [
       "You retain full ownership rights over your personal profile data. You may review your profile information, remove saved vehicles from your garage, or delete your account credentials at any time through the customer dashboard.",
-      "For privacy inquiries, data deletion requests, or questions regarding the platform codebase and operational architecture, contact developer Tasif Hossan directly via the links below:",
+      `For privacy inquiries, data deletion requests, or questions regarding the platform codebase and operational architecture, contact ${siteConfig.developerName ? `developer ${siteConfig.developerName}` : "the RoadResQ developer"} directly via the links below:`,
     ],
   },
 ];
