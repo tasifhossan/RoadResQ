@@ -121,7 +121,7 @@ export function HeroSlider() {
       onMouseLeave={() => setIsPaused(false)}
       onFocusCapture={() => setIsPaused(true)}
       onBlurCapture={() => setIsPaused(false)}
-      className="relative w-full border-b border-border/40 bg-gradient-to-b from-background via-card/40 to-background flex flex-col justify-between overflow-hidden md:h-[65svh] md:min-h-[520px] md:max-h-[70svh]"
+      className="relative w-full border-b border-border/40 bg-gradient-to-b from-background via-card/40 to-background flex flex-col justify-between overflow-hidden md:h-[65svh] md:min-h-[440px] md:max-h-[70svh]"
     >
       {/* Background ambient gradient glow */}
       <div
