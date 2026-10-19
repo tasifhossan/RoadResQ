@@ -62,7 +62,7 @@ const AVAILABILITY_OPTIONS = [
 
 const MIN_JOBS_OPTIONS = [
   { label: "1+ jobs", value: "1" },
-  { label: "3+ jobs", value: "3" },
+  { label: "4+ jobs", value: "4" },
   { label: "5+ jobs", value: "5" },
 ];
 
