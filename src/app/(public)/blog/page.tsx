@@ -1,40 +1,48 @@
 import { Metadata } from "next";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
+import { getAllBlogPosts } from "@/content/blog/posts";
+import { BlogClient } from "@/components/blog/blog-client";
 
 export const metadata: Metadata = {
-  title: "Blog | RoadResQ",
-  description: "Articles, maintenance tips, and product updates from the RoadResQ team.",
+  title: "Emergency Roadside Guides & Safety Blog | RoadResQ",
+  description:
+    "Expert vehicle safety advice, overheating protocols, battery diagnostic guides, and safe tire changing instructions from the RoadResQ emergency network.",
 };
 
-export default function BlogPage() {
+interface BlogPageProps {
+  searchParams: Promise<{
+    category?: string;
+    search?: string;
+    page?: string;
+  }>;
+}
+
+export default async function BlogPage({ searchParams }: BlogPageProps) {
+  const resolvedSearchParams = await searchParams;
+  const posts = getAllBlogPosts();
+
+  const category = resolvedSearchParams.category || "all";
+  const search = resolvedSearchParams.search || "";
+  const page = Number(resolvedSearchParams.page) || 1;
+
   return (
-    <div className="container mx-auto px-4 sm:px-6 py-12 max-w-4xl">
-      <div className="mb-8">
-        <Link href="/" className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground mb-4">
-          <ArrowLeft className="mr-1.5 h-4 w-4" />
-          Back to Home
-        </Link>
-        <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground">Blog</h1>
-        <p className="text-muted-foreground mt-2 text-base">
-          Articles, vehicle maintenance tips, and platform updates from the RoadResQ roadside network.
+    <div className="container mx-auto px-4 sm:px-6 py-10 max-w-7xl">
+      {/* Page Header */}
+      <div className="mb-10 text-center sm:text-left space-y-2">
+        <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-foreground">
+          Roadside Safety & Guides
+        </h1>
+        <p className="text-base text-muted-foreground max-w-2xl leading-relaxed">
+          Practical, verified emergency procedures and vehicle maintenance advice from the RoadResQ team to keep you safe on Bangladesh highways and city roads.
         </p>
       </div>
 
-      <div className="rounded-xl border border-border bg-card p-8 text-center space-y-4">
-        <h2 className="text-xl font-semibold text-foreground">Stories & Guides Coming Soon</h2>
-        <p className="text-sm text-muted-foreground max-w-md mx-auto">
-          We are preparing detailed emergency guides and platform development updates. Check back soon for our first published posts.
-        </p>
-        <div className="pt-2">
-          <Link href="/mechanics">
-            <Button variant="outline" className="rounded-xl">
-              Browse Available Mechanics
-            </Button>
-          </Link>
-        </div>
-      </div>
+      {/* Main Interactive Blog Content */}
+      <BlogClient
+        posts={posts}
+        initialCategory={category}
+        initialSearch={search}
+        initialPage={page}
+      />
     </div>
   );
 }
