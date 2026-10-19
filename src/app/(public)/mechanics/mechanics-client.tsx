@@ -582,7 +582,7 @@ export function MechanicsClient({ initialData, initialQuery }: MechanicsClientPr
 
           {queryInput.minRating && (
             <span className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-muted/60 px-2.5 py-1 text-xs font-medium text-foreground">
-              <Star className="size-3 fill-amber-400 text-amber-500" />
+              <Star className="size-3 fill-orange-400 text-orange-400" />
               {queryInput.minRating}+ Stars
               <button
                 type="button"

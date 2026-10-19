@@ -94,16 +94,16 @@ export function ReviewsCarousel({ reviews }: ReviewsCarouselProps) {
                         className={cn(
                           "h-4 w-4",
                           star <= review.rating
-                            ? "fill-amber-400 text-amber-400"
+                            ? "fill-orange-400 text-orange-400"
                             : "fill-muted text-muted"
                         )}
                       />
                     ))}
                   </div>
 
-                  <span className="inline-flex items-center gap-1 text-[11px] font-medium text-emerald-600 dark:text-emerald-400">
+                  <span className="inline-flex items-center gap-1 text-[11px] font-medium text-blue-700 dark:text-blue-400">
                     <ShieldCheck className="h-3 w-3" />
-                    <span>Verified Job</span>
+                    <span>Completed job</span>
                   </span>
                 </div>
 

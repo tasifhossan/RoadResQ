@@ -37,7 +37,7 @@ export async function GET(
           flexDirection: "column",
           justifyContent: "space-between",
           padding: "60px 80px",
-          background: "linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0284c7 100%)",
+          background: "linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #1e40af 100%)",
           fontFamily: "system-ui, -apple-system, sans-serif",
           color: "#ffffff",
         }}
@@ -63,7 +63,7 @@ export async function GET(
                 fontSize: 28,
                 fontWeight: 800,
                 letterSpacing: "-0.03em",
-                color: "#38bdf8",
+                color: "#60a5fa",
               }}
             >
               RoadResQ

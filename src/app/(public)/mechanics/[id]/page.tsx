@@ -138,7 +138,7 @@ export default async function MechanicDetailPage({ params }: PageProps) {
               {/* Rating or New badge */}
               {hasReviews ? (
                 <div className="flex items-center gap-1.5 font-semibold text-foreground">
-                  <Star className="size-4 fill-amber-400 text-amber-500" />
+                  <Star className="size-4 fill-orange-400 text-orange-400" />
                   <span>{mechanic.rating.toFixed(1)}</span>
                   <span className="text-muted-foreground font-normal">
                     ({mechanic.ratingSummary.count} reviews)
@@ -293,7 +293,7 @@ export default async function MechanicDetailPage({ params }: PageProps) {
                           key={star}
                           className={`size-4 ${
                             star <= Math.round(mechanic.ratingSummary.average)
-                              ? "fill-amber-400 text-amber-500"
+                              ? "fill-orange-400 text-orange-400"
                               : "text-muted-foreground/30"
                           }`}
                         />
@@ -314,11 +314,11 @@ export default async function MechanicDetailPage({ params }: PageProps) {
                         <div key={star} className="flex items-center gap-3 text-xs">
                           <span className="w-12 font-medium text-muted-foreground flex items-center gap-1">
                             <span>{star}</span>
-                            <Star className="size-3 fill-amber-400 text-amber-500" />
+                            <Star className="size-3 fill-orange-400 text-orange-400" />
                           </span>
                           <div className="flex-1 h-2 rounded-full bg-muted overflow-hidden">
                             <div
-                              className="h-full bg-amber-400 rounded-full transition-all duration-300"
+                              className="h-full bg-orange-400 rounded-full transition-all duration-300"
                               style={{ width: `${percentage}%` }}
                             />
                           </div>
@@ -362,7 +362,7 @@ export default async function MechanicDetailPage({ params }: PageProps) {
                                 key={star}
                                 className={`size-3.5 ${
                                   star <= rev.rating
-                                    ? "fill-amber-400 text-amber-500"
+                                    ? "fill-orange-400 text-orange-400"
                                     : "text-muted-foreground/30"
                                 }`}
                               />

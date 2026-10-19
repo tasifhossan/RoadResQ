@@ -32,7 +32,7 @@ export interface StatusBadgeProps {
  * - PENDING, SEARCHING, OFFLINE, LOW, REFUNDED = neutral (slate)
  * - ASSIGNED, EN_ROUTE, ARRIVED, NORMAL, AVAILABLE, CUSTOMER = blue tint
  * - IN_PROGRESS, BUSY, HIGH, MECHANIC = orange tint
- * - COMPLETED, PAID = solid blue (success states use blue or neutral, never green)
+ * - COMPLETED, PAID = solid blue (success states use blue or neutral)
  * - CANCELLED, FAILED, EMERGENCY = red tint
  * - ADMIN = neutral strong (slate)
  */

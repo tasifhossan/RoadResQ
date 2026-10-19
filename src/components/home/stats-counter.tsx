@@ -135,10 +135,10 @@ export function StatsCounter({ stats }: StatsCounterProps) {
             <div className="flex items-center gap-2 mb-1.5">
               <Badge
                 variant="outline"
-                className="rounded-full px-3 py-0.5 text-xs font-semibold border-emerald-500/30 text-emerald-800 dark:text-emerald-300 bg-emerald-500/10"
+                className="rounded-full px-3 py-0.5 text-xs font-semibold border-blue-500/30 text-blue-700 dark:text-blue-400 bg-blue-500/10"
               >
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 inline-block mr-1.5 animate-pulse" />
-                Live Platform Telemetry
+                <span className="h-1.5 w-1.5 rounded-full bg-blue-600 dark:bg-blue-400 inline-block mr-1.5 animate-pulse" />
+                Live from the database
               </Badge>
             </div>
             <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground">

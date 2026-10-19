@@ -94,7 +94,7 @@ export function MechanicCard({ mechanic, className }: MechanicCardProps) {
           <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 text-xs text-muted-foreground pt-1">
             {hasReviews ? (
               <div className="flex items-center gap-1 font-semibold text-foreground">
-                <Star className="size-3.5 fill-amber-400 text-amber-500" />
+                <Star className="size-3.5 fill-orange-400 text-orange-400" />
                 <span>{mechanic.rating.toFixed(1)}</span>
               </div>
             ) : (

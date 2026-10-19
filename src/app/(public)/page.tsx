@@ -235,7 +235,7 @@ export default async function HomePage() {
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
               <div>
-                <Badge variant="outline" className="rounded-full px-3 py-0.5 text-xs font-semibold border-amber-500/30 text-amber-800 dark:text-amber-300 bg-amber-500/5 mb-1.5">
+                <Badge variant="outline" className="rounded-full px-3 py-0.5 text-xs font-semibold border-orange-500/30 text-orange-700 dark:text-orange-400 bg-orange-500/10 mb-1.5">
                   Verified Ratings
                 </Badge>
                 <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground">
@@ -390,7 +390,7 @@ export default async function HomePage() {
             {/* Mechanic Role */}
             <div className="rounded-xl border border-border bg-card p-6 shadow-xs flex flex-col justify-between space-y-4">
               <div className="space-y-3">
-                <div className="h-10 w-10 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center">
+                <div className="h-10 w-10 rounded-xl bg-orange-500/10 text-orange-600 dark:text-orange-400 flex items-center justify-center">
                   <Wrench className="h-5 w-5" />
                 </div>
                 <h3 className="text-lg font-bold text-foreground">For Roadside Mechanics</h3>
@@ -399,19 +399,19 @@ export default async function HomePage() {
                 </p>
                 <ul className="space-y-2 text-xs text-foreground pt-1">
                   <li className="flex items-center gap-2">
-                    <CheckCircle2 className="h-3.5 w-3.5 text-amber-600 dark:text-amber-400 shrink-0" />
+                    <CheckCircle2 className="h-3.5 w-3.5 text-orange-600 dark:text-orange-400 shrink-0" />
                     <span>Instant job assignment alerts</span>
                   </li>
                   <li className="flex items-center gap-2">
-                    <CheckCircle2 className="h-3.5 w-3.5 text-amber-600 dark:text-amber-400 shrink-0" />
+                    <CheckCircle2 className="h-3.5 w-3.5 text-orange-600 dark:text-orange-400 shrink-0" />
                     <span>Status advancement: en route & arrived</span>
                   </li>
                   <li className="flex items-center gap-2">
-                    <CheckCircle2 className="h-3.5 w-3.5 text-amber-600 dark:text-amber-400 shrink-0" />
+                    <CheckCircle2 className="h-3.5 w-3.5 text-orange-600 dark:text-orange-400 shrink-0" />
                     <span>Digital parts inventory & price locking</span>
                   </li>
                   <li className="flex items-center gap-2">
-                    <CheckCircle2 className="h-3.5 w-3.5 text-amber-600 dark:text-amber-400 shrink-0" />
+                    <CheckCircle2 className="h-3.5 w-3.5 text-orange-600 dark:text-orange-400 shrink-0" />
                     <span>Verified customer reviews & completed jobs</span>
                   </li>
                 </ul>
@@ -530,7 +530,7 @@ export default async function HomePage() {
         <section id="testimonials" className="scroll-m-24 py-12 md:py-16 border-b border-border/40">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="mb-6 space-y-1">
-              <Badge variant="outline" className="rounded-full px-3 py-0.5 text-xs font-semibold border-amber-500/30 text-amber-800 dark:text-amber-300 bg-amber-500/5 mb-1.5">
+              <Badge variant="outline" className="rounded-full px-3 py-0.5 text-xs font-semibold border-orange-500/30 text-orange-700 dark:text-orange-400 bg-orange-500/10 mb-1.5">
                 Customer Voices
               </Badge>
               <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground">

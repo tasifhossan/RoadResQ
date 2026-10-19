@@ -46,7 +46,7 @@ export const BLOG_POSTS: BlogPost[] = [
       {
         heading: "Safe Inspection Once Cooled",
         paragraphs: [
-          "After waiting at least thirty to forty-five minutes, check the underside of the vehicle for puddles of coolant. A green, pink, or orange liquid on the pavement points toward a ruptured hose, cracked radiator tank, or failed water pump seal.",
+          "After waiting at least thirty to forty-five minutes, check the underside of the vehicle for puddles of coolant. A pool of leaking engine coolant on the pavement points toward a ruptured hose, cracked radiator tank, or failed water pump seal.",
           "With the engine completely cold to the touch, inspect the transparent plastic overflow tank. If the reservoir is completely empty, air has entered the circuit. Adding room-temperature water or coolant to a still-hot engine block can crack the metal cylinder head, so patience is essential.",
         ],
       },
@@ -85,7 +85,7 @@ export const BLOG_POSTS: BlogPost[] = [
           "Slow, sluggish engine crank during the first morning start.",
           "Rapid metallic clicking noises from the starter relay without engine turnover.",
           "Interior dome lights and dashboard displays dim noticeably during starting attempts.",
-          "Heavy white, powdery crust or blue-green sulfate deposits on the lead battery posts.",
+          "Heavy white, powdery crust or sulfate corrosion deposits on the lead battery posts.",
         ],
       },
       {
@@ -241,7 +241,7 @@ export const BLOG_POSTS: BlogPost[] = [
         heading: "Vital Engine and Hydraulic Fluids",
         paragraphs: [
           "Long trips demand consistent lubrication and cooling under elevated engine speeds. Park on level ground and check the engine oil dipstick, verifying the level sits between the minimum and maximum markings. Dark, gritty, or low oil should be changed or topped up with the vehicle manufacturer recommended viscosity grade before departure.",
-          "Inspect the translucent coolant overflow reservoir to confirm the fluid reaches the cold fill line. Examine the brake fluid reservoir; fluid should be clear amber and within operating marks. Low brake fluid often signals worn friction pads. Top off the windshield washer reservoir with clean washer fluid, as highway dust and insects quickly obstruct forward vision.",
+          "Inspect the translucent coolant overflow reservoir to confirm the fluid reaches the cold fill line. Examine the brake fluid reservoir; fluid should be clear and within operating marks. Low brake fluid often signals worn friction pads. Top off the windshield washer reservoir with clean washer fluid, as highway dust and insects quickly obstruct forward vision.",
         ],
       },
       {
@@ -292,7 +292,7 @@ export const BLOG_POSTS: BlogPost[] = [
       {
         heading: "Pinpoint Your Exact Geographical Location",
         paragraphs: [
-          "Mobile dispatchers and technicians require precise location details to locate you promptly. On intercity highways, look for green kilometer distance markers, bridge nameplates, toll barrier names, or highway restaurant signs. On city roads, identify the nearest major intersection, prominent commercial building, or metro rail pillar number.",
+          "Mobile dispatchers and technicians require precise location details to locate you promptly. On intercity highways, look for kilometre markers, bridge nameplates, toll barrier names, or highway restaurant signs. On city roads, identify the nearest major intersection, prominent commercial building, or metro rail pillar number.",
           "Open your mobile navigation application and generate a dropped map pin. Take note of your latitude and longitude coordinates or share the live location link. Be prepared to state the direction of travel, such as northbound toward Gazipur or eastbound toward Chattogram, to avoid dispatching a technician to the opposing divided carriageway.",
         ],
       },
