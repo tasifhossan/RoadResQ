@@ -86,9 +86,16 @@ export function FilterSelect({
       <Select value={currentValue} onValueChange={handleChange}>
         <SelectTrigger
           aria-label={accessibleLabel}
-          className="rounded-xl bg-card border-border shadow-sm"
+          className="rounded-xl bg-card border-border shadow-sm text-xs"
         >
-          <SelectValue placeholder={placeholder}>{selectedLabel}</SelectValue>
+          <div className="flex items-center gap-1.5 truncate text-left">
+            {label && (
+              <span className="text-muted-foreground font-medium shrink-0">
+                {label}:
+              </span>
+            )}
+            <SelectValue placeholder={placeholder}>{selectedLabel}</SelectValue>
+          </div>
         </SelectTrigger>
         <SelectContent className="rounded-xl">
           {shouldShowAll && <SelectItem value="all">{allLabel}</SelectItem>}

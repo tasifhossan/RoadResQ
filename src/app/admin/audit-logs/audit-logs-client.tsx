@@ -208,6 +208,7 @@ export function AuditLogsClient({
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 flex-1">
             <FilterSelect
               paramName="entityType"
+              label="Entity"
               placeholder="Entity Type"
               allLabel="All Entities"
               options={AUDIT_ENTITY_TYPE_FILTER_OPTIONS}
@@ -215,6 +216,7 @@ export function AuditLogsClient({
             />
             <FilterSelect
               paramName="action"
+              label="Action"
               placeholder="Action"
               allLabel="All Actions"
               options={AUDIT_ACTION_FILTER_OPTIONS}

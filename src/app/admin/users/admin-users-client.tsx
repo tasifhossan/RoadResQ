@@ -172,34 +172,40 @@ export function AdminUsersClient({
           <SearchInput placeholder="Search name or email..." className="w-full sm:w-64" />
           <FilterSelect
             paramName="role"
+            label="Role"
             placeholder="Filter Role"
             allLabel="All Roles"
             options={ROLE_FILTER_OPTIONS}
+            className="w-full sm:w-44"
           />
           <FilterSelect
             paramName="isActive"
+            label="Status"
             placeholder="Filter Status"
             allLabel="All Statuses"
             options={USER_ACTIVE_FILTER_OPTIONS}
+            className="w-full sm:w-44"
           />
         </div>
 
         <div className="flex items-center gap-2 pt-2 md:pt-0 border-t md:border-t-0 border-border">
           <FilterSelect
             paramName="sortBy"
+            label="Sort"
             placeholder="Sort By"
             defaultValue="createdAt"
             showAllOption={false}
             options={USER_SORT_BY_OPTIONS}
-            className="w-36"
+            className="w-40"
           />
           <FilterSelect
             paramName="sortOrder"
+            label="Order"
             placeholder="Order"
             defaultValue="desc"
             showAllOption={false}
             options={USER_SORT_ORDER_OPTIONS}
-            className="w-32"
+            className="w-36"
           />
         </div>
       </div>

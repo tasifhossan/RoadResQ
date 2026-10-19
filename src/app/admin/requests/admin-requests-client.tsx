@@ -28,7 +28,6 @@ import { StatusBadge } from "@/components/shared/status-badge";
 import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -163,6 +162,7 @@ export function AdminRequestsClient({
           <div className="flex flex-wrap items-center gap-2">
             <FilterSelect
               paramName="status"
+              label="Status"
               placeholder="Status"
               options={REQUEST_STATUS_FILTER_OPTIONS}
               className="w-36"
@@ -170,6 +170,7 @@ export function AdminRequestsClient({
 
             <FilterSelect
               paramName="priority"
+              label="Priority"
               placeholder="Priority"
               options={REQUEST_PRIORITY_FILTER_OPTIONS}
               className="w-36"
@@ -177,18 +178,20 @@ export function AdminRequestsClient({
 
             <FilterSelect
               paramName="sortBy"
+              label="Sort"
               placeholder="Sort By"
               options={REQUEST_SORT_BY_OPTIONS}
               defaultValue="createdAt"
-              className="w-36"
+              className="w-44"
             />
 
             <FilterSelect
               paramName="sortOrder"
+              label="Order"
               placeholder="Order"
               options={REQUEST_SORT_ORDER_OPTIONS}
               defaultValue="desc"
-              className="w-36"
+              className="w-40"
             />
 
             {hasActiveFilters && (
@@ -212,21 +215,32 @@ export function AdminRequestsClient({
           </div>
 
           <div className="flex items-center gap-2">
-            <Input
-              type="date"
-              aria-label="From date"
-              value={fromDate}
-              onChange={(e) => handleDateChange(e.target.value, toDate)}
-              className="h-9 w-36 rounded-xl text-xs bg-background border-border"
-            />
-            <span className="text-muted-foreground">to</span>
-            <Input
-              type="date"
-              aria-label="To date"
-              value={toDate}
-              onChange={(e) => handleDateChange(fromDate, e.target.value)}
-              className="h-9 w-36 rounded-xl text-xs bg-background border-border"
-            />
+            <div className="flex items-center gap-1.5 bg-background border border-border rounded-xl px-2.5 py-1.5 text-xs text-muted-foreground focus-within:ring-2 focus-within:ring-primary/20">
+              <Calendar className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
+              <label htmlFor="requests-filter-from" className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider">
+                From
+              </label>
+              <input
+                id="requests-filter-from"
+                type="date"
+                value={fromDate}
+                onChange={(e) => handleDateChange(e.target.value, toDate)}
+                className="bg-transparent border-0 text-xs text-foreground focus:outline-none focus:ring-0 p-0"
+              />
+            </div>
+            <div className="flex items-center gap-1.5 bg-background border border-border rounded-xl px-2.5 py-1.5 text-xs text-muted-foreground focus-within:ring-2 focus-within:ring-primary/20">
+              <Calendar className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
+              <label htmlFor="requests-filter-to" className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider">
+                To
+              </label>
+              <input
+                id="requests-filter-to"
+                type="date"
+                value={toDate}
+                onChange={(e) => handleDateChange(fromDate, e.target.value)}
+                className="bg-transparent border-0 text-xs text-foreground focus:outline-none focus:ring-0 p-0"
+              />
+            </div>
           </div>
 
           {(fromDate || toDate) && (

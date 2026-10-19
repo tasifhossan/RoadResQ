@@ -141,11 +141,13 @@ export function AdminPaymentsClient({
       <div className="rounded-xl border border-border bg-card p-4 shadow-sm space-y-4">
         <div className="flex flex-col lg:flex-row lg:items-center gap-3">
           {/* Status Filter */}
-          <div className="w-full sm:w-48">
+          <div className="w-full sm:w-44">
             <FilterSelect
               paramName="status"
+              label="Status"
               options={PAYMENT_STATUS_FILTER_OPTIONS}
-              placeholder="All Statuses"
+              placeholder="Status"
+              className="w-full"
             />
           </div>
 
@@ -181,18 +183,26 @@ export function AdminPaymentsClient({
 
           {/* Sort By & Order */}
           <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap">
-            <div className="w-36">
+            <div className="w-44">
               <FilterSelect
                 paramName="sortBy"
+                label="Sort"
                 options={PAYMENT_SORT_BY_OPTIONS}
+                defaultValue="createdAt"
+                showAllOption={false}
                 placeholder="Sort by"
+                className="w-full"
               />
             </div>
-            <div className="w-36">
+            <div className="w-40">
               <FilterSelect
                 paramName="sortOrder"
+                label="Order"
                 options={PAYMENT_SORT_ORDER_OPTIONS}
+                defaultValue="desc"
+                showAllOption={false}
                 placeholder="Order"
+                className="w-full"
               />
             </div>
 
