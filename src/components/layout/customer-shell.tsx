@@ -8,12 +8,12 @@ import { LayoutDashboard, PlusCircle, ListOrdered, Car, CreditCard, User } from 
 import { cn } from "@/lib/utils";
 
 const customerNavItems = [
-  { label: "Dashboard", href: "/customer", icon: LayoutDashboard },
-  { label: "New request", href: "/customer/requests/new", icon: PlusCircle },
-  { label: "My requests", href: "/customer/requests", icon: ListOrdered },
-  { label: "Vehicles", href: "/customer/vehicles", icon: Car },
-  { label: "Payments", href: "/customer/payments", icon: CreditCard },
-  { label: "Profile", href: "/customer/profile", icon: User },
+  { label: "Dashboard", shortLabel: "Home", href: "/customer", icon: LayoutDashboard },
+  { label: "New request", shortLabel: "New", href: "/customer/requests/new", icon: PlusCircle },
+  { label: "My requests", shortLabel: "Requests", href: "/customer/requests", icon: ListOrdered },
+  { label: "Vehicles", shortLabel: "Vehicles", href: "/customer/vehicles", icon: Car },
+  { label: "Payments", shortLabel: "Payments", href: "/customer/payments", icon: CreditCard },
+  { label: "Profile", shortLabel: "Profile", href: "/customer/profile", icon: User },
 ];
 
 export function CustomerShell({ children }: { children: React.ReactNode }) {
@@ -82,7 +82,7 @@ export function CustomerShell({ children }: { children: React.ReactNode }) {
       </div>
 
       {/* Mobile Bottom Navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 z-40 flex h-16 items-center justify-around border-t bg-card/95 backdrop-blur-md md:hidden px-2">
+      <nav className="fixed bottom-0 left-0 right-0 z-40 flex h-16 items-center justify-around border-t bg-card/95 backdrop-blur-md md:hidden px-1">
         {customerNavItems.map((item) => {
           const Icon = item.icon;
           const isActive =
@@ -100,13 +100,14 @@ export function CustomerShell({ children }: { children: React.ReactNode }) {
             <Link
               key={item.href}
               href={item.href}
+              aria-label={item.label}
               className={cn(
                 "flex flex-col items-center justify-center gap-1 flex-1 py-1 text-[10px] font-medium transition-colors",
                 isActive ? "text-primary font-bold" : "text-muted-foreground hover:text-foreground"
               )}
             >
               <Icon className={cn("h-5 w-5", isActive && "stroke-[2.5px]")} />
-              <span className="truncate max-w-[64px]">{item.label}</span>
+              <span className="truncate max-w-[56px] text-center">{item.shortLabel}</span>
             </Link>
           );
         })}
