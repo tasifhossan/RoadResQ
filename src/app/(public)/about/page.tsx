@@ -44,7 +44,7 @@ export default function AboutPage() {
           </div>
           <h2 className="text-2xl sm:text-3xl font-bold text-foreground">Our Mission</h2>
           <p className="text-base sm:text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            We believe no motorist should ever feel stranded, helpless, or overcharged during a vehicle emergency. RoadResQ bridges the gap between stranded drivers and qualified technicians through instant location dispatch, fair transparent pricing, and real-time repair status tracking.
+            We believe no motorist should ever feel stranded, helpless, or overcharged during a vehicle emergency. RoadResQ bridges the gap between stranded drivers and qualified technicians through location-based mechanic discovery, fair transparent pricing, and real-time repair status tracking.
           </p>
         </div>
 
@@ -66,7 +66,7 @@ export default function AboutPage() {
             </div>
             <h2 className="text-xl font-bold text-foreground">The RoadResQ Solution</h2>
             <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
-              RoadResQ streamlines the rescue process with automated GPS-based mechanic matching, live status updates from dispatch to repair completion, upfront itemized billing, and secure digital payments.
+              RoadResQ streamlines the rescue process with GPS-based mechanic discovery and driver selection, live status updates from dispatch to repair completion, upfront itemized billing, and secure digital payments.
             </p>
           </Card>
         </div>

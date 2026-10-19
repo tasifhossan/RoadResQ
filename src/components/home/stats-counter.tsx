@@ -123,7 +123,7 @@ export function StatsCounter({ stats }: StatsCounterProps) {
       value: activeCounts.rating.toFixed(1),
       suffix: " / 5",
       icon: Star,
-      description: `Based on ${stats.reviews.count} verified post-job reviews`,
+      description: `Based on ${stats.reviews.count} reviews from completed jobs`,
     },
   ];
 

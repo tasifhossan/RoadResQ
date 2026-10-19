@@ -287,7 +287,7 @@ export default async function BlogPostDetailPage({ params }: PageProps) {
 
             <div className="border-t border-border pt-4 text-xs text-muted-foreground space-y-2">
               <p className="font-semibold text-foreground">Published by RoadResQ</p>
-              <p>Practical and cautious roadside knowledge verified for safety on Bangladesh roads.</p>
+              <p>Practical and cautious roadside knowledge designed for safety on Bangladesh roads.</p>
             </div>
           </div>
         </aside>

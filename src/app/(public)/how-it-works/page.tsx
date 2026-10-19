@@ -55,8 +55,8 @@ const WORKFLOW_STEPS = [
     roleVariant: "CUSTOMER" as const,
     icon: Navigation,
     description:
-      "The system queries available mechanics by geographical distance in kilometers relative to the breakdown coordinates. The customer can view nearby mechanics' ratings, total completed jobs, and distance.",
-    details: ["Distance calculation in kilometers", "Filters available mechanics by radius", "Displays ratings from completed jobs & job counts"],
+      "The customer chooses the search radius (5 to 50 km) and selects a mechanic from the nearby list based on rating and distance. A mechanic's job count is the number of COMPLETED requests, and ratings come from reviews left on completed jobs.",
+    details: ["Customer chooses search radius (5 to 50 km)", "Selects mechanic from nearby list", "Ratings from completed jobs & COMPLETED request count"],
   },
   {
     step: 4,
@@ -115,8 +115,8 @@ const WORKFLOW_STEPS = [
     roleVariant: "CUSTOMER" as const,
     icon: Star,
     description:
-      "After completing payment, the customer submits a 1-to-5 star rating and optional review text. The backend recalculates the mechanic's overall rating average and increments their completed jobs total.",
-    details: ["1 to 5 star rating submission", "Optional feedback text", "Dynamically updates mechanic profile stats"],
+      "After completing payment, the customer submits a 1-to-5 star rating and optional review text. Ratings come from reviews left on completed jobs.",
+    details: ["1 to 5 star rating submission", "Optional feedback text", "Updates mechanic rating average from completed jobs"],
   },
 ];
 

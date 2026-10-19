@@ -16,7 +16,7 @@ interface ReviewsCarouselProps {
  * If already formatted like "Sultana R.", keeps it as is.
  */
 function formatReviewerName(name: string): string {
-  if (!name) return "Verified Driver";
+  if (!name) return "Customer";
   const parts = name.trim().split(/\s+/);
   if (parts.length === 1) return parts[0];
   const first = parts[0];
@@ -85,7 +85,7 @@ export function ReviewsCarousel({ reviews }: ReviewsCarouselProps) {
               className="min-w-[280px] sm:min-w-[340px] max-w-[360px] snap-start rounded-xl border border-border bg-card p-6 shadow-xs flex flex-col justify-between space-y-4 transition-all hover:border-border/80 hover:shadow-sm shrink-0"
             >
               <div className="space-y-3">
-                {/* Header: Star Rating & Verified Badge */}
+                {/* Header: Star Rating & Completed Job Badge */}
                 <div className="flex items-center justify-between">
                   <div role="img" className="flex items-center gap-1" aria-label={`${review.rating} out of 5 stars`}>
                     {[1, 2, 3, 4, 5].map((star) => (

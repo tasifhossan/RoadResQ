@@ -32,7 +32,7 @@ const SLIDES: Slide[] = [
     title: "Stranded on the Road?",
     highlight: "Request Help in Minutes",
     description:
-      "Share your breakdown coordinates or use our Dhaka demo location. Select your vehicle, describe the issue, and discover verified roadside technicians nearby.",
+      "Share your breakdown coordinates or use our Dhaka demo location. Select your vehicle, describe the issue, and discover available roadside mechanics nearby.",
   },
   {
     id: "slide-tracking",

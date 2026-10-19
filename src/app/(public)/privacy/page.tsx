@@ -38,7 +38,7 @@ const SECTIONS: PrivacySection[] = [
     ],
     list: [
       "Account credentials: Name, email address, and phone number provided during manual registration.",
-      "Google OAuth data: Name and verified email address received securely from Google if you select 'Continue with Google'.",
+      "Google OAuth data: if you sign in with Google, we receive your name and email.",
       "Vehicle records: Vehicle make, model, manufacturing year, and license plate number added to your garage profile.",
       "Service coordinates: Exact GPS latitude and longitude captured when you place a breakdown request or search for mechanics.",
       "Damage and breakdown media: Visual breakdown photos attached to your service requests, stored on Cloudinary.",
@@ -51,7 +51,7 @@ const SECTIONS: PrivacySection[] = [
     title: "3. Session Storage & Cookie Security",
     icon: Lock,
     content: [
-      "RoadResQ utilizes secure, httpOnly cookies to manage user authentication sessions. When you log in, our backend issues JSON Web Tokens (an access token and a refresh token) delivered exclusively through Set-Cookie response headers.",
+      "RoadResQ utilizes session cookies named rrq_access and rrq_refresh (httpOnly) to manage user authentication sessions. When you log in, our backend issues JSON Web Tokens delivered exclusively through Set-Cookie response headers.",
       "Because these session cookies are flagged as httpOnly, they cannot be accessed, read, or modified by client-side JavaScript. This architectural design effectively protects your session from Cross-Site Scripting (XSS) interception. Secure flags ensure cookies are transmitted solely over HTTPS in production environments.",
     ],
   },
@@ -81,8 +81,8 @@ const SECTIONS: PrivacySection[] = [
     title: "6. AI Diagnostics & Google Gemini API Notice",
     icon: Cpu,
     content: [
-      "RoadResQ integrates automated diagnostic suggestions and breakdown triage features powered by Google's Gemini API. When you input vehicle symptoms, error noises, or descriptive problem text into AI triage tools, that text is transmitted to Google's API servers for processing.",
-      "Important notice: Do not enter private personal details, residential addresses, financial account numbers, or confidential identifiers into AI input fields. AI diagnostic suggestions are intended purely for informational triage and do not constitute certified mechanical engineering or professional safety advice.",
+      "The AI assistant sends the text you type to Google's Gemini API to provide informational triage suggestions.",
+      "Important notice: Do not enter private personal details, residential addresses, financial account numbers, or confidential identifiers into AI input fields. AI diagnostic suggestions are intended purely for informational triage and do not constitute professional mechanical or safety advice.",
     ],
   },
   {

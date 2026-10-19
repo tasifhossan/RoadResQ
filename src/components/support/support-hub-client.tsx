@@ -51,8 +51,8 @@ export const TROUBLESHOOTING_TOPICS: TroubleshootingTopic[] = [
     category: "Account",
     question: "Can I register or sign in with Google OAuth?",
     answer: [
-      "Yes. The login and registration pages both support Google OAuth authentication. When you select 'Continue with Google', RoadResQ authenticates your identity via Google's secure OAuth 2.0 flow.",
-      "Only your verified name and primary email address are retrieved. An account is automatically provisioned with the Customer role, allowing immediate access to roadside dispatch.",
+      "Yes. The login and registration pages both support Google OAuth authentication. If you sign in with Google, we receive your name and email.",
+      "An account is automatically provisioned with the Customer role, allowing immediate access to roadside dispatch.",
     ],
     links: [{ label: "Register New Account", href: "/register" }],
   },
@@ -61,7 +61,7 @@ export const TROUBLESHOOTING_TOPICS: TroubleshootingTopic[] = [
     category: "Account",
     question: "How are authentication sessions maintained securely?",
     answer: [
-      "RoadResQ avoids storing sensitive authentication tokens in browser localStorage. Instead, authentication tokens are delivered as secure, httpOnly cookies named 'accessToken' and 'refreshToken'.",
+      "RoadResQ avoids storing sensitive authentication tokens in browser localStorage. Instead, session cookies are named rrq_access and rrq_refresh (httpOnly).",
       "Because cookies are marked httpOnly, client-side JavaScript cannot read them, protecting your session from token exfiltration via Cross-Site Scripting (XSS). When your access token expires, the backend automatically issues a fresh token using the refresh cookie.",
     ],
   },
@@ -96,8 +96,7 @@ export const TROUBLESHOOTING_TOPICS: TroubleshootingTopic[] = [
     category: "Requests",
     question: "What are the rules and deadlines for cancelling a request?",
     answer: [
-      "Customers can cancel a service request while it is in PENDING, SEARCHING, ASSIGNED, EN_ROUTE, or ARRIVED status by clicking the 'Cancel Request' button on the request details page.",
-      "Critical cutoff: Once the mechanic begins active repair work and shifts status to IN_PROGRESS or COMPLETED, cancellation is permanently locked to protect technician labor already invested in the vehicle.",
+      "A customer can cancel their own request while it is PENDING, SEARCHING or ASSIGNED. Once the mechanic is EN_ROUTE, ARRIVED or IN_PROGRESS only the assigned mechanic can cancel. COMPLETED requests cannot be cancelled.",
     ],
   },
   {
@@ -123,7 +122,7 @@ export const TROUBLESHOOTING_TOPICS: TroubleshootingTopic[] = [
       "ARRIVED: The technician is on site and beginning vehicle inspection.",
       "IN_PROGRESS: Active mechanical or electrical repair work is underway (cancellation locked).",
       "COMPLETED: Repair completed, final invoice issued, ready for test payment.",
-      "CANCELLED: Customer cancelled before repair commenced, with optional cancellation note.",
+      "CANCELLED: Cancelled before repair completed, with optional cancellation note.",
     ],
     links: [{ label: "View Your Requests", href: "/customer/requests" }],
   },
@@ -135,7 +134,7 @@ export const TROUBLESHOOTING_TOPICS: TroubleshootingTopic[] = [
     question: "Does payment processing involve real money or live credit cards?",
     answer: [
       "No. All payment processing on RoadResQ operates through SSLCommerz in sandbox test mode. Real credit cards, bank accounts, or bKash/Nagad wallets are never billed.",
-      "When directed to the SSLCommerz hosted gateway, select any simulated payment method (e.g. Test Visa, Master, or bKash Sandbox) and use mock credentials. The gateway will simulate approval and redirect back to your RoadResQ invoice with verified payment status.",
+      "When directed to the SSLCommerz hosted gateway, select any simulated payment method (e.g. Test Visa, Master, or bKash Sandbox) and use mock credentials. The gateway will simulate approval and redirect back to your RoadResQ invoice with successful payment status.",
     ],
   },
   {
@@ -172,18 +171,18 @@ export const TROUBLESHOOTING_TOPICS: TroubleshootingTopic[] = [
     category: "Mechanics",
     question: "How does nearby mechanic discovery and distance calculation work?",
     answer: [
-      "When you initiate a breakdown request, our backend queries available mechanics whose profiles include verified location coordinates. Using geospatial distance calculations, mechanics are ranked by physical proximity in kilometers from your breakdown latitude and longitude.",
-      "Customers can expand the discovery radius (from 5km up to 50km) and review each mechanic's average rating, total completed jobs, and years of experience before making an assignment.",
+      "When you initiate a breakdown request, our backend queries available mechanics. Using geospatial distance calculations, mechanics are ranked by physical proximity in kilometers from your breakdown latitude and longitude.",
+      "The customer chooses the search radius (5 to 50 km) and selects a mechanic from the nearby list based on rating and distance. A mechanic's job count is the number of COMPLETED requests, and ratings come from reviews left on completed jobs.",
     ],
     links: [{ label: "Browse Available Mechanics", href: "/mechanics" }],
   },
   {
     id: "mechanics-ratings-reviews",
     category: "Mechanics",
-    question: "How are mechanic ratings and job counts verified?",
+    question: "How are mechanic ratings and job counts tracked?",
     answer: [
-      "RoadResQ mechanics build their public profiles strictly through verified job completions. Customers can only rate and review a mechanic after an invoice is fully paid.",
-      "A review consists of a 1-to-5 star rating and optional feedback. The system recalculates the mechanic's composite rating average and increments their 'completed jobs' counter automatically.",
+      "A mechanic's job count is the number of COMPLETED requests, and ratings come from reviews left on completed jobs. Customers can rate and review a mechanic after an invoice is fully paid.",
+      "A review consists of a 1-to-5 star rating and optional feedback. The system recalculates the mechanic's composite rating average and increments their completed jobs counter upon job completion.",
     ],
   },
   {
@@ -192,7 +191,7 @@ export const TROUBLESHOOTING_TOPICS: TroubleshootingTopic[] = [
     question: "How do mechanics manage inventory and attach parts to customer requests?",
     answer: [
       "Mechanics maintain a digital inventory in their dashboard, logging part names, manufacturer part numbers, stock quantities, and unit pricing in BDT.",
-      "During an ongoing repair (IN_PROGRESS status), the mechanic can select items from their verified inventory and add them directly to the active request invoice, instantly updating the customer's live invoice view.",
+      "During an ongoing repair (IN_PROGRESS status), the mechanic can select items from their inventory and add them directly to the active request invoice, instantly updating the customer's live invoice view.",
     ],
   },
 ];

@@ -32,7 +32,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
           Roadside Safety & Guides
         </h1>
         <p className="text-base text-muted-foreground max-w-2xl leading-relaxed">
-          Practical, verified emergency procedures and vehicle maintenance advice from the RoadResQ team to keep you safe on Bangladesh highways and city roads.
+          Practical, reliable emergency procedures and vehicle maintenance advice from the RoadResQ team to keep you safe on Bangladesh highways and city roads.
         </p>
       </div>
 

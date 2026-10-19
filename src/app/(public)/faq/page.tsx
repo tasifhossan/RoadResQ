@@ -21,13 +21,13 @@ const FAQ_ITEMS = [
     value: "item-1",
     question: "How are mechanics discovered and chosen for a breakdown request?",
     answer:
-      "Mechanics are discovered using radius-based search matching the customer's GPS latitude and longitude coordinates. Customers can specify a search radius in kilometers, review nearby mechanics' rating averages, distance, and total completed jobs, and assign their preferred mechanic.",
+      "The customer chooses the search radius (5 to 50 km) and selects a mechanic from the nearby list based on rating and distance. A mechanic's job count is the number of COMPLETED requests, and ratings come from reviews left on completed jobs.",
   },
   {
     value: "item-2",
     question: "Can a service request be cancelled, and until when?",
     answer:
-      "Yes. A customer can cancel a service request while its status is PENDING, SEARCHING, ASSIGNED, EN_ROUTE, or ARRIVED. Once the mechanic transitions the job to IN_PROGRESS or COMPLETED, cancellation is locked to protect repair work already underway.",
+      "A customer can cancel their own request while it is PENDING, SEARCHING or ASSIGNED. Once the mechanic is EN_ROUTE, ARRIVED or IN_PROGRESS only the assigned mechanic can cancel. COMPLETED requests cannot be cancelled.",
   },
   {
     value: "item-3",
@@ -57,7 +57,7 @@ const FAQ_ITEMS = [
     value: "item-7",
     question: "How do mechanic ratings and customer reviews work?",
     answer:
-      "After completing payment for a request, the customer can submit a 1-to-5 star rating and an optional feedback comment. The backend automatically recalculates the mechanic's overall average rating and increments their completed jobs total.",
+      "A mechanic's job count is the number of COMPLETED requests. Ratings come from reviews left on completed jobs. Customers can submit a 1-to-5 star rating and optional feedback comment, which recalculates the mechanic's overall average rating.",
   },
   {
     value: "item-8",
@@ -92,7 +92,7 @@ export default function FAQPage() {
             Frequently Asked Questions
           </h1>
           <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
-            Every answer is verified against RoadResQ API specifications, Prisma database schemas, and SSLCommerz test mode behavior.
+            Every answer is aligned with RoadResQ API specifications, Prisma database schemas, and SSLCommerz test mode behavior.
           </p>
         </div>
 

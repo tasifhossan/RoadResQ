@@ -60,7 +60,7 @@ const SECTIONS: TermsSection[] = [
       "To preserve a high-quality demonstration experience for all users evaluating the system, users in simulated roles agree to observe the core operational constraints:",
     ],
     list: [
-      "Customer accounts: Submit realistic simulated vehicle details and adhere to request cancellation boundaries (cancellations are permitted in PENDING, SEARCHING, ASSIGNED, EN_ROUTE, or ARRIVED, but locked once IN_PROGRESS).",
+      "Customer accounts: Submit realistic simulated vehicle details and adhere to request cancellation boundaries (a customer can cancel their own request while it is PENDING, SEARCHING or ASSIGNED. Once the mechanic is EN_ROUTE, ARRIVED or IN_PROGRESS only the assigned mechanic can cancel. COMPLETED requests cannot be cancelled).",
       "Mechanic accounts: Maintain realistic test inventory records, log transparent labor charges, and advance job statuses systematically to test live status synchronization.",
       "Admin accounts: Exercise administrative privileges solely to evaluate platform moderation, spare parts management, and audit logs without corrupting shared seed data.",
     ],
@@ -70,8 +70,8 @@ const SECTIONS: TermsSection[] = [
     title: "5. AI Diagnostic Suggestions Disclaimer",
     icon: Cpu,
     content: [
-      "RoadResQ includes automated symptom analysis powered by Google's Gemini API. These automated suggestions are intended strictly as conceptual aids to illustrate how generative language models can assist triage workflows.",
-      "AI outputs do not constitute certified mechanical advice, professional automotive engineering, or guaranteed safety assessments. Never rely on automated suggestions to diagnose high-risk mechanical failures on actual operating motor vehicles.",
+      "The AI assistant sends the text you type to Google's Gemini API to provide informational triage suggestions.",
+      "AI suggestions do not constitute professional mechanical advice or safety assessments. Never rely on automated suggestions to diagnose high-risk mechanical failures on actual operating motor vehicles.",
     ],
   },
   {

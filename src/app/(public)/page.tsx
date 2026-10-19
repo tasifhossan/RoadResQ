@@ -19,7 +19,7 @@ import {
   CreditCard,
   User,
   Shield,
-  Sparkles,
+  Star,
   CheckCircle2,
   Lock,
 } from "lucide-react";
@@ -75,19 +75,19 @@ function getSkillIcon(skill: string) {
   return Wrench;
 }
 
-// 6 verified FAQ items reused from /faq
+// 6 FAQ items reused from /faq
 const HOME_FAQ_ITEMS = [
   {
     value: "faq-1",
     question: "How are mechanics discovered and chosen for a breakdown request?",
     answer:
-      "Mechanics are discovered using radius-based search matching your breakdown GPS coordinates. You can customize the search radius in kilometers, review nearby mechanics' rating averages, real distance, and total completed jobs, and assign your preferred mechanic.",
+      "The customer chooses the search radius (5 to 50 km) and selects a mechanic from the nearby list based on rating and distance. A mechanic's job count is the number of COMPLETED requests, and ratings come from reviews left on completed jobs.",
   },
   {
     value: "faq-2",
     question: "Can a service request be cancelled, and until when?",
     answer:
-      "Yes. A customer can cancel a service request while its status is PENDING, SEARCHING, ASSIGNED, EN_ROUTE, or ARRIVED. Once the mechanic transitions the job to IN_PROGRESS or COMPLETED, cancellation is locked to protect repair work already underway.",
+      "A customer can cancel their own request while it is PENDING, SEARCHING or ASSIGNED. Once the mechanic is EN_ROUTE, ARRIVED or IN_PROGRESS only the assigned mechanic can cancel. COMPLETED requests cannot be cancelled.",
   },
   {
     value: "faq-3",
@@ -179,7 +179,7 @@ export default async function HomePage() {
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
               <div>
                 <Badge variant="outline" className="rounded-full px-3 py-0.5 text-xs font-semibold border-primary/30 text-primary bg-primary/5 mb-1.5">
-                  Verified Skills
+                  Service Skills
                 </Badge>
                 <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground">
                   Roadside Service Categories
@@ -236,7 +236,7 @@ export default async function HomePage() {
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
               <div>
                 <Badge variant="outline" className="rounded-full px-3 py-0.5 text-xs font-semibold border-orange-500/30 text-orange-700 dark:text-orange-400 bg-orange-500/10 mb-1.5">
-                  Verified Ratings
+                  Customer Ratings
                 </Badge>
                 <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground">
                   Top-Rated Mechanics
@@ -299,7 +299,7 @@ export default async function HomePage() {
                 <span className="font-mono text-xs font-bold text-primary">02. Discover</span>
                 <h3 className="text-base font-bold text-foreground mt-1">Choose Technician</h3>
                 <p className="text-xs text-muted-foreground mt-1.5 leading-relaxed">
-                  Browse nearby verified mechanics ranked by real distance and reviews. Choose your technician and confirm assignment.
+                  Browse nearby mechanics ranked by real distance and reviews. Choose your technician and confirm assignment.
                 </p>
               </div>
             </div>
@@ -412,7 +412,7 @@ export default async function HomePage() {
                   </li>
                   <li className="flex items-center gap-2">
                     <CheckCircle2 className="h-3.5 w-3.5 text-orange-600 dark:text-orange-400 shrink-0" />
-                    <span>Verified customer reviews & completed jobs</span>
+                    <span>Customer reviews & completed jobs</span>
                   </li>
                 </ul>
               </div>
@@ -477,7 +477,7 @@ export default async function HomePage() {
               Platform Architecture Highlights
             </h2>
             <p className="text-xs sm:text-sm text-muted-foreground">
-              Built on verified backend endpoints with strict data integrity and real-time synchronization.
+              Built on live backend endpoints with strict data integrity and real-time synchronization.
             </p>
           </div>
 
@@ -488,7 +488,7 @@ export default async function HomePage() {
               </div>
               <h3 className="text-base font-bold text-foreground">Proximity Matching</h3>
               <p className="text-xs text-muted-foreground leading-relaxed">
-                Geospatial distance computation in kilometers based on real GPS coordinates, filtering available mechanics by customizable radius.
+                Geospatial distance computation in kilometers based on real GPS coordinates. Customers choose their search radius (5 to 50 km) and select a nearby mechanic.
               </p>
             </div>
 
@@ -514,11 +514,11 @@ export default async function HomePage() {
 
             <div className="rounded-xl border border-border bg-card p-6 shadow-xs space-y-3">
               <div className="h-9 w-9 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
-                <Sparkles className="h-4 w-4" />
+                <Star className="h-4 w-4" />
               </div>
-              <h3 className="text-base font-bold text-foreground">AI Symptom Assistant</h3>
+              <h3 className="text-base font-bold text-foreground">Reviews from Completed Jobs</h3>
               <p className="text-xs text-muted-foreground leading-relaxed">
-                Automated triage powered by Google Gemini to analyze user-described symptoms and guide drivers on preliminary safety actions.
+                Customer reviews and star ratings can only be submitted following job completion, ensuring genuine feedback from actual repairs.
               </p>
             </div>
           </div>
@@ -534,7 +534,7 @@ export default async function HomePage() {
                 Customer Voices
               </Badge>
               <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground">
-                Verified Roadside Reviews
+                Customer Reviews
               </h2>
               <p className="text-xs sm:text-sm text-muted-foreground">
                 Feedback submitted directly by motorists following completed and paid assistance requests.
@@ -604,7 +604,7 @@ export default async function HomePage() {
                   Latest Emergency Guides
                 </h2>
                 <p className="text-xs sm:text-sm text-muted-foreground mt-1">
-                  Practical, verified advice on vehicle maintenance, overheating, flat tires, and monsoon driving.
+                  Practical, reliable advice on vehicle maintenance, overheating, flat tires, and monsoon driving.
                 </p>
               </div>
               <Link href="/blog">
