@@ -26,6 +26,8 @@ interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
+export const dynamicParams = false;
+
 export async function generateStaticParams() {
   const posts = getAllBlogPosts();
   return posts.map((post) => ({
@@ -38,7 +40,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const post = getBlogPostBySlug(slug);
 
   if (!post) {
-    notFound();
+    return {
+      title: "Article Not Found | RoadResQ Blog",
+    };
   }
 
   const ogImageUrl = `${siteConfig.url}/api/blog-cover/${post.slug}`;

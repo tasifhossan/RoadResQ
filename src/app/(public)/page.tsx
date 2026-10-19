@@ -235,7 +235,7 @@ export default async function HomePage() {
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
               <div>
-                <Badge variant="outline" className="rounded-full px-3 py-0.5 text-xs font-semibold border-amber-500/30 text-amber-600 dark:text-amber-400 bg-amber-500/5 mb-1.5">
+                <Badge variant="outline" className="rounded-full px-3 py-0.5 text-xs font-semibold border-amber-500/30 text-amber-800 dark:text-amber-300 bg-amber-500/5 mb-1.5">
                   Verified Ratings
                 </Badge>
                 <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground">
@@ -530,7 +530,7 @@ export default async function HomePage() {
         <section id="testimonials" className="scroll-m-24 py-12 md:py-16 border-b border-border/40">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="mb-6 space-y-1">
-              <Badge variant="outline" className="rounded-full px-3 py-0.5 text-xs font-semibold border-amber-500/30 text-amber-600 dark:text-amber-400 bg-amber-500/5 mb-1.5">
+              <Badge variant="outline" className="rounded-full px-3 py-0.5 text-xs font-semibold border-amber-500/30 text-amber-800 dark:text-amber-300 bg-amber-500/5 mb-1.5">
                 Customer Voices
               </Badge>
               <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground">

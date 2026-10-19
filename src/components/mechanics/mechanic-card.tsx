@@ -135,7 +135,7 @@ export function MechanicCard({ mechanic, className }: MechanicCardProps) {
             </span>
           ))}
           {remainingSkills > 0 && (
-            <span className="inline-flex items-center rounded-md border border-border bg-muted/80 px-1.5 py-0.5 text-xs font-semibold text-muted-foreground">
+            <span className="inline-flex items-center rounded-md border border-border bg-muted px-1.5 py-0.5 text-xs font-semibold text-foreground/90">
               +{remainingSkills}
             </span>
           )}

@@ -87,7 +87,7 @@ export function ReviewsCarousel({ reviews }: ReviewsCarouselProps) {
               <div className="space-y-3">
                 {/* Header: Star Rating & Verified Badge */}
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1" aria-label={`${review.rating} out of 5 stars`}>
+                  <div role="img" className="flex items-center gap-1" aria-label={`${review.rating} out of 5 stars`}>
                     {[1, 2, 3, 4, 5].map((star) => (
                       <Star
                         key={star}

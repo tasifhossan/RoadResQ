@@ -662,6 +662,7 @@ export function MechanicsClient({ initialData, initialQuery }: MechanicsClientPr
         />
       ) : data?.items ? (
         <div className="space-y-6">
+          <h2 className="sr-only">Available Mechanics Directory</h2>
           <MechanicGrid mechanics={data.items} />
 
           {/* URL-synced Pagination Component */}
