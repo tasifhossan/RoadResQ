@@ -30,6 +30,9 @@ const envSchema = z.object({
   NEXT_PUBLIC_DEVELOPER_NAME: z
     .preprocess((val) => (typeof val === "string" && val.trim() === "" ? undefined : val),
       z.string().optional()),
+  NEXT_PUBLIC_GOOGLE_CLIENT_ID: z
+    .preprocess((val) => (typeof val === "string" && val.trim() === "" ? undefined : val),
+      z.string().optional()),
 });
 
 const _env = envSchema.safeParse({
@@ -42,6 +45,7 @@ const _env = envSchema.safeParse({
   NEXT_PUBLIC_CONTACT_EMAIL: process.env.NEXT_PUBLIC_CONTACT_EMAIL,
   NEXT_PUBLIC_LINKEDIN_URL: process.env.NEXT_PUBLIC_LINKEDIN_URL,
   NEXT_PUBLIC_DEVELOPER_NAME: process.env.NEXT_PUBLIC_DEVELOPER_NAME,
+  NEXT_PUBLIC_GOOGLE_CLIENT_ID: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
 });
 
 if (!_env.success) {
