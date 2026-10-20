@@ -31,12 +31,6 @@ const DEMO_EMAIL_MAP: Record<Role, string> = {
   ADMIN: "admin@roadresq-demo.com",
 };
 
-const DEMO_ROLE_LABEL: Record<Role, string> = {
-  CUSTOMER: "Customer",
-  MECHANIC: "Mechanic",
-  ADMIN: "Admin",
-};
-
 const MASKED_DEMO_PASSWORD = "••••••••••••";
 
 export function LoginForm() {
@@ -196,19 +190,6 @@ export function LoginForm() {
 
       <CardContent className="space-y-6">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
-          {filledDemoRole && (
-            <div
-              className="flex items-center gap-2 px-3 py-2 rounded-lg bg-primary/10 border border-primary/20 text-xs text-primary font-medium"
-              role="status"
-              aria-live="polite"
-            >
-              <Loader2 className="h-3.5 w-3.5 animate-spin shrink-0" />
-              <span>
-                Demo credentials filled ({DEMO_ROLE_LABEL[filledDemoRole]}). Signing in...
-              </span>
-            </div>
-          )}
-
           <div className="space-y-2">
             <Label htmlFor="login-email">Email Address</Label>
             <Input
