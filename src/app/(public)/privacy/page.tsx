@@ -81,8 +81,9 @@ const SECTIONS: PrivacySection[] = [
     title: "6. AI Diagnostics & Google Gemini API Notice",
     icon: Cpu,
     content: [
-      "The AI assistant sends the text you type to Google's Gemini API to provide informational triage suggestions.",
-      "Important notice: Do not enter private personal details, residential addresses, financial account numbers, or confidential identifiers into AI input fields. AI diagnostic suggestions are intended purely for informational triage and do not constitute professional mechanical or safety advice.",
+      "The AI breakdown assistant and smart search features process user-entered queries through Google's Gemini API to provide informational triage suggestions and natural-language filter mapping. Personal identifiers (such as emails, telephone numbers, and URLs) are automatically redacted prior to processing.",
+      "Additionally, the administrative operations dashboard utilizes Google Gemini to generate high-level operational summaries by transmitting strictly anonymized, aggregate platform metrics (counts, volume trends, and request statuses with all mechanic and user names completely stripped).",
+      "Important notice: Do not enter private personal details, residential addresses, financial account numbers, or confidential identifiers into AI input fields. AI diagnostic suggestions are intended purely for informational triage and do not constitute professional mechanical, safety, or legal advice.",
     ],
   },
   {

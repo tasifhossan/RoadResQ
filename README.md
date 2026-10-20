@@ -24,6 +24,9 @@ Configure environment variables in `.env.local` (validated via `src/lib/env.ts` 
 |---|---|---|---|---|
 | `BACKEND_URL` | Runtime (Server-only) | Optional (has fallback) | Target URL for backend REST API proxy calls | `https://road-res-q-backend.vercel.app/api/v1` |
 | `DEMO_PASSWORD` | Runtime (Server-only) | Optional | Password for demo role logins on auth endpoints | `DemoPassword123!` |
+| `GEMINI_API_KEY` | Runtime (Server-only) | Optional | API key from [Google AI Studio](https://aistudio.google.com/app/apikey). Free-tier limits are small; free-tier prompts may be used by Google to improve products, so personal data must never be sent (the app redacts PII automatically). AI features gracefully degrade to rule-based fallbacks when no key is configured. | None (AI features disabled) |
+| `GEMINI_MODEL` | Runtime (Server-only) | Optional | Override the default Gemini model | `gemini-2.5-flash-lite` |
+| `GEMINI_FALLBACK_MODEL` | Runtime (Server-only) | Optional | Fallback model tried when the primary model returns a 404 | None |
 | `NEXT_PUBLIC_SITE_URL` | Build-time (Public) | Optional (has fallback) | Canonical base URL for SEO metadata & sitemap generation | `http://localhost:3000` |
 | `NEXT_PUBLIC_CONTACT_EMAIL` | Build-time (Public) | Optional | Contact email address for contact page mailto link | None (empty by default) |
 | `NEXT_PUBLIC_LINKEDIN_URL` | Build-time (Public) | Optional | LinkedIn profile URL for footer social link | None (empty by default) |

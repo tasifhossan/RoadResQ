@@ -100,6 +100,11 @@ export function PublicFooter() {
             </p>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>
+                <Link href="/assistant" className="hover:text-foreground transition-colors">
+                  Breakdown Assistant
+                </Link>
+              </li>
+              <li>
                 <Link href="/mechanics" className="hover:text-foreground transition-colors">
                   Mechanics
                 </Link>
