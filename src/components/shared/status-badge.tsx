@@ -53,9 +53,21 @@ const statusStyles: Record<string, { label: string; className: string }> = {
   REFUNDED: { label: "Refunded", className: "bg-slate-500/15 text-slate-700 border-slate-500/30 dark:text-slate-300 dark:border-slate-500/30" },
 
   // Availability
-  AVAILABLE: { label: "Available", className: "bg-blue-500/15 text-blue-700 border-blue-500/30 dark:text-blue-400 dark:border-blue-500/30" },
-  BUSY: { label: "Busy", className: "bg-orange-500/15 text-orange-700 border-orange-500/30 dark:text-orange-400 dark:border-orange-500/30" },
-  OFFLINE: { label: "Offline", className: "bg-slate-500/15 text-slate-700 border-slate-500/30 dark:text-slate-300 dark:border-slate-500/30" },
+  AVAILABLE: {
+    label: "Available",
+    className:
+      "bg-blue-600 text-white border-blue-700 font-semibold shadow-xs dark:bg-blue-500/25 dark:text-blue-300 dark:border-blue-500/50",
+  },
+  BUSY: {
+    label: "Busy",
+    className:
+      "bg-orange-600 text-white border-orange-700 font-semibold shadow-xs dark:bg-orange-500/25 dark:text-orange-300 dark:border-orange-500/50",
+  },
+  OFFLINE: {
+    label: "Offline",
+    className:
+      "bg-slate-700 text-white border-slate-800 font-semibold shadow-xs dark:bg-slate-700/60 dark:text-slate-200 dark:border-slate-600",
+  },
 
   // Priority
   LOW: { label: "Low", className: "bg-slate-500/15 text-slate-700 border-slate-500/30 dark:text-slate-300 dark:border-slate-500/30" },

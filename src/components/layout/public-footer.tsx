@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { siteConfig } from "@/lib/site-config";
-import { Globe, Mail, ExternalLink } from "lucide-react";
+import { Globe, Mail } from "lucide-react";
 
 function GithubIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
@@ -183,32 +183,8 @@ export function PublicFooter() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-border mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
+        <div className="border-t border-border mt-10 pt-6 flex items-center justify-center text-xs text-muted-foreground">
           <p>© {currentYear} RoadResQ. All rights reserved.</p>
-          <p className="text-center sm:text-left">
-            Payments run in the payment gateway&apos;s test mode
-          </p>
-          <div className="flex items-center gap-4">
-            <a
-              href={siteConfig.links.frontendRepo}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 hover:text-foreground transition-colors"
-            >
-              <span>Frontend Repo</span>
-              <ExternalLink className="h-3 w-3" />
-            </a>
-            <span aria-hidden="true">•</span>
-            <a
-              href={siteConfig.links.backendRepo}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 hover:text-foreground transition-colors"
-            >
-              <span>Backend Repo</span>
-              <ExternalLink className="h-3 w-3" />
-            </a>
-          </div>
         </div>
       </div>
     </footer>

@@ -27,7 +27,7 @@ export function HeroCtas() {
         <Link href={dashboardHref} className="w-full sm:w-auto">
           <Button
             size="lg"
-            className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl shadow-md px-8 h-12 text-base transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            className="w-full font-semibold rounded-xl px-8 h-12 text-base shadow-md"
           >
             <LayoutDashboard className="mr-2 h-5 w-5" />
             Go to dashboard
@@ -37,7 +37,7 @@ export function HeroCtas() {
           <Button
             size="lg"
             variant="outline"
-            className="w-full border-border hover:bg-muted font-medium rounded-xl px-8 h-12 text-base focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            className="w-full font-medium rounded-xl px-8 h-12 text-base"
           >
             Explore workflow
             <ArrowRight className="ml-2 h-4 w-4" />
@@ -52,7 +52,7 @@ export function HeroCtas() {
       <Link href="/register" className="w-full sm:w-auto">
         <Button
           size="lg"
-          className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl shadow-md px-8 h-12 text-base transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          className="w-full font-semibold rounded-xl px-8 h-12 text-base shadow-md"
         >
           <UserPlus className="mr-2 h-5 w-5" />
           Get started
@@ -62,7 +62,7 @@ export function HeroCtas() {
         <Button
           size="lg"
           variant="outline"
-          className="w-full border-border hover:bg-muted font-medium rounded-xl px-8 h-12 text-base focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          className="w-full font-medium rounded-xl px-8 h-12 text-base"
         >
           <LogIn className="mr-2 h-5 w-5" />
           Try a demo

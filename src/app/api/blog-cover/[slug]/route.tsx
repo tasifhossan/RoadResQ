@@ -21,16 +21,7 @@ export async function GET(
   const post = getBlogPostBySlug(slug);
 
   const title = post?.title || "Roadside Assistance Guide";
-  const category = post?.category || "Emergency";
   const readingMinutes = post?.readingMinutes || 4;
-
-  // Category accent colors matching brand guidelines (Blue / Orange / Red)
-  const categoryBg =
-    category === "Emergency"
-      ? "#dc2626"
-      : category === "Safety"
-      ? "#f97316"
-      : "#2563eb";
 
   return new ImageResponse(
     (
@@ -82,23 +73,6 @@ export async function GET(
             >
               / Guide
             </div>
-          </div>
-
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              backgroundColor: categoryBg,
-              color: "#ffffff",
-              padding: "8px 20px",
-              borderRadius: "9999px",
-              fontSize: 18,
-              fontWeight: 700,
-              textTransform: "uppercase",
-              letterSpacing: "0.05em",
-            }}
-          >
-            {category}
           </div>
         </div>
 
