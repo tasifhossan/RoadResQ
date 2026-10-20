@@ -87,11 +87,26 @@ function collectAllMetricsNumbers(data: BackendInsightsData): Set<number> {
   addNum(data.rating.last14Days);
   addNum(data.rating.previous14Days);
 
+  // Parse dates (year, month, day) so date references like 2026-10-19 are valid
+  function addDateNums(dateStr: string | null | undefined) {
+    if (!dateStr) return;
+    const parts = dateStr.match(/\d+/g);
+    if (parts) {
+      for (const p of parts) addNum(Number(p));
+    }
+  }
+
+  addDateNums(data.generatedAt);
+
   // Daily & anomalies
-  for (const d of data.dailyRequests) addNum(d.count);
+  for (const d of data.dailyRequests) {
+    addNum(d.count);
+    addDateNums(d.date);
+  }
   for (const a of data.anomalies) {
     addNum(a.count);
     addNum(a.zScore);
+    addDateNums(a.date);
   }
 
   // Stuck
