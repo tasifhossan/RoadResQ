@@ -42,6 +42,15 @@ const AdminDashboardCharts = dynamic(
   }
 );
 
+// Code-split Admin AI Insights Card with fixed-height skeleton
+const AdminAiInsightsCard = dynamic(
+  () => import("@/components/admin/admin-ai-insights-card").then((m) => m.AdminAiInsightsCard),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="h-[280px] w-full rounded-2xl" />,
+  }
+);
+
 interface AdminDashboardClientProps {
   initialData: DashboardStats | null;
   initialError: string | null;
@@ -253,6 +262,9 @@ export function AdminDashboardClient({
 
           {/* Code-Split Dynamic Charts */}
           <AdminDashboardCharts data={data} />
+
+          {/* Code-Split Admin AI Insights Card */}
+          <AdminAiInsightsCard />
         </>
       )}
     </div>
