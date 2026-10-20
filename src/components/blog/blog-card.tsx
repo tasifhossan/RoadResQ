@@ -15,13 +15,13 @@ export interface BlogCardProps {
 export function getCategoryBadgeClasses(category: BlogCategory) {
   switch (category) {
     case "Emergency":
-      return "border-red-500/30 bg-red-500/5 text-red-700 dark:text-red-400";
+      return "border-red-600/40 bg-red-600 text-white dark:bg-red-500/25 dark:text-red-300 dark:border-red-500/50";
     case "Safety":
-      return "border-orange-500/30 bg-orange-500/5 text-orange-700 dark:text-orange-400";
+      return "border-orange-600/40 bg-orange-600 text-white dark:bg-orange-500/25 dark:text-orange-300 dark:border-orange-500/50";
     case "Maintenance":
-      return "border-blue-500/30 bg-blue-500/5 text-blue-700 dark:text-blue-400";
+      return "border-blue-600/40 bg-blue-600 text-white dark:bg-blue-500/25 dark:text-blue-300 dark:border-blue-500/50";
     default:
-      return "border-border bg-muted text-muted-foreground";
+      return "border-border bg-muted text-foreground";
   }
 }
 
