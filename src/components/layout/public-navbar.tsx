@@ -51,6 +51,7 @@ const LOGGED_OUT_NAV_LINKS = [
 
 // Advanced "More" dropdown links for logged in users
 const MORE_NAV_LINKS = [
+  { label: "Assistant", href: "/assistant" },
   { label: "About", href: "/about" },
   { label: "FAQ", href: "/faq" },
   { label: "Contact", href: "/contact" },

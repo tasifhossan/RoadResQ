@@ -7,6 +7,8 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { LayoutDashboard, PlusCircle, ListOrdered, Car, CreditCard, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+import { FloatingAssistantButton } from "@/components/ai/floating-assistant-button";
+
 const customerNavItems = [
   { label: "Dashboard", shortLabel: "Home", href: "/customer", icon: LayoutDashboard },
   { label: "New request", shortLabel: "New", href: "/customer/requests/new", icon: PlusCircle },
@@ -80,6 +82,9 @@ export function CustomerShell({ children }: { children: React.ReactNode }) {
         {/* Page Content */}
         <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto">{children}</main>
       </div>
+
+      {/* Floating Breakdown Helper Button */}
+      <FloatingAssistantButton />
 
       {/* Mobile Bottom Navigation */}
       <nav className="fixed bottom-0 left-0 right-0 z-40 flex h-16 items-center justify-around border-t bg-card/95 backdrop-blur-md md:hidden px-1">
