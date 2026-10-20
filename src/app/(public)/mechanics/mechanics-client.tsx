@@ -4,7 +4,6 @@ import * as React from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import {
-  Search,
   X,
   SlidersHorizontal,
   ArrowUpDown,
@@ -26,7 +25,6 @@ import { UrlPagination } from "@/components/shared/url-pagination";
 import { EmptyState } from "@/components/shared/empty-state";
 import { ErrorState } from "@/components/shared/error-state";
 import { Button, buttonVariants } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -41,6 +39,8 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { SmartSearch } from "@/components/mechanics/smart-search";
+import { InstantSearchBox } from "@/components/mechanics/instant-search-box";
 
 export interface MechanicsClientProps {
   initialData?: PublicMechanicsResponse;
@@ -171,8 +171,9 @@ export function MechanicsClient({ initialData, initialQuery }: MechanicsClientPr
     placeholderData: keepPreviousData,
   });
 
-  // Dynamic skill options derived exclusively from backend response facets
+  // Dynamic skill and city options derived exclusively from backend response facets
   const skillFacets = data?.facets?.skills || initialData?.facets?.skills || [];
+  const cityFacets = data?.facets?.cities || initialData?.facets?.cities || [];
 
   // Update a single query param and push to URL
   const updateQueryParam = React.useCallback(
@@ -185,6 +186,30 @@ export function MechanicsClient({ initialData, initialQuery }: MechanicsClientPr
       }
       nextParams.delete("page"); // Reset page on filter/sort change
 
+      const qs = nextParams.toString();
+      router.push(qs ? `${pathname}?${qs}` : pathname);
+    },
+    [searchParams, pathname, router]
+  );
+
+  // Apply batch filters from SmartSearch
+  const handleApplySmartFilters = React.useCallback(
+    (filters: {
+      skill?: string;
+      city?: string;
+      availability?: string;
+      minRating?: number;
+      sortBy?: string;
+    }) => {
+      const nextParams = new URLSearchParams(searchParams.toString());
+
+      if (filters.skill) nextParams.set("skill", filters.skill);
+      if (filters.city) nextParams.set("search", filters.city);
+      if (filters.availability) nextParams.set("availability", filters.availability);
+      if (filters.minRating) nextParams.set("minRating", filters.minRating.toString());
+      if (filters.sortBy) nextParams.set("sortBy", filters.sortBy);
+
+      nextParams.delete("page"); // Reset page to 1
       const qs = nextParams.toString();
       router.push(qs ? `${pathname}?${qs}` : pathname);
     },
@@ -233,34 +258,33 @@ export function MechanicsClient({ initialData, initialQuery }: MechanicsClientPr
 
       {/* Search Bar & AI Smart Search Container */}
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-        <div className="relative flex-1">
-          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-muted-foreground pointer-events-none" />
-          <Input
-            type="text"
-            value={searchValue}
-            onChange={(e) => setSearchValue(e.target.value)}
-            placeholder="Search by mechanic name, skill, or city..."
-            className="pl-10 pr-9 rounded-xl h-11 bg-card border-border shadow-sm text-sm"
-          />
-          {searchValue && (
-            <button
-              type="button"
-              onClick={() => setSearchValue("")}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground p-1 transition-colors"
-              aria-label="Clear search text"
-            >
-              <X className="size-4" />
-            </button>
-          )}
-        </div>
+        <InstantSearchBox
+          value={searchValue}
+          onChange={setSearchValue}
+          onSelectSkill={(skill) => {
+            updateQueryParam("skill", skill);
+            setSearchValue("");
+          }}
+          onSelectCity={(city) => {
+            updateQueryParam("search", city);
+            setSearchValue(city);
+          }}
+          skillFacets={skillFacets}
+          cityFacets={cityFacets}
+        />
 
-        {/* Slot for future AI Smart Search feature (render nothing for now) */}
+        {/* Slot for AI Smart Search feature */}
         <div
           id="ai-smart-search-slot"
           data-slot="ai-smart-search"
-          className="empty:hidden"
-          aria-hidden="true"
-        />
+          className="shrink-0"
+        >
+          <SmartSearch
+            skillFacets={skillFacets}
+            cityFacets={cityFacets}
+            onApplyFilters={handleApplySmartFilters}
+          />
+        </div>
 
         {/* Mobile Filters Trigger */}
         <Sheet open={mobileSheetOpen} onOpenChange={setMobileSheetOpen}>
