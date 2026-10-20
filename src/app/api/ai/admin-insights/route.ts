@@ -149,6 +149,7 @@ function collectAllMetricsNumbers(data: BackendInsightsData): Set<number> {
 }
 
 export function isAiTextGrounded(aiText: string, data: BackendInsightsData): boolean {
+  if (!data || !aiText) return true;
   const generatedNumbers = extractNumbersFromText(aiText);
   if (generatedNumbers.length === 0) return true;
 
@@ -240,11 +241,10 @@ export async function POST() {
   // 5. Fetch GET /admin/insights from backend
   let backendInsights: BackendInsightsData;
   try {
-    const res = await serverFetch<{ data: BackendInsightsData }>("/admin/insights", {
+    backendInsights = await serverFetch<BackendInsightsData>("/admin/insights", {
       token,
       headers: { "Cache-Control": "no-cache" },
     });
-    backendInsights = res.data;
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : "Failed to fetch backend insights";
     return NextResponse.json(
