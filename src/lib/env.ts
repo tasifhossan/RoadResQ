@@ -6,6 +6,21 @@ const envSchema = z.object({
     .url("BACKEND_URL must be a valid URL")
     .default("https://road-res-q-backend.vercel.app/api/v1"),
   DEMO_PASSWORD: z.string().optional(),
+  GEMINI_API_KEY: z
+    .preprocess(
+      (val) => (typeof val === "string" && val.trim() === "" ? undefined : val),
+      z.string().optional()
+    ),
+  GEMINI_MODEL: z
+    .preprocess(
+      (val) => (typeof val === "string" && val.trim() === "" ? undefined : val),
+      z.string().default("gemini-2.5-flash-lite")
+    ),
+  GEMINI_FALLBACK_MODEL: z
+    .preprocess(
+      (val) => (typeof val === "string" && val.trim() === "" ? undefined : val),
+      z.string().optional()
+    ),
   NEXT_PUBLIC_SITE_URL: z
     .string()
     .url("NEXT_PUBLIC_SITE_URL must be a valid URL")
@@ -24,6 +39,9 @@ const envSchema = z.object({
 const _env = envSchema.safeParse({
   BACKEND_URL: process.env.BACKEND_URL,
   DEMO_PASSWORD: process.env.DEMO_PASSWORD,
+  GEMINI_API_KEY: process.env.GEMINI_API_KEY,
+  GEMINI_MODEL: process.env.GEMINI_MODEL,
+  GEMINI_FALLBACK_MODEL: process.env.GEMINI_FALLBACK_MODEL,
   NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
   NEXT_PUBLIC_CONTACT_EMAIL: process.env.NEXT_PUBLIC_CONTACT_EMAIL,
   NEXT_PUBLIC_LINKEDIN_URL: process.env.NEXT_PUBLIC_LINKEDIN_URL,
