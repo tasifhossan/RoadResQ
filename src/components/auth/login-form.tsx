@@ -25,17 +25,34 @@ const loginSchema = z.object({
 
 type LoginFormData = z.infer<typeof loginSchema>;
 
+const DEMO_EMAIL_MAP: Record<Role, string> = {
+  CUSTOMER: "customer@roadresq-demo.com",
+  MECHANIC: "mechanic@roadresq-demo.com",
+  ADMIN: "admin@roadresq-demo.com",
+};
+
+const DEMO_ROLE_LABEL: Record<Role, string> = {
+  CUSTOMER: "Customer",
+  MECHANIC: "Mechanic",
+  ADMIN: "Admin",
+};
+
+const MASKED_DEMO_PASSWORD = "••••••••••••";
+
 export function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
   const [showPassword, setShowPassword] = React.useState(false);
   const [demoLoadingRole, setDemoLoadingRole] = React.useState<Role | null>(null);
+  const [filledDemoRole, setFilledDemoRole] = React.useState<Role | null>(null);
 
   const {
     register,
     handleSubmit,
     setError,
+    clearErrors,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
@@ -110,7 +127,26 @@ export function LoginForm() {
   };
 
   const handleDemoLogin = async (role: Role) => {
+    // 1. Fill visual credentials into the form fields
+    const demoEmail = DEMO_EMAIL_MAP[role];
+    setValue("email", demoEmail, { shouldValidate: true });
+    setValue("password", MASKED_DEMO_PASSWORD, { shouldValidate: true });
+    clearErrors();
+
+    setFilledDemoRole(role);
     setDemoLoadingRole(role);
+
+    // 2. Short visual "Demo credentials filled" state (approx 600ms, skipped under prefers-reduced-motion)
+    const prefersReducedMotion =
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const delayMs = prefersReducedMotion ? 0 : 600;
+
+    if (delayMs > 0) {
+      await new Promise((resolve) => setTimeout(resolve, delayMs));
+    }
+
+    // 3. Submit securely through /api/auth/demo-login (server handles actual authentication)
     try {
       const res = await fetch("/api/auth/demo-login", {
         method: "POST",
@@ -128,11 +164,19 @@ export function LoginForm() {
         router.refresh();
       } else {
         toast.error(result.message || "Demo login failed");
+        setFilledDemoRole(null);
       }
     } catch {
       toast.error("Network error. Please try again.");
+      setFilledDemoRole(null);
     } finally {
       setDemoLoadingRole(null);
+    }
+  };
+
+  const handleFieldChange = () => {
+    if (filledDemoRole) {
+      setFilledDemoRole(null);
     }
   };
 
@@ -152,6 +196,19 @@ export function LoginForm() {
 
       <CardContent className="space-y-6">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
+          {filledDemoRole && (
+            <div
+              className="flex items-center gap-2 px-3 py-2 rounded-lg bg-primary/10 border border-primary/20 text-xs text-primary font-medium"
+              role="status"
+              aria-live="polite"
+            >
+              <Loader2 className="h-3.5 w-3.5 animate-spin shrink-0" />
+              <span>
+                Demo credentials filled ({DEMO_ROLE_LABEL[filledDemoRole]}). Signing in...
+              </span>
+            </div>
+          )}
+
           <div className="space-y-2">
             <Label htmlFor="login-email">Email Address</Label>
             <Input
@@ -161,7 +218,9 @@ export function LoginForm() {
               autoComplete="email"
               disabled={isAnyLoading}
               aria-invalid={!!errors.email}
-              {...register("email")}
+              {...register("email", {
+                onChange: handleFieldChange,
+              })}
             />
             {errors.email && (
               <p className="text-xs text-destructive font-medium">{errors.email.message}</p>
@@ -179,7 +238,9 @@ export function LoginForm() {
                 disabled={isAnyLoading}
                 aria-invalid={!!errors.password}
                 className="pr-10"
-                {...register("password")}
+                {...register("password", {
+                  onChange: handleFieldChange,
+                })}
               />
               <Button
                 type="button"
@@ -200,7 +261,7 @@ export function LoginForm() {
           </div>
 
           <Button type="submit" className="w-full h-10 font-semibold" disabled={isAnyLoading}>
-            {isSubmitting ? (
+            {isSubmitting || demoLoadingRole !== null ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 Signing in...
