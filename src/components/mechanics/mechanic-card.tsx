@@ -69,7 +69,7 @@ export function MechanicCard({ mechanic, className }: MechanicCardProps) {
         )}
 
         {/* Availability Badge (3-color mapping via StatusBadge) */}
-        <div className="absolute top-3 right-3 z-10">
+        <div className="absolute top-3 right-3 z-10 drop-shadow-sm">
           <StatusBadge status={mechanic.availability} />
         </div>
       </div>
