@@ -3,9 +3,6 @@
 import * as React from "react";
 import Link from "next/link";
 import {
-  ChevronLeft,
-  ChevronRight,
-  ChevronDown,
   Zap,
   CircleDot,
   Activity,
@@ -15,7 +12,6 @@ import {
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { HeroCtas } from "@/components/home/hero-ctas";
-import { cn } from "@/lib/utils";
 
 interface Slide {
   id: string;
@@ -90,25 +86,10 @@ export function HeroSlider() {
 
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % SLIDES.length);
-    }, 6000);
+    }, 5000);
 
     return () => clearInterval(interval);
   }, [isPaused, prefersReducedMotion]);
-
-  const handlePrev = () => {
-    setCurrentSlide((prev) => (prev === 0 ? SLIDES.length - 1 : prev - 1));
-  };
-
-  const handleNext = () => {
-    setCurrentSlide((prev) => (prev + 1) % SLIDES.length);
-  };
-
-  const handleScrollDown = () => {
-    const target = document.getElementById("services");
-    if (target) {
-      target.scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth" });
-    }
-  };
 
   const activeSlide = SLIDES[currentSlide];
 
@@ -121,7 +102,7 @@ export function HeroSlider() {
       onMouseLeave={() => setIsPaused(false)}
       onFocusCapture={() => setIsPaused(true)}
       onBlurCapture={() => setIsPaused(false)}
-      className="relative w-full border-b border-border/40 bg-gradient-to-b from-background via-card/40 to-background flex flex-col justify-between overflow-hidden md:h-[65svh] md:min-h-[440px] md:max-h-[70svh]"
+      className="relative w-full border-b border-border/40 bg-gradient-to-b from-background via-card/40 to-background flex flex-col justify-center items-center overflow-hidden py-12 sm:py-16 md:py-20"
     >
       {/* Background ambient gradient glow */}
       <div
@@ -130,7 +111,7 @@ export function HeroSlider() {
       />
 
       {/* Main Slide Content Container */}
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex-1 flex flex-col justify-center items-center text-center py-8 md:py-6">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col justify-center items-center text-center">
         <div className="max-w-3xl space-y-4 md:space-y-5">
           {/* Slide Badge */}
           <div>
@@ -157,13 +138,13 @@ export function HeroSlider() {
           </p>
 
           {/* Session-Aware CTAs */}
-          <div className="pt-1">
+          <div className="pt-2">
             <HeroCtas />
           </div>
 
           {/* Quick Problem Filter Chips */}
-          <div className="pt-2">
-            <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground mb-2">
+          <div className="pt-4">
+            <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground mb-2.5">
               Common Emergency Problems
             </p>
             <div className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2">
@@ -183,67 +164,6 @@ export function HeroSlider() {
             </div>
           </div>
         </div>
-      </div>
-
-      {/* Slider Controls & Scroll Down Indicator Bar */}
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 pb-3 pt-1 flex items-center justify-between text-xs text-muted-foreground z-10">
-        {/* Left: Previous / Next & Indicators */}
-        <div className="flex items-center gap-2">
-          <button
-            type="button"
-            onClick={handlePrev}
-            aria-label="Previous slide"
-            className="h-8 w-8 rounded-lg border border-border bg-card flex items-center justify-center hover:bg-muted text-foreground transition-colors"
-          >
-            <ChevronLeft className="h-4 w-4" />
-          </button>
-
-          <div className="flex items-center gap-1">
-            {SLIDES.map((slide, idx) => (
-              <button
-                key={slide.id}
-                type="button"
-                onClick={() => setCurrentSlide(idx)}
-                aria-label={`Go to slide ${idx + 1}`}
-                aria-current={currentSlide === idx ? "true" : undefined}
-                className="h-7 min-w-[24px] flex items-center justify-center px-1 rounded-full cursor-pointer"
-              >
-                <span
-                  className={cn(
-                    "h-2 rounded-full transition-all duration-300 block",
-                    currentSlide === idx
-                      ? "w-6 bg-primary"
-                      : "w-2 bg-muted-foreground/30 hover:bg-muted-foreground/60"
-                  )}
-                />
-              </button>
-            ))}
-          </div>
-
-          <button
-            type="button"
-            onClick={handleNext}
-            aria-label="Next slide"
-            className="h-8 w-8 rounded-lg border border-border bg-card flex items-center justify-center hover:bg-muted text-foreground transition-colors"
-          >
-            <ChevronRight className="h-4 w-4" />
-          </button>
-        </div>
-
-        {/* Center: Slide indicator */}
-        <span className="hidden sm:inline-block font-mono text-[11px]">
-          0{currentSlide + 1} / 0{SLIDES.length}
-        </span>
-
-        {/* Right: Scroll Down Indicator Button */}
-        <button
-          type="button"
-          onClick={handleScrollDown}
-          className="inline-flex items-center gap-1 text-xs font-medium text-muted-foreground hover:text-foreground transition-colors group"
-        >
-          <span>Explore Services</span>
-          <ChevronDown className="h-3.5 w-3.5 transition-transform group-hover:translate-y-0.5" />
-        </button>
       </div>
     </section>
   );
