@@ -54,7 +54,14 @@ export function GoogleSignInButton() {
 
   const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
 
-  const [scriptLoaded, setScriptLoaded] = React.useState(false);
+  // Initialize scriptLoaded state checking if window.google is already loaded
+  const [scriptLoaded, setScriptLoaded] = React.useState(() => {
+    if (typeof window !== "undefined") {
+      const google = (window as unknown as { google?: GoogleGlobal }).google;
+      return !!google?.accounts?.id;
+    }
+    return false;
+  });
   const [scriptError, setScriptError] = React.useState(false);
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const containerRef = React.useRef<HTMLDivElement>(null);
@@ -196,6 +203,9 @@ export function GoogleSignInButton() {
         src="https://accounts.google.com/gsi/client"
         strategy="lazyOnload"
         onLoad={() => {
+          setScriptLoaded(true);
+        }}
+        onReady={() => {
           setScriptLoaded(true);
         }}
         onError={() => {
