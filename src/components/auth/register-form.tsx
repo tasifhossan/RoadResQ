@@ -7,12 +7,14 @@ import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { toast } from "sonner";
-import { Eye, EyeOff, Loader2, User, Wrench, UserPlus, ArrowRight } from "lucide-react";
+import { Eye, EyeOff, Loader2, User, Wrench, UserPlus, ArrowRight, ShieldCheck } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { GoogleSignInButton } from "@/components/auth/google-sign-in-button";
 import { ROLE_HOME_MAP } from "@/lib/auth/constants";
 import { FormattedError, Role } from "@/lib/api/types";
 
@@ -31,6 +33,7 @@ type RegisterFormData = z.infer<typeof registerSchema>;
 export function RegisterForm() {
   const router = useRouter();
   const [showPassword, setShowPassword] = React.useState(false);
+  const [demoLoadingRole, setDemoLoadingRole] = React.useState<Role | null>(null);
 
   const {
     register,
@@ -122,6 +125,35 @@ export function RegisterForm() {
     }
   };
 
+  const handleDemoLogin = async (role: Role) => {
+    setDemoLoadingRole(role);
+    try {
+      const res = await fetch("/api/auth/demo-login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ role }),
+      });
+
+      const result = await res.json();
+
+      if (res.ok && result.success) {
+        const user = result.data.user;
+        const targetPath = ROLE_HOME_MAP[user.role as Role] || "/";
+        toast.success(`Logged in as Demo ${role.toLowerCase()}`);
+        router.replace(targetPath);
+        router.refresh();
+      } else {
+        toast.error(result.message || "Demo login failed");
+      }
+    } catch {
+      toast.error("Network error. Please try again.");
+    } finally {
+      setDemoLoadingRole(null);
+    }
+  };
+
+  const isAnyLoading = isSubmitting || demoLoadingRole !== null;
+
   return (
     <Card className="w-full max-w-md mx-auto shadow-xl border-border/60 bg-card/95 backdrop-blur-sm">
       <CardHeader className="space-y-2 text-center pb-6">
@@ -142,7 +174,7 @@ export function RegisterForm() {
             <div className="grid grid-cols-2 gap-3">
               <button
                 type="button"
-                disabled={isSubmitting}
+                disabled={isAnyLoading}
                 onClick={() => setValue("role", "CUSTOMER")}
                 className={`flex flex-col items-center justify-center p-3 rounded-lg border-2 transition-all ${
                   selectedRole === "CUSTOMER"
@@ -157,7 +189,7 @@ export function RegisterForm() {
 
               <button
                 type="button"
-                disabled={isSubmitting}
+                disabled={isAnyLoading}
                 onClick={() => setValue("role", "MECHANIC")}
                 className={`flex flex-col items-center justify-center p-3 rounded-lg border-2 transition-all ${
                   selectedRole === "MECHANIC"
@@ -182,7 +214,7 @@ export function RegisterForm() {
               type="text"
               placeholder="Alex Johnson"
               autoComplete="name"
-              disabled={isSubmitting}
+              disabled={isAnyLoading}
               aria-invalid={!!errors.name}
               {...register("name")}
             />
@@ -198,7 +230,7 @@ export function RegisterForm() {
               type="email"
               placeholder="alex@example.com"
               autoComplete="email"
-              disabled={isSubmitting}
+              disabled={isAnyLoading}
               aria-invalid={!!errors.email}
               {...register("email")}
             />
@@ -214,7 +246,7 @@ export function RegisterForm() {
               type="tel"
               placeholder="+8801700000000"
               autoComplete="tel"
-              disabled={isSubmitting}
+              disabled={isAnyLoading}
               aria-invalid={!!errors.phone}
               {...register("phone")}
             />
@@ -231,7 +263,7 @@ export function RegisterForm() {
                 type={showPassword ? "text" : "password"}
                 placeholder="At least 8 characters"
                 autoComplete="new-password"
-                disabled={isSubmitting}
+                disabled={isAnyLoading}
                 aria-invalid={!!errors.password}
                 className="pr-10"
                 {...register("password")}
@@ -242,7 +274,7 @@ export function RegisterForm() {
                 size="sm"
                 className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent text-muted-foreground hover:text-foreground"
                 onClick={() => setShowPassword(!showPassword)}
-                disabled={isSubmitting}
+                disabled={isAnyLoading}
                 tabIndex={-1}
                 aria-label={showPassword ? "Hide password" : "Show password"}
               >
@@ -254,7 +286,7 @@ export function RegisterForm() {
             )}
           </div>
 
-          <Button type="submit" className="w-full h-10 font-semibold mt-2" disabled={isSubmitting}>
+          <Button type="submit" className="w-full h-10 font-semibold mt-2" disabled={isAnyLoading}>
             {isSubmitting ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -268,6 +300,78 @@ export function RegisterForm() {
             )}
           </Button>
         </form>
+
+        <div className="relative my-4">
+          <div className="absolute inset-0 flex items-center">
+            <Separator className="w-full" />
+          </div>
+          <div className="relative flex justify-center text-xs uppercase">
+            <span className="bg-card px-2 text-muted-foreground font-medium">Or</span>
+          </div>
+        </div>
+
+        <div className="space-y-2">
+          <GoogleSignInButton />
+          <p className="text-[11px] text-muted-foreground text-center leading-relaxed">
+            New accounts created with Google are customer accounts. To work as a mechanic, register with email and choose Mechanic.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-3">
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="w-full text-xs h-9 justify-center"
+            disabled={isAnyLoading}
+            onClick={() => handleDemoLogin("CUSTOMER")}
+          >
+            {demoLoadingRole === "CUSTOMER" ? (
+              <Loader2 className="h-3.5 w-3.5 animate-spin" />
+            ) : (
+              <>
+                <User className="mr-1.5 h-3.5 w-3.5 text-blue-500" />
+                Customer
+              </>
+            )}
+          </Button>
+
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="w-full text-xs h-9 justify-center"
+            disabled={isAnyLoading}
+            onClick={() => handleDemoLogin("MECHANIC")}
+          >
+            {demoLoadingRole === "MECHANIC" ? (
+              <Loader2 className="h-3.5 w-3.5 animate-spin" />
+            ) : (
+              <>
+                <Wrench className="mr-1.5 h-3.5 w-3.5 text-orange-600 dark:text-orange-400" />
+                Mechanic
+              </>
+            )}
+          </Button>
+
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="w-full text-xs h-9 justify-center"
+            disabled={isAnyLoading}
+            onClick={() => handleDemoLogin("ADMIN")}
+          >
+            {demoLoadingRole === "ADMIN" ? (
+              <Loader2 className="h-3.5 w-3.5 animate-spin" />
+            ) : (
+              <>
+                <ShieldCheck className="mr-1.5 h-3.5 w-3.5 text-primary" />
+                Admin
+              </>
+            )}
+          </Button>
+        </div>
       </CardContent>
 
       <CardFooter className="flex justify-center border-t border-border/40 py-4 bg-muted/20">

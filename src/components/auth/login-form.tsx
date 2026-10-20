@@ -14,6 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { GoogleSignInButton } from "@/components/auth/google-sign-in-button";
 import { ROLE_HOME_MAP } from "@/lib/auth/constants";
 import { FormattedError, Role } from "@/lib/api/types";
 
@@ -218,9 +219,11 @@ export function LoginForm() {
             <Separator className="w-full" />
           </div>
           <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-card px-2 text-muted-foreground font-medium">Or quick demo sign in</span>
+            <span className="bg-card px-2 text-muted-foreground font-medium">Or</span>
           </div>
         </div>
+
+        <GoogleSignInButton />
 
         <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-3">
           <Button

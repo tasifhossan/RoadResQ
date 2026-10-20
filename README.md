@@ -31,6 +31,7 @@ Configure environment variables in `.env.local` (validated via `src/lib/env.ts` 
 | `NEXT_PUBLIC_CONTACT_EMAIL` | Build-time (Public) | Optional | Contact email address for contact page mailto link | None (empty by default) |
 | `NEXT_PUBLIC_LINKEDIN_URL` | Build-time (Public) | Optional | LinkedIn profile URL for footer social link | None (empty by default) |
 | `NEXT_PUBLIC_DEVELOPER_NAME` | Build-time (Public) | Optional | Developer or entity name displayed on privacy policy | None (falls back to "the RoadResQ developer") |
+| `NEXT_PUBLIC_GOOGLE_CLIENT_ID` | Build-time (Public) | Optional | Google OAuth 2.0 Client ID for Google Sign-In; when omitted, the button is hidden | None (Google sign-in disabled) |
 
 ## Available Scripts
 
